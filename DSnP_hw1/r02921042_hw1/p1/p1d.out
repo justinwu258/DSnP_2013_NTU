@@ -1,0 +1,33 @@
+使用lldb進行 debug , 發現lldb會在std::string::assign產生 "stop reason = EXC_BAD_ACCESS (code=2, address=0x7fff8976e524)" 這樣的錯誤訊息
+
+猜測是在以下兩行的時候, 給定的 記憶體空間錯誤
+P1a *p1 = (P1a*)malloc(sizeof(P1a));
+P1a *p2 = (P1a*)malloc(sizeof(P1a));
+
+因為malloc並不是去創建一個新物件, 因此在呼叫到p1->assign("I")的時候
+會找不到對應的物件, 導致 crash
+
+改用
+   P1a *p1 = new P1a();
+   P1a *p2 = new P1a();
+
+則可以解決此問題
+
+
+
+
+----- 下方為lldb的錯誤訊息 --------
+
+(lldb) n
+Process 3856 stopped
+* thread #1: tid = 0x3299c, 0x00007fff8ca34b3b libstdc++.6.dylib`std::string::assign(std::string const&) + 63, queue = 'com.apple.main-thread, 
+
+stop reason = EXC_BAD_ACCESS (code=2, address=0x7fff8976e524)
+    frame #0: 0x00007fff8ca34b3b libstdc++.6.dylib`std::string::assign(std::string const&) + 63
+libstdc++.6.dylib`std::string::assign(std::string const&) + 63:
+-> 0x7fff8ca34b3b:  lock   
+   0x7fff8ca34b3c:  xaddl  %ecx, -8(%rax)
+   0x7fff8ca34b40:  testl  %ecx, %ecx
+   0x7fff8ca34b42:  jg     0x7fff8ca34b49            ; std::string::assign(std::string const&) + 77
+
+
