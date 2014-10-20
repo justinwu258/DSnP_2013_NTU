@@ -247,11 +247,8 @@ CmdParser::deleteLine()
        _readBufEnd--;
        count++;
    }
-   //cout << " " << "\b"; 
-   //cout << "count = " << count <<endl;
-   //cout << "cmd> "  ;
+   
    _readBufPtr = _readBuf;
-   //cout << endl <<  " delete line _reabBuf = " << _readBuf << endl; 
    *_readBufEnd = 0; 
 }
 
@@ -278,45 +275,31 @@ void
 CmdParser::moveToHistory(int index)
 {
    // TODO...
-    //    cout << "index = " << index << endl;
-    //    cout << "_historyIdx = "  <<  _historyIdx << endl;
-    //    cout << "_historyIdx.size() = " << _history.size() << endl;
 
    if (((index < 0  && _historyIdx == 0) || 
         ( (index > (signed) _history.size()) && (_historyIdx == _history.size()) ) ))
-    {  //_history.size() is vector size, is unsigned
+    {  //_history.size() is vector size, is unsigned need change type
         mybeep();
-      //  cout << "beep test " << endl;
-        //cout << "_historyIdx = "  <<  _historyIdx << endl;
-        //cout << "_historyIdx.size() = " << _history.size() << endl;
         return ;
    }
-   //if(index >= -PG_OFFSET+1 && index <= -2){
    if(index < 0){
         index = 0;
    }
    
-   //if(index >= _history.size()+2 && index <= _history.size()+PG_OFFSET-1){
    if(index > _history.size() ){
         index = _history.size()-1;
     }
-    //    cout << "2. index = " << index << endl;
-    //    cout << "2. _historyIdx = "  <<  _historyIdx << endl;
-    //    cout << "2. _historyIdx.size() = " << _history.size() << endl;
    _historyIdx = index;
    if(_tempCmdStored == false){
        _history.push_back(_readBuf); // store tmp
        _tempCmdStored = true;
    } 
     
-   //retrieveHistory();
    if(index == _history.size()-1) {
        _history.pop_back();   // in tmp command , pop history 
        _tempCmdStored = false;
    }
    retrieveHistory();
-   //cout << "in range , _historyIdx = "  <<  _historyIdx << endl;
-   //cout << "in range , _historyIdx.size() = " << _history.size() << endl;
 }
 
 
@@ -364,14 +347,9 @@ CmdParser::addHistory()
             }
         }
         //cout << endl <<  "(int)*_readBufEnd = " << (int)*(_readBufEnd) << endl;  // null = 0 , space = 32
-        //cout << endl <<  "(int)*_readBufEnd-1 = " << (int)*(_readBufEnd-1) << endl;  // null = 0 , space = 32
-        /*if(beginPtr == _readBufEnd){
-            cout << " cmp equal" << endl;
-        }*/
         while(beginPtr != _readBufEnd) {    
             if(*(_readBufEnd-1) == ' '){       //actual last element store in _readBufEnd-1
                 //_readBufPtr = _readBufEnd-1;
-                //cout << endl <<"(int)*_readBufPtr = " << (int)*_readBufPtr << endl;
                  *(_readBufEnd-1) = 0;
                  _readBufEnd--;
                 //deleteChar();
@@ -387,12 +365,8 @@ CmdParser::addHistory()
             _history.push_back(_readBuf);
         //    _historyIdx = _history.size(); //2014.10.20 comment out
         }
-            cout << "_historyIdx = " << _historyIdx << endl;
-            cout << "_history.size() = " << _history.size() << endl << endl;
             _historyIdx = _history.size();  // 2014.10.20 add , no matter push or not , need restore index
-            cout << "_historyIdx = " << _historyIdx << endl;
-            cout << "_history.size() = " << _history.size() << endl;
-            //_historyIdx = _history.size();  // 2014.10.20 add , no matter push or not , need restore index
+                                            // ***(important) need after _history.push_back
    }
 }
 
@@ -406,12 +380,6 @@ void
 CmdParser::retrieveHistory()
 {
    deleteLine();
-//   cout << "_history[0] = "  << _history[0] << endl;
-//   cout << "_history[1] = "  << _history[1] << endl;
-//   cout << "_history[2] = "  << _history[2] << endl;
-//   cout << "_history[3] = "  << _history[3] << endl;
-//   cout << "in retrieve , _historyIdx = "  <<  _historyIdx << endl;
-//   cout << "in retrieve , _historyIdx.size() = " << _history.size() << endl;
    strcpy(_readBuf, _history[_historyIdx].c_str());
    cout << _readBuf;
    _readBufPtr = _readBufEnd = _readBuf + _history[_historyIdx].size();
