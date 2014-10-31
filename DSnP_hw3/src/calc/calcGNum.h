@@ -65,7 +65,7 @@ public:
    // b = #1a
    // kkk = #f1c
    static void printVars() { }
-   static void resetVapMap() { }
+   static void resetVarMap() { }
 
    // friend functions
    friend ostream& operator << (ostream&, const GNum&);  // TODO
