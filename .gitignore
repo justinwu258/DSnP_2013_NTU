@@ -1,3 +1,5 @@
 DSnP_hw3/src/tags
 *.[oa]
 .DS_Store
+src/tags
+tags
