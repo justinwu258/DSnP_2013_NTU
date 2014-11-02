@@ -18,7 +18,7 @@
 #define TA_TAB_KEY          int('\t')
 #define TA_NEWLINE_KEY      int('\n')
 #define TA_ESC_KEY          27
-#define TA_BACK_SPACE_KEY   8
+#define TA_BACK_SPACE_KEY   127
 #define TA_ARROW_KEY_FLAG   (1 << 8)
 #define TA_ARROW_KEY_INT    91
 #define TA_ARROW_UP_KEY     (65 + TA_ARROW_KEY_FLAG)
@@ -40,7 +40,7 @@
 #define TA_MOD_KEY_DUMMY    126
 #define TA_UNDEFINED_KEY    INT_MAX
 #define TA_BEEP_CHAR        7
-#define TA_BACK_SPACE_CHAR  127
+#define TA_BACK_SPACE_CHAR  8
 
 
 #ifndef TA_KB_SETTING
@@ -76,7 +76,7 @@ enum ParseChar
    // [Intermediate keys for combo keys]
    // -- Intermediate keys are the common parts of combo keys
    // 
-   BACK_SPACE_KEY   = 8,
+   BACK_SPACE_KEY   = 127,
    
    //
    // -- Arrow keys: 27 -> 91 -> {UP=65, DOWN=66, RIGHT=67, LEFT=68}
@@ -111,7 +111,7 @@ enum ParseChar
 
    // For output only, you don't need to modify this part
    BEEP_CHAR        = 7,
-   BACK_SPACE_CHAR  = 9,
+   BACK_SPACE_CHAR  = 8,
 
    // dummy end
    PARSE_CHAR_END
