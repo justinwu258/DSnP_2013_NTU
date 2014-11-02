@@ -20,14 +20,15 @@ ARROW_RIGHT_KEY	cmd/cmdCharDef.h	/^   ARROW_RIGHT_KEY  = 67 + ARROW_KEY_FLAG,$/;
 ARROW_RIGHT_KEY	cmd/cmdCharDef.h	/^   ARROW_RIGHT_KEY  = TA_ARROW_RIGHT_KEY,$/;"	e	enum:ParseChar
 ARROW_UP_KEY	cmd/cmdCharDef.h	/^   ARROW_UP_KEY     = 65 + ARROW_KEY_FLAG,$/;"	e	enum:ParseChar
 ARROW_UP_KEY	cmd/cmdCharDef.h	/^   ARROW_UP_KEY     = TA_ARROW_UP_KEY,$/;"	e	enum:ParseChar
-BACK_SPACE_CHAR	cmd/cmdCharDef.h	/^   BACK_SPACE_CHAR  = 9,$/;"	e	enum:ParseChar
+BACK_SPACE_CHAR	cmd/cmdCharDef.h	/^   BACK_SPACE_CHAR  = 8,$/;"	e	enum:ParseChar
 BACK_SPACE_CHAR	cmd/cmdCharDef.h	/^   BACK_SPACE_CHAR  = TA_BACK_SPACE_CHAR,$/;"	e	enum:ParseChar
-BACK_SPACE_KEY	cmd/cmdCharDef.h	/^   BACK_SPACE_KEY   = 8,$/;"	e	enum:ParseChar
+BACK_SPACE_KEY	cmd/cmdCharDef.h	/^   BACK_SPACE_KEY   = 127,$/;"	e	enum:ParseChar
 BACK_SPACE_KEY	cmd/cmdCharDef.h	/^   BACK_SPACE_KEY   = TA_BACK_SPACE_KEY,$/;"	e	enum:ParseChar
 BEEP_CHAR	cmd/cmdCharDef.h	/^   BEEP_CHAR        = 7,$/;"	e	enum:ParseChar
 BEEP_CHAR	cmd/cmdCharDef.h	/^   BEEP_CHAR        = TA_BEEP_CHAR,$/;"	e	enum:ParseChar
 CALC_CMD_H	calc/calcCmd.h	/^#define CALC_CMD_H$/;"	d
 CALC_G_NUM_H	calc/calcGNum.h	/^#define CALC_G_NUM_H$/;"	d
+CALC_G_NUM_H	calc/calcGNum_backup.h	/^#define CALC_G_NUM_H$/;"	d
 CMD_CHAR_DEF_H	cmd/cmdCharDef.h	/^#define CMD_CHAR_DEF_H$/;"	d
 CMD_COMMON_H	cmd/cmdCommon.h	/^#define CMD_COMMON_H$/;"	d
 CMD_EXEC_DONE	cmd/cmdParser.h	/^   CMD_EXEC_DONE  = 0,$/;"	e	enum:CmdExecStatus
@@ -42,6 +43,7 @@ CMD_OPT_ILLEGAL	cmd/cmdParser.h	/^   CMD_OPT_ILLEGAL    = 2,$/;"	e	enum:CmdOptio
 CMD_OPT_MISSING	cmd/cmdParser.h	/^   CMD_OPT_MISSING    = 0,$/;"	e	enum:CmdOptionError
 CMD_PARSER_H	cmd/cmdParser.h	/^#define CMD_PARSER_H$/;"	d
 CalcMap	calc/calcGNum.h	/^typedef map<string, GNum> CalcMap;$/;"	t
+CalcMap	calc/calcGNum_backup.h	/^typedef map<string, GNum> CalcMap;$/;"	t
 CmdClass	cmd/cmdParser.h	/^#define CmdClass(/;"	d
 CmdExec	cmd/cmdParser.h	/^   CmdExec() {}$/;"	f	class:CmdExec
 CmdExec	cmd/cmdParser.h	/^class CmdExec$/;"	c
@@ -68,6 +70,9 @@ GNVarCmd	calc/calcCmd.h	/^CmdClass(GNVarCmd);$/;"	v
 GNum	calc/calcGNum.h	/^   GNum(const string& str) { _num = _varMap[str]._num; }$/;"	f	class:GNum
 GNum	calc/calcGNum.h	/^   GNum(int i = 0) : _num(i) {}$/;"	f	class:GNum
 GNum	calc/calcGNum.h	/^class GNum$/;"	c
+GNum	calc/calcGNum_backup.h	/^   GNum(const string& str) { _num = _varMap[str]._num; }$/;"	f	class:GNum
+GNum	calc/calcGNum_backup.h	/^   GNum(int i = 0) : _num(i) {}$/;"	f	class:GNum
+GNum	calc/calcGNum_backup.h	/^class GNum$/;"	c
 HOME_KEY	cmd/cmdCharDef.h	/^   HOME_KEY         = 49 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
 HOME_KEY	cmd/cmdCharDef.h	/^   HOME_KEY         = TA_HOME_KEY,$/;"	e	enum:ParseChar
 HelpCmd	cmd/cmdCommon.h	/^CmdClass(HelpCmd);$/;"	v
@@ -140,20 +145,25 @@ UTIL_H	util/util.h	/^#define UTIL_H$/;"	d
 UsageCmd	cmd/cmdCommon.h	/^CmdClass(UsageCmd);$/;"	v
 _base	calc/calcGNum.cpp	/^int GNum::_base = 10;$/;"	m	class:GNum	file:
 _base	calc/calcGNum.h	/^   static int         _base;$/;"	m	class:GNum
+_base	calc/calcGNum_backup.h	/^   static int         _base;$/;"	m	class:GNum
 _cmdMap	cmd/cmdParser.h	/^   CmdMap    _cmdMap;                \/\/ map from string to command$/;"	m	class:CmdParser
 _dofile	cmd/cmdParser.h	/^   ifstream* _dofile;                \/\/ for command script$/;"	m	class:CmdParser
 _dofileStack	cmd/cmdParser.h	/^   stack<ifstream*> _dofileStack;    \/\/ For recursive dofile calling$/;"	m	class:CmdParser
 _history	cmd/cmdParser.h	/^   vector<string>   _history;        \/\/ oldest:_history[0],latest:_hist.back()$/;"	m	class:CmdParser
 _historyIdx	cmd/cmdParser.h	/^   int              _historyIdx;     \/\/ (1) Position to insert history string$/;"	m	class:CmdParser
 _num	calc/calcGNum.h	/^   int                _num;$/;"	m	class:GNum
+_num	calc/calcGNum_backup.h	/^   int                _num;$/;"	m	class:GNum
 _optCmd	cmd/cmdParser.h	/^   string            _optCmd;$/;"	m	class:CmdExec
 _prompt	cmd/cmdParser.h	/^   const string _prompt;             \/\/ command prompt$/;"	m	class:CmdParser
 _readBuf	cmd/cmdParser.h	/^   char      _readBuf[READ_BUF_SIZE];\/\/ save the current line input$/;"	m	class:CmdParser
 _readBufEnd	cmd/cmdParser.h	/^   char*     _readBufEnd;            \/\/ end of string position of _readBuf$/;"	m	class:CmdParser
 _readBufPtr	cmd/cmdParser.h	/^   char*     _readBufPtr;            \/\/ point to the cursor position$/;"	m	class:CmdParser
 _tempCmdStored	cmd/cmdParser.h	/^   bool      _tempCmdStored;         \/\/ When up\/pgUp is pressed, current line$/;"	m	class:CmdParser
+_varMap	calc/calcGNum.cpp	/^CalcMap     _varMap;$/;"	v
 _varMap	calc/calcGNum.h	/^   static CalcMap     _varMap;$/;"	m	class:GNum
+_varMap	calc/calcGNum_backup.h	/^   static CalcMap     _varMap;$/;"	m	class:GNum
 closeDofile	cmd/cmdParser.cpp	/^CmdParser::closeDofile()$/;"	f	class:CmdParser
+decimal_base	calc/calcGNum.cpp	/^string decimal_base(int n , int base ){$/;"	f
 errorOption	cmd/cmdParser.cpp	/^CmdExec::errorOption(CmdOptionError err, const string& opt) const$/;"	f	class:CmdExec
 exec	calc/calcCmd.cpp	/^GNAddCmd::exec(const string& option)$/;"	f	class:GNAddCmd
 exec	calc/calcCmd.cpp	/^GNCmpCmd::exec(const string& option)$/;"	f	class:GNCmpCmd
@@ -168,11 +178,14 @@ exec	cmd/cmdCommon.cpp	/^HistoryCmd::exec(const string& option)$/;"	f	class:Hist
 exec	cmd/cmdCommon.cpp	/^QuitCmd::exec(const string& option)$/;"	f	class:QuitCmd
 execOneCmd	cmd/cmdParser.cpp	/^CmdParser::execOneCmd()$/;"	f	class:CmdParser
 getBase	calc/calcGNum.h	/^   static int getBase() { return _base; }$/;"	f	class:GNum
+getBase	calc/calcGNum_backup.h	/^   static int getBase() { return _base; }$/;"	f	class:GNum
 getChar	cmd/cmdCharDef.cpp	/^CmdParser::getChar(istream& istr) const$/;"	f	class:CmdParser
 getCmd	cmd/cmdParser.cpp	/^CmdParser::getCmd(string cmd)$/;"	f	class:CmdParser
 getOptCmd	cmd/cmdParser.h	/^   const string& getOptCmd() const { return _optCmd; }$/;"	f	class:CmdExec
 getStrVal	calc/calcGNum.h	/^   static bool getStrVal(const string& s, GNum& n) { return true; }$/;"	f	class:GNum
+getStrVal	calc/calcGNum_backup.h	/^   static bool getStrVal(const string& s, GNum& n) { return true; }$/;"	f	class:GNum
 getVarVal	calc/calcGNum.h	/^   static bool getVarVal(const string& s, GNum& n) { return true; }$/;"	f	class:GNum
+getVarVal	calc/calcGNum_backup.h	/^   static bool getVarVal(const string& s, GNum& n) { return true; }$/;"	f	class:GNum
 help	calc/calcCmd.cpp	/^GNAddCmd::help() const$/;"	f	class:GNAddCmd
 help	calc/calcCmd.cpp	/^GNCmpCmd::help() const$/;"	f	class:GNCmpCmd
 help	calc/calcCmd.cpp	/^GNMultCmd::help() const$/;"	f	class:GNMultCmd
@@ -201,33 +214,46 @@ mybeep	cmd/cmdCharDef.cpp	/^void mybeep()$/;"	f
 myexit	main/main.cpp	/^myexit()$/;"	f	file:
 mygetc	cmd/cmdCharDef.cpp	/^static char mygetc(istream& istr)$/;"	f	file:
 openDofile	cmd/cmdParser.cpp	/^CmdParser::openDofile(const string& dof)$/;"	f	class:CmdParser
-operator !=	calc/calcGNum.h	/^   bool operator != (const GNum& n) const { return true; }$/;"	f	class:GNum
-operator *	calc/calcGNum.h	/^   GNum operator * (const GNum& n) const { return 0; }$/;"	f	class:GNum
-operator *=	calc/calcGNum.h	/^   GNum& operator *= (const GNum& n) { return (*this); }$/;"	f	class:GNum
-operator +	calc/calcGNum.h	/^   GNum operator + (const GNum& n) const { return 0; }$/;"	f	class:GNum
-operator +=	calc/calcGNum.h	/^   GNum& operator += (const GNum& n) { return (*this); }$/;"	f	class:GNum
-operator -	calc/calcGNum.h	/^   GNum operator - (const GNum& n) const { return 0; }$/;"	f	class:GNum
-operator -=	calc/calcGNum.h	/^   GNum& operator -= (const GNum& n) { return (*this); }$/;"	f	class:GNum
+operator !=	calc/calcGNum.cpp	/^bool GNum::operator != (const GNum& n) const { $/;"	f	class:GNum
+operator !=	calc/calcGNum_backup.h	/^   bool operator != (const GNum& n) const {$/;"	f	class:GNum
+operator *	calc/calcGNum.cpp	/^GNum GNum::operator * (const GNum& n) const { $/;"	f	class:GNum
+operator *	calc/calcGNum_backup.h	/^   GNum operator * (const GNum& n) const {$/;"	f	class:GNum
+operator *=	calc/calcGNum.cpp	/^GNum& GNum::operator *= (const GNum& n) { $/;"	f	class:GNum
+operator *=	calc/calcGNum_backup.h	/^   GNum& operator *= (const GNum& n) {$/;"	f	class:GNum
+operator +	calc/calcGNum.cpp	/^GNum GNum::operator + (const GNum& n) const { $/;"	f	class:GNum
+operator +	calc/calcGNum_backup.h	/^   GNum operator + (const GNum& n) const {$/;"	f	class:GNum
+operator +=	calc/calcGNum.cpp	/^GNum& GNum::operator += (const GNum& n) {$/;"	f	class:GNum
+operator +=	calc/calcGNum_backup.h	/^   GNum& operator += (const GNum& n) {$/;"	f	class:GNum
+operator -	calc/calcGNum.cpp	/^GNum GNum::operator - (const GNum& n) const { $/;"	f	class:GNum
+operator -	calc/calcGNum_backup.h	/^   GNum operator - (const GNum& n) const {$/;"	f	class:GNum
+operator -=	calc/calcGNum.cpp	/^GNum& GNum::operator -= (const GNum& n) { $/;"	f	class:GNum
+operator -=	calc/calcGNum_backup.h	/^   GNum& operator -= (const GNum& n) {$/;"	f	class:GNum
 operator <<	calc/calcGNum.cpp	/^ostream& operator << (ostream& os, const GNum& n)$/;"	f
-operator =	calc/calcGNum.h	/^   GNum& operator = (const GNum& n) { return (*this); }$/;"	f	class:GNum
-operator ==	calc/calcGNum.h	/^   bool operator == (const GNum& n) const { return true; }$/;"	f	class:GNum
+operator =	calc/calcGNum.cpp	/^GNum& GNum::operator = (const GNum& n) { $/;"	f	class:GNum
+operator =	calc/calcGNum_backup.h	/^   GNum& operator = (const GNum& n) {$/;"	f	class:GNum
+operator ==	calc/calcGNum.cpp	/^bool GNum::operator == (const GNum& n) const { $/;"	f	class:GNum
+operator ==	calc/calcGNum_backup.h	/^   bool operator == (const GNum& n) const {$/;"	f	class:GNum
 parseCmd	cmd/cmdParser.cpp	/^CmdParser::parseCmd(string& option)$/;"	f	class:CmdParser
 print	test/test.cpp	/^void print()$/;"	f
 printHelps	cmd/cmdParser.cpp	/^CmdParser::printHelps() const$/;"	f	class:CmdParser
 printHistory	cmd/cmdParser.cpp	/^CmdParser::printHistory(int nPrint) const$/;"	f	class:CmdParser
 printPrompt	cmd/cmdParser.h	/^   void printPrompt() const { cout << _prompt; }$/;"	f	class:CmdParser
 printVars	calc/calcGNum.h	/^   static void printVars() { }$/;"	f	class:GNum
+printVars	calc/calcGNum_backup.h	/^   static void printVars() { }$/;"	f	class:GNum
 regCmd	cmd/cmdParser.cpp	/^CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)$/;"	f	class:CmdParser
 reset	test/test.cpp	/^void reset()$/;"	f
 resetBufAndPrintPrompt	cmd/cmdParser.h	/^   void resetBufAndPrintPrompt() {$/;"	f	class:CmdParser
 resetVarMap	calc/calcGNum.h	/^   static void resetVarMap() { }$/;"	f	class:GNum
+resetVarMap	calc/calcGNum_backup.h	/^   static void resetVarMap() { }$/;"	f	class:GNum
 reset_keypress	cmd/cmdCharDef.cpp	/^static void reset_keypress(void)$/;"	f	file:
 reset_keypress	util/myGetChar.cpp	/^static void reset_keypress(void)$/;"	f	file:
 returnCh	cmd/cmdCharDef.cpp	/^returnCh(int ch)$/;"	f	file:
 run	test/test.cpp	/^void run(int num1, int num2, int num3)$/;"	f
 setBase	calc/calcGNum.h	/^   static void setBase(int b) { _base = b; }$/;"	f	class:GNum
+setBase	calc/calcGNum_backup.h	/^   static void setBase(int b) { _base = b; }$/;"	f	class:GNum
 setOptCmd	cmd/cmdParser.h	/^   void setOptCmd(const string& str) { _optCmd = str; }$/;"	f	class:CmdExec
 setVarVal	calc/calcGNum.h	/^   static void setVarVal(const string& s, const GNum& n) { }$/;"	f	class:GNum
+setVarVal	calc/calcGNum_backup.h	/^   static void setVarVal(const string& s, const GNum& n) { }$/;"	f	class:GNum
 set_keypress	cmd/cmdCharDef.cpp	/^static void set_keypress(void)$/;"	f	file:
 set_keypress	util/myGetChar.cpp	/^static void set_keypress(void)$/;"	f	file:
 stored_settings	cmd/cmdCharDef.cpp	/^static struct termios stored_settings;$/;"	v	typeref:struct:termios	file:
