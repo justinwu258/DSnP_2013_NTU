@@ -140,6 +140,7 @@ CmdParser::parseCmd(string& option)
 
    // TODO...
    assert(str[0] != 0 && str[0] != ' ');
+   //getCmd(str); // Justin add
    return NULL;
 }
 
@@ -225,6 +226,8 @@ CmdParser::getCmd(string cmd)
 {
    CmdExec* e = 0;
    // TODO...
+   //CmdMap
+   //e->
    return e;
 }
 
