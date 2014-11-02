@@ -12,6 +12,7 @@ CXX       = g++
 AR        = ar cr
 ECHO      = /bin/echo
 
+#CFLAGS  = -g -Wall $(PKGFLAG)
 #CFLAGS = -O3 -Wall $(PKGFLAG)
 CFLAGS = -m32 -O3 -Wall -DTA_KB_SETTING $(PKGFLAG)
 CFLAGS = -O3 -Wall -DTA_KB_SETTING $(PKGFLAG)

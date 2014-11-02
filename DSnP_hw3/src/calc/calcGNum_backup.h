@@ -32,15 +32,43 @@ public:
    // Operator overload
    // TODO: overload the following operators (+, +=, -, -=, *, *=, ==, !=, =)
    //
-   GNum operator + (const GNum& n) const;
-   GNum& operator += (const GNum& n) ;
-   GNum operator - (const GNum& n) const ;
-   GNum& operator -= (const GNum& n) ;
-   GNum operator * (const GNum& n) const ;
-   GNum& operator *= (const GNum& n) ;
-   bool operator == (const GNum& n) const ;
-   bool operator != (const GNum& n) const ;
-   GNum& operator = (const GNum& n) ;
+   GNum operator + (const GNum& n) const {
+        return _num + n._num;     
+   }
+   GNum& operator += (const GNum& n) {
+        _num = _num + n._num;
+        return (*this);
+   }
+   GNum operator - (const GNum& n) const {
+        return _num - n._num;
+   }
+   GNum& operator -= (const GNum& n) {
+        _num = _num - n._num;     
+        return (*this);
+   }
+   GNum operator * (const GNum& n) const {
+        return _num * n._num;
+   }
+   GNum& operator *= (const GNum& n) {
+        _num = _num * n._num;
+        return (*this);
+   }
+   bool operator == (const GNum& n) const {
+        if(_num == n._num)
+            return true;
+        else
+            return false;
+   }
+   bool operator != (const GNum& n) const {
+        if(_num != n._num)     
+            return true;
+        else
+            return false;
+   }
+   GNum& operator = (const GNum& n) {
+        _num = n._num;
+        return (*this);
+   } 
 
    // static methods
    static void setBase(int b) { _base = b; }

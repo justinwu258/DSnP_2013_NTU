@@ -15,7 +15,6 @@ using namespace std;
 
 // Make it global variable...
 GNum num[NUM];
-
 void reset()
 {
    for (size_t i = 0; i < NUM; ++i)

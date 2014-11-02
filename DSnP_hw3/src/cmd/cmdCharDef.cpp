@@ -97,9 +97,51 @@ CmdParser::getChar(istream& istr) const
       //    { BACK_SPACE_KEY, ARROW_UP/DOWN/RIGHT/LEFT,
       //      HOME/END/PG_UP/PG_DOWN/INSERT/DELETE }
       //
+      case BACK_SPACE_KEY:
+          return returnCh(ch);
       // Combo keys: multiple codes for one key press
       // -- Usually starts with ESC key, so we check the "case ESC"
       // case ESC_KEY:
+      // Combo keys: multiple codes for one key press
+      // -- Usually starts with ESC key, so we check the "case ESC"
+      case ESC_KEY: {
+         char combo = mygetc(istr);
+         // Note: ARROW_KEY_INT == MOD_KEY_INT, so we only check MOD_KEY_INT
+         if (combo == char(MOD_KEY_INT)) {
+            char key = mygetc(istr);
+/*      cout << endl;
+        cout << "MOD_KEY_INT " << MOD_KEY_INT << endl;
+        cout << "MOD_KEY_BEGIN " << MOD_KEY_BEGIN << endl;
+        cout << "MOD_KEY_END " << MOD_KEY_END << endl;
+        cout << "MOD_KEY_FLAG" << MOD_KEY_FLAG << endl;
+        cout << "MOD_KEY_istr " << mygetc(istr) << endl;
+  */
+        if ((key >= char(MOD_KEY_BEGIN)) && (key <= char(MOD_KEY_END))) {
+               if (mygetc(istr) == MOD_KEY_DUMMY){
+    //    cout << "****** 1 *******" << endl;
+                  return returnCh(int(key) + MOD_KEY_FLAG);
+           }
+               else return returnCh(UNDEFINED_KEY);
+            }
+            else if ((key >= char(ARROW_KEY_BEGIN)) &&
+                     (key <= char(ARROW_KEY_END)))
+            {
+    //    cout << "****** 2 *******" << endl;
+               return returnCh(int(key) + ARROW_KEY_FLAG);
+            }  else if(key == 72){ return returnCh(HOME_KEY); }
+               else if(key == 70){ return returnCh(END_KEY);}
+            else return returnCh(UNDEFINED_KEY);
+         } else if(combo == 79){
+            char key = mygetc(istr);
+               if (key == 72){
+                  return returnCh(HOME_KEY);
+               } else {
+                  return returnCh(END_KEY);
+               }
+
+         }
+         else { /*cout << "****** 3 *******" << endl;*/ mybeep(); return getChar(istr); }
+      }
 
       // For the remaining printable and undefined keys
       default:
