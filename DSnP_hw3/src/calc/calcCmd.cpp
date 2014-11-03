@@ -15,6 +15,18 @@ bool
 initCalcCmd()
 {
    // TODO...
+   if (!(cmdMgr->regCmd("GNADD", 5, new GNAddCmd) &&
+         cmdMgr->regCmd("GNCOMPare", 6, new GNCmpCmd) &&
+         cmdMgr->regCmd("GNUMLTiply", 6, new GNMultCmd) &&
+         cmdMgr->regCmd("GNPrint", 3, new GNPrintCmd) &&
+         cmdMgr->regCmd("GNSET", 5, new GNSetCmd) &&
+         cmdMgr->regCmd("GNSUBtract", 5, new GNSubCmd) &&
+         cmdMgr->regCmd("GNVARiable", 5, new GNVarCmd) 
+      )) {
+      cerr << "Registering \"init\" commands fails... exiting" << endl;
+      return false;
+   }   
+
    return true;
 }
 

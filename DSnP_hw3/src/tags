@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
 ARROW_DOWN_KEY	cmd/cmdCharDef.h	/^   ARROW_DOWN_KEY   = 66 + ARROW_KEY_FLAG,$/;"	e	enum:ParseChar
 ARROW_DOWN_KEY	cmd/cmdCharDef.h	/^   ARROW_DOWN_KEY   = TA_ARROW_DOWN_KEY,$/;"	e	enum:ParseChar
 ARROW_KEY_BEGIN	cmd/cmdCharDef.h	/^   ARROW_KEY_BEGIN  = ARROW_UP_KEY,$/;"	e	enum:ParseChar
@@ -41,7 +41,7 @@ CMD_OPT_EXTRA	cmd/cmdParser.h	/^   CMD_OPT_EXTRA      = 1,$/;"	e	enum:CmdOptionE
 CMD_OPT_FOPEN_FAIL	cmd/cmdParser.h	/^   CMD_OPT_FOPEN_FAIL = 3,$/;"	e	enum:CmdOptionError
 CMD_OPT_ILLEGAL	cmd/cmdParser.h	/^   CMD_OPT_ILLEGAL    = 2,$/;"	e	enum:CmdOptionError
 CMD_OPT_MISSING	cmd/cmdParser.h	/^   CMD_OPT_MISSING    = 0,$/;"	e	enum:CmdOptionError
-CMD_PARSER_H	cmd/cmdParser.h	9;"	d
+CMD_PARSER_H	cmd/cmdParser.h	/^#define CMD_PARSER_H$/;"	d
 CalcMap	calc/calcGNum.h	/^typedef map<string, GNum> CalcMap;$/;"	t
 CalcMap	calc/calcGNum_backup.h	/^typedef map<string, GNum> CalcMap;$/;"	t
 CmdClass	cmd/cmdParser.h	/^#define CmdClass(/;"	d
@@ -97,51 +97,51 @@ MOD_KEY_INT	cmd/cmdCharDef.h	/^   MOD_KEY_INT      = 91,$/;"	e	enum:ParseChar
 MOD_KEY_INT	cmd/cmdCharDef.h	/^   MOD_KEY_INT      = TA_MOD_KEY_INT,$/;"	e	enum:ParseChar
 NEWLINE_KEY	cmd/cmdCharDef.h	/^   NEWLINE_KEY      = TA_NEWLINE_KEY,     \/\/ enter('\\n') or ctrl-m$/;"	e	enum:ParseChar
 NEWLINE_KEY	cmd/cmdCharDef.h	/^   NEWLINE_KEY      = int('\\n'),  \/\/ enter('\\n') or ctrl-m$/;"	e	enum:ParseChar
-NUM	test/test.cpp	14;"	d	file:
+NUM	test/test.cpp	/^#define NUM /;"	d	file:
 PARSE_CHAR_END	cmd/cmdCharDef.h	/^   PARSE_CHAR_END$/;"	e	enum:ParseChar
 PG_DOWN_KEY	cmd/cmdCharDef.h	/^   PG_DOWN_KEY      = 54 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
 PG_DOWN_KEY	cmd/cmdCharDef.h	/^   PG_DOWN_KEY      = TA_PG_DOWN_KEY,$/;"	e	enum:ParseChar
-PG_OFFSET	cmd/cmdParser.h	108;"	d
+PG_OFFSET	cmd/cmdParser.h	/^#define PG_OFFSET /;"	d
 PG_UP_KEY	cmd/cmdCharDef.h	/^   PG_UP_KEY        = 53 + MOD_KEY_FLAG,$/;"	e	enum:ParseChar
 PG_UP_KEY	cmd/cmdCharDef.h	/^   PG_UP_KEY        = TA_PG_UP_KEY,$/;"	e	enum:ParseChar
 ParseChar	cmd/cmdCharDef.h	/^enum ParseChar$/;"	g
 QuitCmd	cmd/cmdCommon.h	/^CmdClass(QuitCmd);$/;"	v
-READ_BUF_SIZE	cmd/cmdParser.h	106;"	d
+READ_BUF_SIZE	cmd/cmdParser.h	/^#define READ_BUF_SIZE /;"	d
 TAB_KEY	cmd/cmdCharDef.h	/^   TAB_KEY          = TA_TAB_KEY,         \/\/ tab('\\t') or Ctrl-i$/;"	e	enum:ParseChar
 TAB_KEY	cmd/cmdCharDef.h	/^   TAB_KEY          = int('\\t'),  \/\/ tab('\\t') or Ctrl-i$/;"	e	enum:ParseChar
-TAB_POSITION	cmd/cmdParser.h	107;"	d
-TA_ARROW_DOWN_KEY	cmd/cmdCharDef.h	25;"	d
-TA_ARROW_KEY_BEGIN	cmd/cmdCharDef.h	28;"	d
-TA_ARROW_KEY_END	cmd/cmdCharDef.h	29;"	d
-TA_ARROW_KEY_FLAG	cmd/cmdCharDef.h	22;"	d
-TA_ARROW_KEY_INT	cmd/cmdCharDef.h	23;"	d
-TA_ARROW_LEFT_KEY	cmd/cmdCharDef.h	27;"	d
-TA_ARROW_RIGHT_KEY	cmd/cmdCharDef.h	26;"	d
-TA_ARROW_UP_KEY	cmd/cmdCharDef.h	24;"	d
-TA_BACK_SPACE_CHAR	cmd/cmdCharDef.h	43;"	d
-TA_BACK_SPACE_KEY	cmd/cmdCharDef.h	21;"	d
-TA_BEEP_CHAR	cmd/cmdCharDef.h	42;"	d
-TA_DELETE_KEY	cmd/cmdCharDef.h	34;"	d
-TA_END_KEY	cmd/cmdCharDef.h	35;"	d
-TA_ESC_KEY	cmd/cmdCharDef.h	20;"	d
-TA_HOME_KEY	cmd/cmdCharDef.h	32;"	d
-TA_INPUT_END_KEY	cmd/cmdCharDef.h	17;"	d
-TA_INSERT_KEY	cmd/cmdCharDef.h	33;"	d
-TA_LINE_BEGIN_KEY	cmd/cmdCharDef.h	15;"	d
-TA_LINE_END_KEY	cmd/cmdCharDef.h	16;"	d
-TA_MOD_KEY_BEGIN	cmd/cmdCharDef.h	38;"	d
-TA_MOD_KEY_DUMMY	cmd/cmdCharDef.h	40;"	d
-TA_MOD_KEY_END	cmd/cmdCharDef.h	39;"	d
-TA_MOD_KEY_FLAG	cmd/cmdCharDef.h	30;"	d
-TA_MOD_KEY_INT	cmd/cmdCharDef.h	31;"	d
-TA_NEWLINE_KEY	cmd/cmdCharDef.h	19;"	d
-TA_PG_DOWN_KEY	cmd/cmdCharDef.h	37;"	d
-TA_PG_UP_KEY	cmd/cmdCharDef.h	36;"	d
-TA_TAB_KEY	cmd/cmdCharDef.h	18;"	d
-TA_UNDEFINED_KEY	cmd/cmdCharDef.h	41;"	d
+TAB_POSITION	cmd/cmdParser.h	/^#define TAB_POSITION /;"	d
+TA_ARROW_DOWN_KEY	cmd/cmdCharDef.h	/^#define TA_ARROW_DOWN_KEY /;"	d
+TA_ARROW_KEY_BEGIN	cmd/cmdCharDef.h	/^#define TA_ARROW_KEY_BEGIN /;"	d
+TA_ARROW_KEY_END	cmd/cmdCharDef.h	/^#define TA_ARROW_KEY_END /;"	d
+TA_ARROW_KEY_FLAG	cmd/cmdCharDef.h	/^#define TA_ARROW_KEY_FLAG /;"	d
+TA_ARROW_KEY_INT	cmd/cmdCharDef.h	/^#define TA_ARROW_KEY_INT /;"	d
+TA_ARROW_LEFT_KEY	cmd/cmdCharDef.h	/^#define TA_ARROW_LEFT_KEY /;"	d
+TA_ARROW_RIGHT_KEY	cmd/cmdCharDef.h	/^#define TA_ARROW_RIGHT_KEY /;"	d
+TA_ARROW_UP_KEY	cmd/cmdCharDef.h	/^#define TA_ARROW_UP_KEY /;"	d
+TA_BACK_SPACE_CHAR	cmd/cmdCharDef.h	/^#define TA_BACK_SPACE_CHAR /;"	d
+TA_BACK_SPACE_KEY	cmd/cmdCharDef.h	/^#define TA_BACK_SPACE_KEY /;"	d
+TA_BEEP_CHAR	cmd/cmdCharDef.h	/^#define TA_BEEP_CHAR /;"	d
+TA_DELETE_KEY	cmd/cmdCharDef.h	/^#define TA_DELETE_KEY /;"	d
+TA_END_KEY	cmd/cmdCharDef.h	/^#define TA_END_KEY /;"	d
+TA_ESC_KEY	cmd/cmdCharDef.h	/^#define TA_ESC_KEY /;"	d
+TA_HOME_KEY	cmd/cmdCharDef.h	/^#define TA_HOME_KEY /;"	d
+TA_INPUT_END_KEY	cmd/cmdCharDef.h	/^#define TA_INPUT_END_KEY /;"	d
+TA_INSERT_KEY	cmd/cmdCharDef.h	/^#define TA_INSERT_KEY /;"	d
+TA_LINE_BEGIN_KEY	cmd/cmdCharDef.h	/^#define TA_LINE_BEGIN_KEY /;"	d
+TA_LINE_END_KEY	cmd/cmdCharDef.h	/^#define TA_LINE_END_KEY /;"	d
+TA_MOD_KEY_BEGIN	cmd/cmdCharDef.h	/^#define TA_MOD_KEY_BEGIN /;"	d
+TA_MOD_KEY_DUMMY	cmd/cmdCharDef.h	/^#define TA_MOD_KEY_DUMMY /;"	d
+TA_MOD_KEY_END	cmd/cmdCharDef.h	/^#define TA_MOD_KEY_END /;"	d
+TA_MOD_KEY_FLAG	cmd/cmdCharDef.h	/^#define TA_MOD_KEY_FLAG /;"	d
+TA_MOD_KEY_INT	cmd/cmdCharDef.h	/^#define TA_MOD_KEY_INT /;"	d
+TA_NEWLINE_KEY	cmd/cmdCharDef.h	/^#define TA_NEWLINE_KEY /;"	d
+TA_PG_DOWN_KEY	cmd/cmdCharDef.h	/^#define TA_PG_DOWN_KEY /;"	d
+TA_PG_UP_KEY	cmd/cmdCharDef.h	/^#define TA_PG_UP_KEY /;"	d
+TA_TAB_KEY	cmd/cmdCharDef.h	/^#define TA_TAB_KEY /;"	d
+TA_UNDEFINED_KEY	cmd/cmdCharDef.h	/^#define TA_UNDEFINED_KEY /;"	d
 UNDEFINED_KEY	cmd/cmdCharDef.h	/^   UNDEFINED_KEY    = TA_UNDEFINED_KEY,$/;"	e	enum:ParseChar
 UNDEFINED_KEY	cmd/cmdCharDef.h	/^   UNDEFINED_KEY  = INT_MAX,$/;"	e	enum:ParseChar
-UTIL_H	util/util.h	9;"	d
+UTIL_H	util/util.h	/^#define UTIL_H$/;"	d
 UsageCmd	cmd/cmdCommon.h	/^CmdClass(UsageCmd);$/;"	v
 _base	calc/calcGNum.cpp	/^int GNum::_base = 10;$/;"	m	class:GNum	file:
 _base	calc/calcGNum.h	/^   static int         _base;$/;"	m	class:GNum

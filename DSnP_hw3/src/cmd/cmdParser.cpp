@@ -11,7 +11,9 @@
 #include <cstdlib>
 #include "util.h"
 #include "cmdParser.h"
-
+#include <locale> 
+#include <string>
+#include <sstream>
 using namespace std;
 
 //----------------------------------------------------------------------
@@ -51,11 +53,15 @@ CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)
    unsigned s = str.size();
    if (s < nCmp) return false;
    while (true) {
-      if (getCmd(str)) return false;
+      if (getCmd(str))
+      {
+        //cout << "test return false" << endl;  //Justin 
+        return false;
+      }
       if (s == nCmp) break;
       str.resize(--s);
    }
-
+   
    // Change the first nCmp characters to upper case to facilitate
    //    case-insensitive comparison later.
    // The strings stored in _cmdMap are all upper case
@@ -67,6 +73,7 @@ CmdParser::regCmd(const string& cmd, unsigned nCmp, CmdExec* e)
    string optCmd = cmd.substr(nCmp);
    assert(e != 0);
    e->setOptCmd(optCmd);
+
 
    // insert (mandCmd, e) to _cmdMap; return false if insertion fails.
    return (_cmdMap.insert(CmdRegPair(mandCmd, e))).second;
@@ -82,6 +89,7 @@ CmdParser::execOneCmd()
    else
       newCmd = readCmd(cin);
 
+    //cout << "newCmd = " << newCmd << endl;
    // execute the command
    if (newCmd) {
       string option;
@@ -98,6 +106,13 @@ void
 CmdParser::printHelps() const
 {
    // TODO...
+
+   for (CmdMap::const_iterator it = _cmdMap.begin(); it != _cmdMap.end(); ++it ){ //const_iterator is needed
+        it->second->help();
+        
+   }
+   cout << endl;
+    
 }
 
 void
@@ -140,7 +155,29 @@ CmdParser::parseCmd(string& option)
 
    // TODO...
    assert(str[0] != 0 && str[0] != ' ');
-   //getCmd(str); // Justin add
+
+   //cout << "str = " << str << endl;
+   CmdExec* e = 0;
+   e = getCmd(str);
+   
+   
+   if(!e) // Justin add
+   {
+        cerr << "Illegal command!! (" << str << ")" << endl;
+   } else {
+      stringstream iss(str);
+      string subStr;
+      iss >> subStr;
+       
+      getline(iss, option);   //streamstring remain part use geline can parse
+    
+      //cout << "option = " <<option << endl; //Justin
+      
+      return e;
+        //e = getCmd(str);
+   }
+   //cout << " e " << e << endl;
+   //cout << " e->getOptCmd() " << e->getOptCmd() << endl;
    return NULL;
 }
 
@@ -226,8 +263,25 @@ CmdParser::getCmd(string cmd)
 {
    CmdExec* e = 0;
    // TODO...
-   //CmdMap
-   //e->
+   locale loc;
+   string upperStr = cmd;
+   for (int i=0; i<cmd.length(); ++i){
+        upperStr[i] = toupper(cmd[i],loc);
+   }
+   //cout << "cmd = " << cmd << endl;
+   for (CmdMap::iterator it = _cmdMap.begin(); it != _cmdMap.end(); ++it ){
+         //   cout << "it->first = " << it->first << endl;
+        
+        if(upperStr.find(it->first)== 0)  //if find , get position of the first character of the first match
+        {                             //if not function returns string::npos
+            e = it->second;  //if find the begin string , they use same CmdExec object
+                             //origin expect e would be null
+        }
+       
+        // cout << "upperStr.find(it->first) = " << upperStr.find(it->first) << endl; 
+       // cout << "e = " << e << endl; 
+        //cout << it->first << " => " << it->second->getOptCmd() << '\n';
+   }
    return e;
 }
 

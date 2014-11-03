@@ -18,7 +18,9 @@ initCommonCmd()
    if (!(cmdMgr->regCmd("Quit", 1, new QuitCmd) &&
          cmdMgr->regCmd("HIStory", 3, new HistoryCmd) &&
          cmdMgr->regCmd("HELp", 3, new HelpCmd) &&
-         cmdMgr->regCmd("DOfile", 2, new DofileCmd)
+         cmdMgr->regCmd("DOfile", 2, new DofileCmd) 
+         //&& cmdMgr->regCmd("help", 4, new HelpCmd)  //Justin test only
+         //&& cmdMgr->regCmd("GHEPL", 5, new HelpCmd)   ////Justin test only
       )) {
       cerr << "Registering \"init\" commands fails... exiting" << endl;
       return false;
