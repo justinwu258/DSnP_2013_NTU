@@ -161,16 +161,21 @@ bool GNum::getStrVal(const string& s, GNum& n) //{ return true; }
     string subStr;
     subStr = s.substr(i); // i = 1 or 2(negtive) 
     for ( ; i < s.length() ; ++i){
-        if (!isalnum(s[i]) && s[i] != '_')  // can't allow + , - , * blablabla 
-            return false;
+        if (!isalnum(s[i]) || s[i] == '_')  // can't allow + , - , * blablabla 
+            return false;     // no matter what's base , s[i] can't equal to '_' as digit char
 
-        if (!isdigit(s[i]) ){   //not digit
-       //cout << "s[i]-'a' = " << s[i]-'a' << endl;
-           if (s[i]-'a'+10 >= GNum::getBase()) { // alphet - 'a' lager than base
-                return getVarVal(s,n);
+       if (!isdigit(s[i]) )   //not digit
+       {//cout << "s[i]-'a' = " << s[i]-'a' << endl;
+           if (s[i]-'a'+10 >= GNum::getBase())  // alphet - 'a' lager than base
+           {    
+                 //cout << "s[i] = " << s[i] << endl;
+                 return getVarVal(s,n);
            }
-       } else if(s[i]-'0' >= GNum::getBase()){  // digit , but digit - '0' larger than base 
-                return getVarVal(s,n);
+       } 
+       else if(s[i]-'0' >= GNum::getBase())  // digit , but digit - '0' larger than base 
+       {
+                 //cout << "s[i] = " << s[i] << endl;
+             return getVarVal(s,n);
        }
        
     }

@@ -188,7 +188,10 @@ CmdParser::parseCmd(string& option)
    
    if(!e) // Justin add
    {
-        cerr << "Illegal command!! (" << str << ")" << endl;
+        stringstream iss(str);
+        string subStr;
+        iss >> subStr;
+        cerr << "Illegal command!! (" << subStr << ")" << endl;
    } else {
       stringstream iss(str);
       string subStr;
