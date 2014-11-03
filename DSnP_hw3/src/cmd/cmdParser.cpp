@@ -33,7 +33,11 @@ CmdParser::openDofile(const string& dof)
    // TODO...
 //   cout << "dof = "<< dof << endl;
    ifstream infile;
-   infile.open(dof);
+   char* c = new char[dof.size() + 1];
+   copy(dof.begin(), dof.end(), c); 
+   c[dof.size()] = '\0';
+   infile.open(c);
+   delete[] c;
    if (infile.fail())
    {
        //cout << "file opening failed" << endl;
