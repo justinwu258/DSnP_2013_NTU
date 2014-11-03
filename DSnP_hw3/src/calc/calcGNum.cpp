@@ -149,12 +149,35 @@ bool GNum::getStrVal(const string& s, GNum& n) //{ return true; }
     }
     string subStr;
     for (size_t i = 1; i < s.length() ; ++i){
-       if (!isdigit(s[i]) ){
-            return getVarVal(s,n);
+       
+
+        if (!isdigit(s[i]) ){   //not digit
+       //cout << "s[i]-'a' = " << s[i]-'a' << endl;
+           if (s[i]-'a'+10 >= GNum::getBase()) { // alphet - 'a' lager than base
+                return getVarVal(s,n);
+           }
+       } else if(s[i]-'0' >= GNum::getBase()){  // digit , but digit - '0' larger than base 
+                return getVarVal(s,n);
        }
     }
     subStr = s.substr(1);
-    n._num = stoi(subStr);
+    
+    int tmp_num = 0;
+    int mybase = 1;
+    for(int i=subStr.length()-1;i >= 0 ;i--)
+    {
+        //cout << "subStr[" << i << "] = " << subStr[i] << endl;
+        if(isdigit(subStr[i]))
+            tmp_num += (subStr[i]-'0')*mybase;
+        else 
+            tmp_num += (subStr[i]-'a'+10)*mybase;
+            
+        //cout << "mybase = " << mybase << endl;
+        //cout << "tmp_num = " << tmp_num << endl;
+        mybase *= GNum::getBase();
+    }
+    n._num = tmp_num;
+    //n._num = stoi(subStr);
     return true;
 }
 
