@@ -17,7 +17,7 @@ initCalcCmd()
    // TODO...
    if (!(cmdMgr->regCmd("GNADD", 5, new GNAddCmd) &&
          cmdMgr->regCmd("GNCOMPare", 6, new GNCmpCmd) &&
-         cmdMgr->regCmd("GNUMLTiply", 6, new GNMultCmd) &&
+         cmdMgr->regCmd("GNMULTiply", 6, new GNMultCmd) &&
          cmdMgr->regCmd("GNPrint", 3, new GNPrintCmd) &&
          cmdMgr->regCmd("GNSET", 5, new GNSetCmd) &&
          cmdMgr->regCmd("GNSUBtract", 5, new GNSubCmd) &&
@@ -161,7 +161,27 @@ CmdExecStatus
 GNSubCmd::exec(const string& option)
 {
    // TODO...
+   // check option
+   vector<string> options;
+   if (!CmdExec::lexOptions(option, options, 3))
+      return CMD_EXEC_ERROR;
 
+   // check option 1
+   if (!isValidVarName(options[0]))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+   // check option 2
+   GNum v;
+   if (!GNum::getStrVal(options[1], v))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+   
+   // check option 3
+   GNum w;
+   if (!GNum::getStrVal(options[2], w))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+
+   GNum::setVarVal(options[0], v-w); // overload operator - 
+   cout << options[0] <<"(" << v-w << ")"  << " = " << v << " - " << w << endl;
+   
    return CMD_EXEC_DONE;
 }
 
@@ -188,7 +208,27 @@ CmdExecStatus
 GNMultCmd::exec(const string& option)
 {
    // TODO...
+   // check option
+   vector<string> options;
+   if (!CmdExec::lexOptions(option, options, 3))
+      return CMD_EXEC_ERROR;
+
+   // check option 1
+   if (!isValidVarName(options[0]))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+   // check option 2
+   GNum v;
+   if (!GNum::getStrVal(options[1], v))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
    
+   // check option 3
+   GNum w;
+   if (!GNum::getStrVal(options[2], w))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+
+   GNum::setVarVal(options[0], v*w); // overload operator * 
+   cout << options[0] <<"(" << v*w << ")"  << " = " << v << " * " << w << endl;
+      
    return CMD_EXEC_DONE;
 }
 
@@ -215,7 +255,28 @@ CmdExecStatus
 GNCmpCmd::exec(const string& option)
 {
    // TODO...
+   // check option
+   vector<string> options;
+   if (!CmdExec::lexOptions(option, options, 2))
+      return CMD_EXEC_ERROR;
 
+   // check option 0
+   GNum v;
+   if (!GNum::getStrVal(options[0], v))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+   
+   // check option 1
+   GNum w;
+   if (!GNum::getStrVal(options[1], w))
+      return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+
+   //GNum::setVarVal(options[0], v*w); // overload operator * 
+   if(v == w)
+        cout << v <<" == " << w << endl;
+   else if(v != w)
+        cout << v <<" != " << w << endl;
+        
+    
    return CMD_EXEC_DONE;
 }
 
