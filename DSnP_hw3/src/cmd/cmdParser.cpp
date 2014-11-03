@@ -43,9 +43,9 @@ CmdParser::openDofile(const string& dof)
    {
         infile.close();
          _dofile = new ifstream(dof.c_str());
-        if(_dofile->is_open()){  // basic would open success
+       if(_dofile->is_open()){  // basic would open success
             return true;
-        } 
+       } 
        //   else {
        //   cout << "_dofile = " << _dofile  << endl;
        //   return false;
@@ -59,12 +59,11 @@ CmdParser::openDofile(const string& dof)
 void
 CmdParser::closeDofile()
 {
+  // cout << "close Dofile " << endl;
    assert(_dofile != 0);
    // TODO...
-   string c;
-   cin >> c;
    delete _dofile;
-   _dofile = NULL;  // when _dofile used done , need free pointer
+   _dofile = 0;  // when _dofile used done , need free pointer
                     // execOneCmd would check have file or not 
    //cout << "delete" << endl;
 }
@@ -113,11 +112,12 @@ CmdParser::execOneCmd()
       newCmd = readCmd(*_dofile);
    else
       newCmd = readCmd(cin);
-
+   
     //cout << "newCmd = " << newCmd << endl;
    // execute the command
    if (newCmd) {
       string option;
+    //cout << "parseCmd = " << newCmd << endl;
       CmdExec* e = parseCmd(option);
       if (e != 0)
          return e->exec(option);
