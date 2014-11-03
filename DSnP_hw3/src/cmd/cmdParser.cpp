@@ -32,32 +32,25 @@ CmdParser::openDofile(const string& dof)
 {
    // TODO...
 //   cout << "dof = "<< dof << endl;
-//   ifstream infile;
-//   infile.open(dof);
-//   if (!infile.fail())
-//   {
-//       //cout << "file opening failed" << endl;
-//       return false;
-//   }  else {
-//        infile.close();
-    _dofile = new ifstream(dof.c_str());
-    if(_dofile->is_open()){
-        cout << "_dofile is open" << endl;
-        return true;
-    }   else {
-        return false;
-    }
-    
- /*
-        cout << "_dofile = " << _dofile  << endl;
-   _dofile = new ifstream(dof.c_str());
-   if(_dofile->fail()){
-        cout << "_dofile = " << _dofile  << endl;
-        delete _dofile;
-        cout << "_dofile = " << _dofile  << endl;
-        delete _dofile;
-        return false;
-   }*/
+   ifstream infile;
+   infile.open(dof);
+   if (infile.fail())
+   {
+       //cout << "file opening failed" << endl;
+       return false;
+   } 
+   else 
+   {
+        infile.close();
+         _dofile = new ifstream(dof.c_str());
+        if(_dofile->is_open()){  // basic would open success
+            return true;
+        } 
+       //   else {
+       //   cout << "_dofile = " << _dofile  << endl;
+       //   return false;
+       // }
+   }
    //cout << "_dofile = " << _dofile  << endl;
    return true;
 }
