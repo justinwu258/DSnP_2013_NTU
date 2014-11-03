@@ -143,13 +143,26 @@ bool GNum::getVarVal(const string& s, GNum& n) //{ return true; }
    // else if 's' is a valid number, convert it to GNum and assign to 'n'
 bool GNum::getStrVal(const string& s, GNum& n) //{ return true; }
 {
-  
+    bool neg = false;
+    size_t i = 1;
     if(s[0] != '#'){
         return getVarVal(s,n);
+    } else if(s[0] == '#' && s.length()==1){ //single #  is not legal
+        return false;
     }
+   
+    if(s[1] == '-' && s.length()<=2){
+        return false; 
+    }  else if (s[1] == '-'){
+        neg = true;
+        ++i;
+    }
+    
     string subStr;
-    for (size_t i = 1; i < s.length() ; ++i){
-       
+    subStr = s.substr(i); // i = 1 or 2(negtive) 
+    for ( ; i < s.length() ; ++i){
+        if (!isalnum(s[i]) && s[i] != '_')  // can't allow + , - , * blablabla 
+            return false;
 
         if (!isdigit(s[i]) ){   //not digit
        //cout << "s[i]-'a' = " << s[i]-'a' << endl;
@@ -159,8 +172,8 @@ bool GNum::getStrVal(const string& s, GNum& n) //{ return true; }
        } else if(s[i]-'0' >= GNum::getBase()){  // digit , but digit - '0' larger than base 
                 return getVarVal(s,n);
        }
+       
     }
-    subStr = s.substr(1);
     
     int tmp_num = 0;
     int mybase = 1;
@@ -175,6 +188,9 @@ bool GNum::getStrVal(const string& s, GNum& n) //{ return true; }
         //cout << "mybase = " << mybase << endl;
         //cout << "tmp_num = " << tmp_num << endl;
         mybase *= GNum::getBase();
+    }
+    if(neg){
+        tmp_num *= -1;
     }
     n._num = tmp_num;
     //n._num = stoi(subStr);
