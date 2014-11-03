@@ -48,24 +48,24 @@ public:
    //
    // [TODO] Set the variable 's' in the _varMap to value 'n',
    // no matter the variable 's' exists in _varMap or not
-   static void setVarVal(const string& s, const GNum& n) { }
+   static void setVarVal(const string& s, const GNum& n); //{ }
    //
    // [TODO] Get the value of variable 's'.
    // If 's' can be found, store the value in 'n' and return true.
    // Otherwise ('s' not found), return false.
-   static bool getVarVal(const string& s, GNum& n) { return true; }
+   static bool getVarVal(const string& s, GNum& n); //{ return true; }
    //
    // [TODO] If 's' is a valid variable name, return "getVarVal(s, n)";
    // else if 's' is a valid number, convert it to GNum and assign to 'n'
-   static bool getStrVal(const string& s, GNum& n) { return true; }
+   static bool getStrVal(const string& s, GNum& n); //{ return true; }
    //
    // [TODO] Print out all the variables in _varMap, one variable per line,
    // in the following format (assume _base = 16) ---
    // a = #9
    // b = #1a
    // kkk = #f1c
-   static void printVars() { }
-   static void resetVarMap() { }
+   static void printVars();   //{ }
+   static void resetVarMap(); //{ }
 
    // friend functions
    friend ostream& operator << (ostream&, const GNum&);  // TODO
