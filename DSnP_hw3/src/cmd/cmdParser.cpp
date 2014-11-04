@@ -306,6 +306,83 @@ void
 CmdParser::listCmd(const string& str)
 {
    // TODO...
+   string mainCmd , subStr;
+   locale loc;  
+
+   mainCmd = _readBuf;
+   //cout << _readBuf << endl;
+   string upperStr = mainCmd;
+   for (int i=0; i<mainCmd.length(); ++i){
+        upperStr[i] = toupper(mainCmd[i],loc);
+   } 
+//debug use
+   //cout << endl << "upperStr = " <<  upperStr << endl;
+   //cout << endl << "_readBuf = " <<  _readBuf << endl;  
+   size_t offset = _readBufPtr - _readBuf;
+   //cout << "offset = " << offset << endl;
+   char c = ' ';
+   bool spaceFlag = false;
+   for(int i=0; i<offset ;i++)
+   {
+    // subStr = upperStr.substr(offset);
+      if(upperStr[i] ==' ' && spaceFlag == false){
+           // do nothing
+      }
+      else //if (upperStr[i]!=' ')
+      {
+   //      cout << "upperStr[i] = " <<upperStr[i] << endl;
+         c = upperStr[i];
+         subStr.append(1,c);
+         spaceFlag = true;
+      } 
+
+      
+   }
+   //cout << endl << "subStr = " << subStr << endl;
+   reprintCmd();
+//debug end   
+
+    int count = 0;
+    bool findFlag = false;
+    if(!(upperStr.find_first_not_of(' ') != string::npos)) // list All option
+    {
+       cout << endl;
+        for (CmdMap::const_iterator it = _cmdMap.begin(); it != _cmdMap.end(); ++it ){ //const_iterator is needed
+            cout << setw(12) << left << it->first + it->second->getOptCmd() ;
+            ++count;
+            
+            if(count%5 == 0){
+                cout << endl;
+            }
+            
+        }
+        reprintCmd();
+    } else {   // parse string
+
+        int subStrLen = subStr.length();
+        for (CmdMap::const_iterator it = _cmdMap.begin(); it != _cmdMap.end(); ++it ){ //const_iterator is needed
+           //TODO
+           if( it->first.compare(0,subStrLen,subStr.substr(0,subStrLen)) == 0 ) //equal
+           {
+                if(findFlag == false){
+                    cout << endl;
+                    findFlag = true;
+                 }  
+                 cout << setw(12) << left << it->first + it->second->getOptCmd() ;
+                 //cout << "count = " << count << endl;
+                 ++count;
+                
+                if(count%5 == 0){
+                    cout << endl;
+                }            
+           }               
+        }      
+        if(findFlag == true){ 
+           reprintCmd();
+        }
+    }
+   //cout << "str = "   << str << endl; 
+//   cout << setw(12) << left << endl;
 }
 
 // cmd is a copy of the original input
