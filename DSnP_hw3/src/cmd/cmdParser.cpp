@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 using namespace std;
+#define depth 1024
 
 //----------------------------------------------------------------------
 //    External funcitons
@@ -48,15 +49,29 @@ CmdParser::openDofile(const string& dof)
         infile.close();
          _dofile = new ifstream(dof.c_str());
        if(_dofile->is_open()){  // basic would open success
-            return true;
-       } 
+            if(_dofileStack.size()<=depth)
+            {
+       //       cout << "_dofileStack.size() = " << _dofileStack.size() << endl;
+              _dofileStack.push(_dofile);
+              return true;
+            }
+            else 
+            {
+              cerr << "Error: dofile stack overflow (" <<  depth <<")" << endl;
+              closeDofile();
+              return false;
+            }
+             
+       } else {
+         //   cout << "my Open fail" << endl;
+            return false;
+       }     
        //   else {
        //   cout << "_dofile = " << _dofile  << endl;
        //   return false;
        // }
    }
    //cout << "_dofile = " << _dofile  << endl;
-   return true;
 }
 
 // Must make sure _dofile != 0
@@ -67,8 +82,22 @@ CmdParser::closeDofile()
    assert(_dofile != 0);
    // TODO...
    delete _dofile;
-   _dofile = 0;  // when _dofile used done , need free pointer
+    //cout << "1. _dofileStack.size() = " << _dofileStack.size() << endl;
+    //cout << "1. _dofile =  " << _dofile << endl;
+   _dofileStack.pop();
+    //cout << "2. _dofileStack.size() = " << _dofileStack.size() << endl;
+    //cout << "2. _dofile =  " << _dofile << endl;
+   if(_dofileStack.size()>0)
+   {
+       //cout << "1. _dofile =  " << _dofile << endl;
+       _dofile = _dofileStack.top();  // stack pop only decrese size() , pointer location not change
+       //cout << "2. _dofile =  " << _dofile << endl;
+   } 
+   else 
+   { 
+       _dofile = 0;  // when _dofile used done , need free pointer
                     // execOneCmd would check have file or not 
+   } 
    //cout << "delete" << endl;
 }
 
