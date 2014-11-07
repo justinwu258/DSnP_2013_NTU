@@ -14,8 +14,9 @@
 #include <locale> 
 #include <string>
 #include <sstream>
+#include <queue>
 using namespace std;
-#define depth 1024
+#define depth 256
 
 //----------------------------------------------------------------------
 //    External funcitons
@@ -342,8 +343,11 @@ CmdParser::listCmd(const string& str)
    reprintCmd();
 //debug end   
 
-    int count = 0;
-    bool findFlag = false;
+    int count = 0 ;
+    bool findFlag = false , speciFlag = false;
+    queue<string> tmpQ;
+    string qString;
+    size_t offsetToEnd = _readBufEnd - _readBufPtr;
     if(!(upperStr.find_first_not_of(' ') != string::npos)) // list All option
     {
        cout << endl;
@@ -364,7 +368,8 @@ CmdParser::listCmd(const string& str)
            //TODO
            if( it->first.compare(0,subStrLen,subStr.substr(0,subStrLen)) == 0 ) //equal
            {
-                if(findFlag == false){
+                tmpQ.push(it->first + it->second->getOptCmd()) ;
+             /*   if(findFlag == false){
                     cout << endl;
                     findFlag = true;
                  }  
@@ -374,9 +379,58 @@ CmdParser::listCmd(const string& str)
                 
                 if(count%5 == 0){
                     cout << endl;
-                }            
+                }*/            
            }               
         }      
+        
+        if(tmpQ.size()==1){
+            qString = tmpQ.front();
+            cout << qString.substr(subStrLen);
+            int  backtimes = 0;
+            speciFlag = true;
+            char *tmpPtr = _readBufEnd;
+            /*
+            //offsetEnd += subStrLen;   //total offset is include
+            _readBufPtr += qString.substr(subStrLen).length(); //  replace respond char
+            _readBufEnd += offsetToEnd; //  replace respond char
+            while(_readBufPtr != _readBufEnd){
+                *(_readBufEnd) = *(_readBufEnd-offsetToEnd); // replace respond char
+                _readBufEnd--;
+            }
+            _readBufEnd = tmpPtr;      
+            // *_readBufPtr = ch;
+            //_readBufPtr++;
+            tmpPtr = _readBufPtr;  // record now cursor location
+            while(_readBufPtr != _readBufEnd){
+                 cout << *_readBufPtr;
+                _readBufPtr++;
+                backtimes++;
+            }   
+            _readBufPtr = tmpPtr;
+            for(int i = 0; i < backtimes ; i++){  // Don't forget back to origin position
+                cout << "\b" ;
+            }   
+            */
+ 
+        }
+        
+        while (!tmpQ.empty() && speciFlag == false)
+        {
+            if(findFlag == false){
+                    cout << endl;
+                    findFlag = true;
+            }  
+
+            cout << setw(12) << left << tmpQ.front() ;
+            tmpQ.pop();
+             ++count;
+                
+            if(count%5 == 0){
+                cout << endl;
+            }
+
+        }
+    
         if(findFlag == true){ 
            reprintCmd();
         }
