@@ -52,6 +52,9 @@ MTResetCmd::exec(const string& option)
       #else
       mtest.reset();
       #endif // MEM_MGR_H
+      int tmp;
+      tmp = toSizeT(b);
+      cout << "toSizeT(b)  = " << tmp << "  , token.size() = " << token.size() << endl;
    }
    else
       mtest.reset();

@@ -89,6 +89,14 @@ class MemBlock
    // 4. Return false if not enough memory
    bool getMem(size_t t, T*& ret) {
       // TODO
+      t = toSizeT(t);
+      if(getRemainSize() < t){
+          ret = NULL; 
+          return false;
+      } 
+      _ptr += t; 
+      ret = reinterpret_cast<T*>(_ptr); // convert "char*" _ptr to "T*"
+
       return true;
    }
    size_t getRemainSize() const { return size_t(_end - _ptr); }
@@ -187,6 +195,19 @@ public:
       cout << "Resetting memMgr...(" << b << ")" << endl;
       #endif // MEM_DEBUG
       // TODO
+      while(_activeBlock->getNextBlock() != 0) {
+        MemBlock<T>* tmp = _activeBlock->getNextBlock();
+        delete _activeBlock;
+        _activeBlock = tmp;
+      }
+      _activeBlock->reset();
+      _activeBlock->_nextBlock = NULL;
+      //MemBlock::reset();
+      //_activeBlock = new MemBlock<T>(0, _blockSize);
+      for (int i = 0; i < R_SIZE; ++i)
+         _recycleList[i].reset();
+      if(b != 0 && b != _blockSize) { _blockSize=b; _activeBlock = new MemBlock<T>(0, b); }
+ 
    }
    // Called by new
    T* alloc(size_t t) {
@@ -326,7 +347,14 @@ private:
    // Get the currently allocated number of MemBlock's
    size_t getNumBlocks() const {
       // TODO
-      return 0;
+      size_t count = 0;
+      MemBlock<T>* tmpPtr =_activeBlock;
+      ++count;  //basic have 1
+      while(tmpPtr->getNextBlock() != 0) {
+        tmpPtr = tmpPtr->getNextBlock();
+        count++;
+      }
+      return count;
    }
 
 };
