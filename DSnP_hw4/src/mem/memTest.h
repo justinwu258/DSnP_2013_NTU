@@ -56,15 +56,26 @@ public:
    // Allocate "n" number of MemTestObj elements
    void newObjs(size_t n) {
       // TODO
+      int index = _objList.size();
+      //cout << "_objList.sizeof = " << _objList.size() << endl;
+      for(size_t i=0; i < n; ++i ){
+        //MemTestObj* testObj = new MemTestObj;
+        //_objList.push_back(testObj);
+        _objList.push_back(new MemTestObj);
+      }
+      //cout << "_objList.sizeof after push = " << _objList.size() << endl;
    }
    // Allocate "n" number of MemTestObj arrays with size "s"
    void newArrs(size_t n, size_t s) {
       // TODO
+      
    }
    // Delete the object with position idx in _objList[]
    void deleteObj(size_t idx) {
       assert(idx < _objList.size());
       // TODO
+      delete _objList[idx];
+      _objList[idx] = 0;
    }
    // Delete the array with position idx in _arrList[]
    void deleteArr(size_t idx) {
@@ -83,6 +94,7 @@ public:
       size_t i = 0;
       while (i < _objList.size()) {
          cout << (_objList[i]? 'o' : 'x');
+         cout << _objList[i] << endl;
          if (++i % 50 == 0) cout << endl;
       }
       cout << endl << "Array list ---" << endl;

@@ -79,7 +79,30 @@ CmdExecStatus
 MTNewCmd::exec(const string& option)
 {
    // TODO
+   vector<string> options;
+   int numObjects, arraySize;
+   if (!CmdExec::lexOptions(option, options, 0))  // put option to options[i]
+      return CMD_EXEC_ERROR;
 
+   //cout << "options.size =  "  <<  options.size() << endl;
+   if(options.size() == 1){
+       // check option 1
+       /*for(int i = 0; i < options[0].length();i++ ){
+          if(!isdigit(options[0][i])) {
+            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+          }
+       }*/
+       if(!myStr2Int(options[0],numObjects)) 
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+       mtest.newObjs(numObjects);
+   } else if(options.size() == 3) {
+       
+   } else if(options.size() == 0){
+       //cout << "CMD_EXEC_ERROR" << endl;
+       return CmdExec::errorOption(CMD_OPT_MISSING, "");
+   } else {
+       return CmdExec::errorOption(CMD_OPT_EXTRA, options[options.size()-1]);
+   }
    return CMD_EXEC_DONE;
 }
 
