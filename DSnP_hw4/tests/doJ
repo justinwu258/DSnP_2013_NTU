@@ -1,0 +1,3 @@
+mtn -a 5 1
+mtp
+q -f

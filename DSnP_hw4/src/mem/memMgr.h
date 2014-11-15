@@ -140,13 +140,22 @@ class MemRecycleList
    void  pushFront(T* p) {
       // TODO
         T** ptr = (T**) p;
-        *ptr = _first;    // origin _first , assign to  next element
-        _first = p;       // p become new _first
+        if(_first == NULL) {
+            ptr = 0;
+            _first = p;
+            cout << "_first is null" << endl;
+        } else {
+            *ptr = _first;    // origin _first , assign to  next element
+            _first = p;       // p become new _first
+        }
    }
    // Release the memory occupied by the recycle list(s)
    // DO NOT release the memory occupied by MemMgr/MemBlock
    void reset() {
       // TODO
+      delete _nextList;
+      _nextList = 0;
+      _first = 0;
    }
 
    // Helper functions
@@ -316,12 +325,12 @@ private:
             if(_tmpList->getArrSize() == n) {
                return _tmpList;   
             }
-            if(_tmpList->_nextList == NULL) {
-               _tmpList->_nextList = new MemRecycleList<T>(n);
-               return _tmpList->_nextList;
-            }
             _tmpList = _tmpList->_nextList; 
       }
+      if(_tmpList->_nextList == NULL) {
+               _tmpList->_nextList = new MemRecycleList<T>(n);
+               return _tmpList->_nextList;
+      }  
       //return _tmpList;
    }
    // t is the #Bytes requested from new or new[]
@@ -350,15 +359,18 @@ private:
             throw bad_alloc();
       }
       size_t n = (t-SIZE_T)/S;  // check memory , n = bucket index 
+          #ifdef MEM_DEBUG 
+            //    cout << "t = " << t << " , S = " << S << endl;
+            //    cout << "n = " << n << " SIZE_T = " << SIZE_T << endl;
+          #endif // MEM_DEBUG
       MemRecycleList<T>* recycleList = getMemRecycleList(n);
-      #ifdef MEM_DEBUG 
-            cout << "Recycled from _recycleList[" << n << "]..." << ret << endl;
-            cout << "t = " << t << " , S = " << S << endl;
-            cout << "n = " << n << " SIZE_T = " << SIZE_T << endl;
-      #endif // MEM_DEBUGi
-      _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
-      _activeBlock->getMem(t, ret);
-
+      if(recycleList->_first != NULL){
+          
+          ret = recycleList->popFront();
+          #ifdef MEM_DEBUG 
+                cout << "Recycled from _recycleList[" << n << "]..." << ret << endl;
+          #endif // MEM_DEBUG
+      } else {
       // If no match from recycle list...
       // 4. Get the memory from _activeBlock
       // 5. If not enough, recycle the remained memory and print out ---
@@ -375,6 +387,37 @@ private:
       //    #ifdef MEM_DEBUG
       //    cout << "Memory acquired... " << ret << endl;
       //    #endif // MEM_DEBUG
+          size_t remainMem = _activeBlock->getRemainSize();
+          if(remainMem >= S){
+              size_t rn = (remainMem - SIZE_T)/S;
+              if(t > remainMem){
+                  MemRecycleList<T>* arrRecList = getMemRecycleList(rn);
+                  arrRecList->pushFront(ret);
+                  _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
+                 #ifdef MEM_DEBUG
+                 //  cout << "remainMem = " << remainMem << endl;
+                     cout << "Recycling " << ret << " to _recycleList[" << rn << "]\n";
+                 //  cout << "t = " << t << endl;
+                 #endif // MEM_DEBUG
+                  _activeBlock->getMem(t, ret);
+                     cout << "Recycling22 " << ret << " to _recycleList[" << rn << "]\n";
+              } else {
+                  _activeBlock->getMem(t, ret);
+              }
+              //recycleList->pushFront(ret);               
+          } else {
+              #ifdef MEM_DEBUG
+                cout << "New MemBlock... " << _activeBlock << endl;
+                cout << "New MemBlock... blockSize = " << _blockSize << endl;
+              #endif // MEM_DEBUG
+
+              _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
+              _activeBlock->getMem(t, ret);
+          }
+          #ifdef MEM_DEBUG
+             cout << "Memory acquired... " << ret << endl;
+          #endif // MEM_DEBUG
+      }
       return ret;
    }
    // Get the currently allocated number of MemBlock's

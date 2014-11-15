@@ -96,7 +96,19 @@ MTNewCmd::exec(const string& option)
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
        mtest.newObjs(numObjects);
    } else if(options.size() == 3) {
-       
+       if(myStrNCmp("-Array",options[0],2) == 0) {  // cmp "-a/-A"
+         if(!myStr2Int(options[1],arraySize)) 
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);  
+         if(!myStr2Int(options[2],numObjects)) 
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+         mtest.newArrs(numObjects,arraySize);
+       } else if(myStrNCmp("-Array",options[1],2) == 0) {
+         if(!myStr2Int(options[2],arraySize))
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+         if(!myStr2Int(options[0],numObjects))
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+         mtest.newArrs(numObjects,arraySize);
+       } else { CmdExec::errorOption(CMD_OPT_ILLEGAL, option); } 
    } else if(options.size() == 0){
        //cout << "CMD_EXEC_ERROR" << endl;
        return CmdExec::errorOption(CMD_OPT_MISSING, "");
