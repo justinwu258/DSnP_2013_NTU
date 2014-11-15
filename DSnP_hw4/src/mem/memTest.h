@@ -59,9 +59,10 @@ public:
       int index = _objList.size();
       //cout << "_objList.sizeof = " << _objList.size() << endl;
       for(size_t i=0; i < n; ++i ){
-        //MemTestObj* testObj = new MemTestObj;
-        //_objList.push_back(testObj);
-        _objList.push_back(new MemTestObj);
+        MemTestObj* testObj = new MemTestObj;
+        _objList.push_back(testObj);
+        //_objList.push_back(new MemTestObj);
+        //cout << "_objList[i].sizeof  = " << sizeof(_objList[i]) << endl;
       }
       //cout << "_objList.sizeof after push = " << _objList.size() << endl;
    }
@@ -94,7 +95,7 @@ public:
       size_t i = 0;
       while (i < _objList.size()) {
          cout << (_objList[i]? 'o' : 'x');
-         cout << _objList[i] << endl;
+         //cout << _objList[i] << endl;
          if (++i % 50 == 0) cout << endl;
       }
       cout << endl << "Array list ---" << endl;
