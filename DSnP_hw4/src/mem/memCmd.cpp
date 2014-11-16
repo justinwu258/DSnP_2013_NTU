@@ -144,21 +144,36 @@ MTDeleteCmd::exec(const string& option)
 {
    // TODO
    vector<string> options;
-   int objIdx, arraySize;
+   int objIdx, arraySize, r, rTimes;
    if (!CmdExec::lexOptions(option, options, 0))  // put option to options[i]
       return CMD_EXEC_ERROR;
 
    if(options.size() == 2){
        if(myStrNCmp("-Index",options[0],2) == 0) {  // cmp "-i/-I"
-         if(!myStr2Int(options[1],objIdx)) 
+         if(!myStr2Int(options[1],objIdx) || objIdx < 0) 
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);  
+         //if(objIdx < 0)
+         //  return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+         if(mtest.getObjListSize() <= objIdx) {
+           cout << "Size of object list (" << mtest.getObjListSize() << ") is <= " << objIdx << "!!" << endl;
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);  
+         } 
          mtest.deleteObj(objIdx);
        } else if(myStrNCmp("-Random",options[0],2) == 0) { // cmp "-r/-R"
-         RandomNumGen(); 
-       }
-       //if(!myStr2Int(options[0],numObjects)) 
-       //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
-       //mtest.newObjs(numObjects);
+         if(!myStr2Int(options[1],rTimes) || rTimes <= 0) 
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);  
+         //if(rTimes <= 0)
+         //  return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+         if(mtest.getObjListSize() == 0) {
+           cout << "Size of object list is 0!!" << endl;
+           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);  
+         }
+         while(rTimes--){
+            r = rnGen(mtest.getObjListSize());
+            //cout << "RandomNum r = " << r << endl;
+            mtest.deleteObj(r);
+         }
+       } else { CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]); } 
    } else if(options.size() == 3) {
        /*if(myStrNCmp("-Array",options[0],2) == 0) {  // cmp "-a/-A"
          if(!myStr2Int(options[1],arraySize)) 

@@ -78,15 +78,19 @@ public:
    void deleteObj(size_t idx) {
       assert(idx < _objList.size());
       // TODO
-      delete _objList[idx];
-      _objList[idx] = NULL;
+      if(_objList[idx] != NULL) {
+        delete _objList[idx];
+        _objList[idx] = NULL;
+      }
    }
    // Delete the array with position idx in _arrList[]
    void deleteArr(size_t idx) {
       assert(idx < _arrList.size());
       // TODO
-      delete [] _arrList[idx];
-      _arrList[idx] = NULL;
+      if(_arrList[idx] != NULL) {
+        delete [] _arrList[idx];
+        _arrList[idx] = NULL;
+      }
    }
 
    void print() const {

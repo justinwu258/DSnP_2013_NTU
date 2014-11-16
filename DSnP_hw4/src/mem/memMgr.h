@@ -143,7 +143,7 @@ class MemRecycleList
         if(_first == 0) {
             *ptr = 0;
             _first = p;
-            cout << "_first is null" << endl;
+            //cout << "_first is null" << endl;
         } else {
             *ptr = _first;    // origin _first , assign to  next element
             _first = p;       // p become new _first
@@ -263,6 +263,8 @@ public:
       cout << "Recycling " << p << " to _recycleList[" << n << "]" << endl;
       #endif // MEM_DEBUG
       // add to recycle list...
+      MemRecycleList<T>* recycleList = getMemRecycleList(n); 
+      recycleList->pushFront(p);
    }
    void print() const {
       cout << "=========================================" << endl
