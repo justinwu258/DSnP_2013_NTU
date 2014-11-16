@@ -93,26 +93,26 @@ MTNewCmd::exec(const string& option)
        mtest.newObjs(numObjects);
    } else if(options.size() == 3) {
        if(myStrNCmp("-Array",options[0],2) == 0) {  // cmp "-a/-A"
-         if(!myStr2Int(options[1],arraySize)) 
+         if(!myStr2Int(options[1],arraySize) || arraySize <= 0) 
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);  
-         if(!myStr2Int(options[2],numObjects)) 
+         if(!myStr2Int(options[2],numObjects) || numObjects <= 0) 
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
-         if(numObjects <= 0)
-           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
-         if(arraySize <= 0)
-           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+       //  if(numObjects <= 0)
+       //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+       //  if(arraySize <= 0)
+       //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
          mtest.newArrs(numObjects,arraySize);
        } else if(myStrNCmp("-Array",options[1],2) == 0) {
-         if(!myStr2Int(options[2],arraySize))
+         if(!myStr2Int(options[2],arraySize) || arraySize <= 0)
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
-         if(!myStr2Int(options[0],numObjects))
+         if(!myStr2Int(options[0],numObjects) || numObjects <= 0)
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
-         if(arraySize <= 0)
-           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
-         if(numObjects <= 0)
-           return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
+       //  if(arraySize <= 0)
+       //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+       //  if(numObjects <= 0)
+       //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
          mtest.newArrs(numObjects,arraySize);
-       } else { CmdExec::errorOption(CMD_OPT_ILLEGAL, option); } 
+       } else { CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]); } 
    } else if(options.size() == 0){
        //cout << "CMD_EXEC_ERROR" << endl;
        return CmdExec::errorOption(CMD_OPT_MISSING, "");
