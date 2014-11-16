@@ -1,3 +1,8 @@
-mtn  -a 745 2
+usage
+mtn  -a 745 500000
 mtp
+usage
+mtn  -a 744 400000
+mtp
+usage
 q -f

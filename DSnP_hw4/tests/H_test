@@ -188,36 +188,7 @@ mtest> q -f
 ###########
 #   do2   #
 ###########
-mtest> mtn 10
-
-mtest> mtn 5 -a 256
-
-mtest> mtn 5 -a 512
-
-mtest> mtd -i 7 -a
-
-mtest> mtd -i 0 -a
-
-mtest> mtp
-=========================================
-=              Memory Manager           =
-=========================================
-* Block size            : 65536 Bytes
-* Number of blocks      : 4
-* Free mem in last block: 43000
-* Recycle list          : 
-[256] = 1         [512] = 1         [197] = 1         [464] = 2         
-
-=========================================
-=             class MemTest             =
-=========================================
-Object list ---
-xooooooooo
-Array list ---
-xooooooxoo
-
-mtest> q -f
-
+./runH: line 10: ../ref/refmemTest: No such file or directory
 
 
 ###########
@@ -386,7 +357,37 @@ mtest> mtp
 * Number of blocks      : 3
 * Free mem in last block: 0
 * Recycle list          : 
-./run: line 16: 28212 Segmentation fault: 11  ../memTest -f do3
+[  0] = 1         
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+o
+Array list ---
+oo
+
+mtest> mtn -a 1 1
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 96 Bytes
+* Number of blocks      : 4
+* Free mem in last block: 40
+* Recycle list          : 
+[  0] = 1         
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+o
+Array list ---
+ooo
+
+mtest> 
+mtest> q -f
+
 
 
 ###########
@@ -432,7 +433,7 @@ mtest> MTD
 Missing option!!
 
 mtest> mtd -a
-Extra option!! (-a)
+Missing option!!
 
 mtest> mtd -r 4
 
@@ -447,7 +448,7 @@ mtest> mtn 5
 
 mtest> mtd -a -Ran 3
 Size of array list is 0!!
-Illegal option!! (3)
+Illegal option!! (-Ran)
 
 mtest> mtd -r -3
 Illegal option!! (-3)
@@ -496,7 +497,7 @@ mtest> mtd -r -r 23
 Illegal option!! (-r)
 
 mtest> mtd -r 23 -r
-Illegal option!! (-r)
+Extra option!! (-r)
 
 mtest> mtd -r 23
 
@@ -520,7 +521,7 @@ Array list ---
 
 
 mtest> mtd -r 23 -i 5 -a
-Extra option!! (-a)
+Extra option!! (-i)
 
 mtest> mtn 123 -a 999
 Requested memory (43968) is greater than block size(504). Exception raised...
@@ -612,7 +613,7 @@ xooxoooxxoxxooxooxoxxox
 mtest> mtn 60 -a 10
 
 mtest> mtn 60 -a 10 -i 3
-Extra option!! (3)
+Extra option!! (-i)
 
 mtest> mtn -a 10 60
 
@@ -776,7 +777,7 @@ mtest> mtn 214 -a 916
 mtest> mtn 108 -a 1044
 
 mtest> mtn -r 1000
-Extra option!! (1000)
+Illegal option!! (-r)
 
 mtest> mtn -r 1000 -a
 Illegal option!! (-r)
@@ -1351,7 +1352,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-xooooooooo
+oooooooooo
 Array list ---
 ooooo
 
@@ -1371,7 +1372,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-xooooooooo
+oooooooooo
 Array list ---
 oooooooooo
 
@@ -1391,7 +1392,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-xooooooooo
+oooooooooo
 Array list ---
 ooooooooooooooo
 
@@ -1411,7 +1412,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-xooxoooooo
+oooxoooooo
 Array list ---
 ooooooooooooooo
 
@@ -1431,7 +1432,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-xooxoooooo
+oooxoooooo
 Array list ---
 ooooxoooooooooo
 
@@ -1452,7 +1453,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-xooxoooooo
+oooxoooooo
 Array list ---
 ooooxoooxoooooo
 
@@ -1473,7 +1474,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-xooxoooooo
+oooxoooooo
 Array list ---
 ooooxoooxooooxo
 

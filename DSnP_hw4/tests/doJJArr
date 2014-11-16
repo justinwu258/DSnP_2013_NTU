@@ -1,3 +1,4 @@
+mtreset 280
 mtnew 5 -a 200
 mtnew -a 150 12
 mtn   25
@@ -6,6 +7,10 @@ mtd   -i 3
 mtd   -r 5
 mtp
 mtd   -i 8 -arr
+mtp
+mtd   -r 3 -arr
+mtp
+mtd   -r 2 -arr
 mtp
 mtd   -arr -r 3
 mtp
