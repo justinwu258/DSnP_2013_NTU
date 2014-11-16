@@ -27,7 +27,7 @@ MemMgr<T>* const T::_memMgr = new MemMgr<T>
 
 #define USE_MEM_MGR(T)                                                      \
 public:                                                                     \
-   void* operator new(size_t t) { /*cout << "new t = " << t << endl;*/  return (void*)(_memMgr->alloc(t)); }      \
+   void* operator new(size_t t) { return (void*)(_memMgr->alloc(t)); }      \
    void* operator new[](size_t t) { return (void*)(_memMgr->allocArr(t)); } \
    void  operator delete(void* p) { _memMgr->free((T*)p); }                 \
    void  operator delete[](void* p) { _memMgr->freeArr((T*)p); }            \
@@ -396,19 +396,19 @@ private:
               if(t > remainMem){
                   MemRecycleList<T>* arrRecList = getMemRecycleList(rn);
                   if(!_activeBlock->getMem(t, ret)) {  // get Current activeBlock in recycleList address
-                      _activeBlock->getMem(0, ret);    //  
+                      _activeBlock->getMem(downtoSizeT(remainMem), ret);    //  ***error method:  _activeBlock->getMem(0, ret);
                       arrRecList->pushFront(ret);   // put remain space to recycleList
                       
                       _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
                       remainMem = _activeBlock->getRemainSize();
                       //cout << "remainMem = " << remainMem << endl;
-              
                       _activeBlock->getMem(t, ret);
                   }
               
                  #ifdef MEM_DEBUG
                  //  cout << "remainMem = " << remainMem << endl;
                      cout << "Recycling " << ret << " to _recycleList[" << rn << "]\n";
+                     cout << "New MemBlock... " << _activeBlock << endl;
                  //  cout << "t = " << t << endl;
                  #endif // MEM_DEBUG
                     //_activeBlock->getMem(t, ret);

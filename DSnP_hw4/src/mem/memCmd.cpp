@@ -90,7 +90,8 @@ MTNewCmd::exec(const string& option)
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
        if(numObjects <= 0)
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
-       mtest.newObjs(numObjects);
+       try{ mtest.newObjs(numObjects); } 
+       catch(bad_alloc){}
    } else if(options.size() == 3) {
        if(myStrNCmp("-Array",options[0],2) == 0) {  // cmp "-a/-A"
          if(!myStr2Int(options[1],arraySize) || arraySize <= 0) 
@@ -101,7 +102,8 @@ MTNewCmd::exec(const string& option)
        //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
        //  if(arraySize <= 0)
        //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
-         mtest.newArrs(numObjects,arraySize);
+         try{ mtest.newArrs(numObjects,arraySize); }
+         catch(bad_alloc){ }
        } else if(myStrNCmp("-Array",options[1],2) == 0) {
          if(!myStr2Int(options[2],arraySize) || arraySize <= 0)
            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
@@ -111,7 +113,8 @@ MTNewCmd::exec(const string& option)
        //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
        //  if(numObjects <= 0)
        //    return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
-         mtest.newArrs(numObjects,arraySize);
+         try{mtest.newArrs(numObjects,arraySize);}
+         catch(bad_alloc){}
        } else { CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]); } 
    } else if(options.size() == 0){
        //cout << "CMD_EXEC_ERROR" << endl;

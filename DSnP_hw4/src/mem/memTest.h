@@ -29,7 +29,7 @@ friend class MemTest;
 
 public:
    MemTestObj() {}
-   ~MemTestObj() {}
+   ~MemTestObj() { /* cout << "destruct " << endl; */  }
 
 private:
    // sizeof(memTestObj) = 41 --> 44
@@ -37,12 +37,11 @@ private:
    char  _dataC;
 };
 
-
 class MemTest
 {
 public:
    MemTest() { _objList.reserve(1024); _arrList.reserve(1024); }
-   ~MemTest() {}
+   ~MemTest() { }
 
    void reset(size_t b = 0) {
       _objList.clear(); _arrList.clear();
@@ -87,9 +86,11 @@ public:
    void deleteArr(size_t idx) {
       assert(idx < _arrList.size());
       // TODO
-      if(_arrList[idx] != NULL) {
+      if(_arrList[idx] != 0) {
+       // cout << "_deleteing" << endl;
         delete [] _arrList[idx];
-        _arrList[idx] = NULL;
+       // cout << "_delete done" << endl;
+        _arrList[idx] = 0;
       }
    }
 
