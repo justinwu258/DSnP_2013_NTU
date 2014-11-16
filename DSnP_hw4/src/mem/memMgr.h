@@ -121,7 +121,7 @@ class MemRecycleList
    friend class MemMgr<T>;
 
    // Constructor/Destructor
-   MemRecycleList(size_t a = 0) : _arrSize(a), _first(0), _nextList(0) {}
+   MemRecycleList(size_t a = 0) : _arrSize(a), _first(0), _nextList(0) { }
    ~MemRecycleList() { reset(); }
 
    // Member functions
@@ -140,8 +140,8 @@ class MemRecycleList
    void  pushFront(T* p) {
       // TODO
         T** ptr = (T**) p;
-        if(_first == NULL) {
-            ptr = 0;
+        if(_first == 0) {
+            *ptr = 0;
             _first = p;
             cout << "_first is null" << endl;
         } else {
@@ -321,16 +321,16 @@ private:
       size_t m = n % R_SIZE;
       // TODO
       MemRecycleList<T>* _tmpList = &_recycleList[m];
-      while(_tmpList->_nextList != NULL) {
+      while(_tmpList != NULL) {
             if(_tmpList->getArrSize() == n) {
                return _tmpList;   
             }
+            if(_tmpList->_nextList == NULL) {
+                     _tmpList->_nextList = new MemRecycleList<T>(n);
+                     return _tmpList->_nextList;
+            }  
             _tmpList = _tmpList->_nextList; 
       }
-      if(_tmpList->_nextList == NULL) {
-               _tmpList->_nextList = new MemRecycleList<T>(n);
-               return _tmpList->_nextList;
-      }  
       //return _tmpList;
    }
    // t is the #Bytes requested from new or new[]
@@ -389,18 +389,28 @@ private:
       //    #endif // MEM_DEBUG
           size_t remainMem = _activeBlock->getRemainSize();
           if(remainMem >= S){
-              size_t rn = (remainMem - SIZE_T)/S;
+              size_t rn = (remainMem - SIZE_T)/S;  // equal to downtoSizeT(remainMem)/S
               if(t > remainMem){
                   MemRecycleList<T>* arrRecList = getMemRecycleList(rn);
-                  arrRecList->pushFront(ret);
-                  _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
+                  if(!_activeBlock->getMem(t, ret)) {  // get Current activeBlock in recycleList address
+                      _activeBlock->getMem(0, ret);    //  
+                      arrRecList->pushFront(ret);   // put remain space to recycleList
+                      
+                      _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
+                      remainMem = _activeBlock->getRemainSize();
+                      cout << "remainMem = " << remainMem << endl;
+              
+                      _activeBlock->getMem(t, ret);
+                  }
+              
                  #ifdef MEM_DEBUG
                  //  cout << "remainMem = " << remainMem << endl;
                      cout << "Recycling " << ret << " to _recycleList[" << rn << "]\n";
                  //  cout << "t = " << t << endl;
                  #endif // MEM_DEBUG
-                  _activeBlock->getMem(t, ret);
-                     cout << "Recycling22 " << ret << " to _recycleList[" << rn << "]\n";
+                    //_activeBlock->getMem(t, ret);
+                    //arrRecList->pushFront(ret);
+                  cout << "Recycling2 =  " << ret << " to _recycleList[" << rn << "]\n";
               } else {
                   _activeBlock->getMem(t, ret);
               }
