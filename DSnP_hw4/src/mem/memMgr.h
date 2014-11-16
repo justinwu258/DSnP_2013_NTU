@@ -17,7 +17,7 @@
 using namespace std;
 
 // Turn this on for debugging
- #define MEM_DEBUG
+//  #define MEM_DEBUG
 
 //--------------------------------------------------------------------------
 // Define MACROs
@@ -91,7 +91,7 @@ class MemBlock
       // TODO
       t = toSizeT(t);
       if(getRemainSize() < t){
-          cout <<" ret Null" << endl;
+         // cout <<" ret Null" << endl;
           ret = NULL; 
           return false;
       } 
@@ -257,7 +257,7 @@ public:
       // TODO
       // Get the array size 'n' stored by system,
       // which is also the _recycleList index
-      size_t n = 0;
+      size_t n =  (size_t) p;
       #ifdef MEM_DEBUG
       cout << ">> Array size = " << n << endl;
       cout << "Recycling " << p << " to _recycleList[" << n << "]" << endl;
@@ -398,7 +398,7 @@ private:
                       
                       _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
                       remainMem = _activeBlock->getRemainSize();
-                      cout << "remainMem = " << remainMem << endl;
+                      //cout << "remainMem = " << remainMem << endl;
               
                       _activeBlock->getMem(t, ret);
                   }
@@ -410,7 +410,7 @@ private:
                  #endif // MEM_DEBUG
                     //_activeBlock->getMem(t, ret);
                     //arrRecList->pushFront(ret);
-                  cout << "Recycling2 =  " << ret << " to _recycleList[" << rn << "]\n";
+                  //cout << "Recycling2 =  " << ret << " to _recycleList[" << rn << "]\n";
               } else {
                   _activeBlock->getMem(t, ret);
               }
