@@ -257,7 +257,8 @@ public:
       // TODO
       // Get the array size 'n' stored by system,
       // which is also the _recycleList index
-      size_t n =  (size_t) p;
+      size_t *tmp  = (size_t*) p;  // use tmp convert p to (size_t*) 
+      size_t n =  *tmp;            // get p point's size
       #ifdef MEM_DEBUG
       cout << ">> Array size = " << n << endl;
       cout << "Recycling " << p << " to _recycleList[" << n << "]" << endl;

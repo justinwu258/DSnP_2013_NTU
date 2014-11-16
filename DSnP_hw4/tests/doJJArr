@@ -1,0 +1,12 @@
+mtnew 5 -a 200
+mtnew -a 150 12
+mtn   25
+mtp
+mtd   -i 3
+mtd   -r 5
+mtp
+mtd   -i 8 -arr
+mtp
+mtd   -arr -r 3
+mtp
+q -f
