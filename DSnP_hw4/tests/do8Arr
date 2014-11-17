@@ -1,0 +1,37 @@
+mtreset 44
+mtnew -a 1 1
+mtp
+mtreset 48
+mtnew -a 1 1 
+mtp
+mtreset 52
+mtnew -a 1 2  
+mtp
+mtreset 96
+mtnew -a 1 3 
+mtp
+mtn 2
+mtp
+mtnew -a 2 5 
+mtp
+mtnew -a 1 5 
+mtp
+mtreset 144
+mtnew -a 3 7 
+mtp
+mtnew -a 2 2 
+mtp
+mtreset 192
+mtnew -a 4 9 
+mtp
+mtnew -a 3 2 
+mtp
+mtreset 240
+mtnew -a 5 12 
+mtp
+mtnew -a 4 2 
+mtp
+mtreset 280
+mtnew -a 6 15 
+mtp
+q -f

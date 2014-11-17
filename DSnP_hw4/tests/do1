@@ -9,12 +9,34 @@ mtdel -r 2 -a
 mtp
 mtnew -a 1 3
 mtp
-mtnew -a 5 3
+mtnew -a 2 10
+mtp
+mtnew -a 3 20
+mtp
+mtnew -a 4 30
+mtp
+#mtnew -a 5 5 
+#mtp
+mtnew -a 6 6 
+mtp
+mtnew -a 7 7 
+mtp
+mtnew -a 8 8 
+mtp
+mtnew -a 9 9 
+mtp
+mtnew -a 10 10 
 mtp
 mtnew -a 7 2
 mtp
 mtdel -r 8 -a
 mtp
 mtdel -i 12 -a
+mtp
+mtnew -a 1 1 
+mtp
+mtnew 8  
+mtp
+mtnew -a 6 1
 mtp
 q -f
