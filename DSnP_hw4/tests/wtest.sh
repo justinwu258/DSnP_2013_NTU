@@ -3,13 +3,49 @@
 ../memTest -f do3 &> J3.log
 ../memTest -f do4 &> J4.log
 ../memTest -f do5 &> J5.log
+../memTest -f do7 &> J7.log          
+../memTest -f do9 &> J9.log         
+../memTest -f doJ2         &> dJ2.log 
+../memTest -f doJJ         &> dJJ.log 
+../memTest -f doJJ3        &> dJJ3.log 
+../memTest -f doJJillegal  &> dJJill.log 
+../memTest -f do1-1        &> J1-1.log 
+../memTest -f doJ          &> dJ.log 
+../memTest -f do8Arr       &> J8Arr.log 
+../memTest -f doJ3         &> dJ3.log 
+#../memTest -f doJJ2        &> dJJ2.log   #big case 
+../memTest -f doJJArr      &> dJJArr.log 
 ../ref/memTest -f do1 &> H1.log
 ../ref/memTest -f do2 &> H2.log
 ../ref/memTest -f do3 &> H3.log
 ../ref/memTest -f do4 &> H4.log
 ../ref/memTest -f do5 &> H5.log
+../ref/memTest -f do7 &> H7.log          
+../ref/memTest -f do9 &> H9.log         
+../ref/memTest -f doJ2         &> dH2.log 
+../ref/memTest -f doJJ         &> dHJ.log 
+../ref/memTest -f doJJ3        &> dHJ3.log 
+../ref/memTest -f doJJillegal  &> dHJill.log 
+../ref/memTest -f do1-1        &> H1-1.log 
+../ref/memTest -f doJ          &> dH.log 
+../ref/memTest -f do8Arr       &> H8Arr.log 
+../ref/memTest -f doJ3         &> dH3.log 
+#../ref/memTest -f doJJ2        &> dHJ2.log  #big case
+../ref/memTest -f doJJArr      &> dHJArr.log 
 diff J1.log H1.log #&> yydiff.log 
 diff J2.log H2.log #&> yydiff.log 
 diff J3.log H3.log #&> yydiff.log
 diff J4.log H4.log #&> yydiff.log
 diff J5.log H5.log
+diff J7.log H7.log #&> yydiff.log
+diff J9.log H9.log
+diff dJ2.log         dH2.log     #&> yydiff.log    
+diff dJJ.log         dHJ.log     #&> yydiff.log
+diff dJJ3.log        dHJ3.log     #&> yydiff.log    
+diff dJJill.log      dHJill.log     #&> yydiff.log
+diff J1-1.log        H1-1.log    #&> yydiff.log
+diff dJ.log          dH.log      #&> yydiff.log
+diff J8Arr.log       H8Arr.log   #&> yydiff.log
+diff dJ3.log         dH3.log     #&> yydiff.log
+#diff dJJ2.log        dHJ2.log    #&> yydiff.log
+diff dJJArr.log      dHJArr.log  #&> yydiff.log 
