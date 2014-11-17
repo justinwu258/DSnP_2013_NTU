@@ -119,6 +119,8 @@ MTNewCmd::exec(const string& option)
    } else if(options.size() == 0){
        //cout << "CMD_EXEC_ERROR" << endl;
        return CmdExec::errorOption(CMD_OPT_MISSING, "");
+   } else if(options.size() == 2){
+       return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
    } else {
        return CmdExec::errorOption(CMD_OPT_EXTRA, options[options.size()-1]);
    }
@@ -185,10 +187,10 @@ MTDeleteCmd::exec(const string& option)
              mtest.deleteArr(arrIdx);
            } else if(myStrNCmp("-Random",options[1],2) == 0) { // cmp "-r/-R"
              if(!myStr2Int(options[2],rTimes) || rTimes <= 0)
-               return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+               return CmdExec::errorOption(CMD_OPT_ILLEGAL, (rTimes <= 0)? options[2]:options[1]);
              if(mtest.getArrListSize() == 0) {
                cout << "Size of array list is 0!!" << endl;
-               return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[2]);
+               return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
              }
              while(rTimes--){
                 r = rnGen(mtest.getArrListSize());
@@ -210,7 +212,7 @@ MTDeleteCmd::exec(const string& option)
                return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
              if(mtest.getArrListSize() == 0) {
                cout << "Size of array list is 0!!" << endl;
-               return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[1]);
+               return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]);
              }
              while(rTimes--){
                 r = rnGen(mtest.getArrListSize());
@@ -219,7 +221,8 @@ MTDeleteCmd::exec(const string& option)
            } else { CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]); } 
        } else { CmdExec::errorOption(CMD_OPT_ILLEGAL, options[0]); }   // error, not -Array type / order mistake
    } else if(options.size() == 0){
-       //cout << "CMD_EXEC_ERROR" << endl;
+       return CmdExec::errorOption(CMD_OPT_MISSING, "");
+   } else if(options.size() == 1){
        return CmdExec::errorOption(CMD_OPT_MISSING, "");
    } else {
        return CmdExec::errorOption(CMD_OPT_EXTRA, options[options.size()-1]);

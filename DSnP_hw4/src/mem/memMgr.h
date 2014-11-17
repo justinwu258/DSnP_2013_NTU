@@ -396,8 +396,9 @@ private:
               if(t > remainMem){
                   MemRecycleList<T>* arrRecList = getMemRecycleList(rn);
                   if(!_activeBlock->getMem(t, ret)) {  // get Current activeBlock in recycleList address
-                      _activeBlock->getMem(downtoSizeT(remainMem), ret);    //  ***error method:  _activeBlock->getMem(0, ret);
-                      arrRecList->pushFront(ret);   // put remain space to recycleList
+                      //_activeBlock->getMem(downtoSizeT(remainMem), ret);    //  ***error method:  _activeBlock->getMem(0, ret);
+                      _activeBlock->getMem(0, ret);    //  ***error method:  _activeBlock->getMem(0, ret);
+                      arrRecList->pushFront(ret+1);   // put remain space to recycleList
                       
                       _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
                       remainMem = _activeBlock->getRemainSize();

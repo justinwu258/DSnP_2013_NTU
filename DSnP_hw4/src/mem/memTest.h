@@ -78,6 +78,7 @@ public:
       assert(idx < _objList.size());
       // TODO
       if(_objList[idx] != NULL) {
+      //  cout << "delete _objList["  << idx <<"] _objList = " << _objList[idx] << endl; 
         delete _objList[idx];
         _objList[idx] = NULL;
       }

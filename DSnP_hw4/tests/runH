@@ -7,7 +7,7 @@ echo
 echo "###########"
 echo "#   do2   #"
 echo "###########"
-../ref/refmemTest -f do2
+../ref/memTest -f do2
 echo
 echo
 echo "###########"
