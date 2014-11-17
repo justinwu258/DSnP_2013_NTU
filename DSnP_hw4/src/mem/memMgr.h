@@ -90,6 +90,7 @@ class MemBlock
    bool getMem(size_t t, T*& ret) {
       // TODO
       t = toSizeT(t);
+      ret =  (T*) _ptr; // convert "char*" _ptr to "T*"
       if(getRemainSize() < t){
          // cout <<" ret Null" << endl;
           ret = NULL; 
@@ -97,7 +98,7 @@ class MemBlock
       } 
       _ptr += t; 
           //cout <<" ret t = " << t  << endl;
-      ret =  (T*) _ptr; // convert "char*" _ptr to "T*"
+      //ret =  (T*) _ptr; // convert "char*" _ptr to "T*"
 
       return true;
    }
@@ -223,7 +224,11 @@ public:
       //_activeBlock = new MemBlock<T>(0, _blockSize);
       for (int i = 0; i < R_SIZE; ++i)
          _recycleList[i].reset();
-      if(b != 0 && b != _blockSize) { _blockSize=b; _activeBlock = new MemBlock<T>(0, b); }
+      if(b != 0 && b != _blockSize) { 
+          //delete _activeBlock;
+          _blockSize=b; 
+          _activeBlock = new MemBlock<T>(0, b); 
+      }
  
    }
    // Called by new
@@ -398,14 +403,14 @@ private:
                   if(!_activeBlock->getMem(t, ret)) {  // get Current activeBlock in recycleList address
                       //_activeBlock->getMem(downtoSizeT(remainMem), ret);    //  ***error method:  _activeBlock->getMem(0, ret);
                       _activeBlock->getMem(0, ret);    //  ***error method:  _activeBlock->getMem(0, ret);
-                      arrRecList->pushFront(ret+1);   // put remain space to recycleList
+                      arrRecList->pushFront(ret);   // put remain space to recycleList
                       
                       _activeBlock = new MemBlock<T>(_activeBlock, _blockSize);
                       remainMem = _activeBlock->getRemainSize();
                       //cout << "remainMem = " << remainMem << endl;
                       _activeBlock->getMem(t, ret);
                   }
-              
+                  
                  #ifdef MEM_DEBUG
                  //  cout << "remainMem = " << remainMem << endl;
                      cout << "Recycling " << ret << " to _recycleList[" << rn << "]\n";

@@ -1,0 +1,7 @@
+mtreset 280
+mtnew -a 5 1  
+mtp
+mtreset 52
+mtnew -a 1 2  
+mtp
+q -f

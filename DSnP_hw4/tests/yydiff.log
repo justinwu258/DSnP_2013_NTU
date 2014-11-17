@@ -1,0 +1,12 @@
+105c105
+< Illegal option!! (-r)
+---
+> Extra option!! (-r)
+129c129
+< Extra option!! (-a)
+---
+> Extra option!! (-i)
+221c221
+< Extra option!! (3)
+---
+> Extra option!! (-i)

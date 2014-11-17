@@ -68,8 +68,12 @@ public:
    void newArrs(size_t n, size_t s) {
       // TODO
       for(size_t i=0; i < n; ++i ){
-        MemTestObj* testObj = new MemTestObj[s];
-        _arrList.push_back(testObj);
+        //try{
+            MemTestObj* testObj = new MemTestObj[s];
+            _arrList.push_back(testObj);
+        //} catch(bad_alloc){
+           // cerr << "newArrs err" <<  endl;
+        //}
       }
       
    }
