@@ -1,0 +1,8 @@
+usage
+mtn  -a 745 3000
+mtp
+usage
+mtn  -a 25 160000
+mtp
+usage
+q -f
