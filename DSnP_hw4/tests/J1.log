@@ -34,7 +34,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
 
 
@@ -53,7 +53,7 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
 ooooo
 
@@ -72,9 +72,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxx
+xxooo
 
 mtest> mtnew -a 1 3
 
@@ -91,9 +91,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooo
+xxoooooo
 
 mtest> mtnew -a 2 10
 
@@ -110,9 +110,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooo
+xxoooooooooooooooo
 
 mtest> mtnew -a 3 20
 
@@ -129,9 +129,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooo
 
 mtest> mtnew -a 4 30
 
@@ -148,9 +148,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooo
 
 mtest> #mtnew -a 5 5 
@@ -174,9 +174,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooo
 
 mtest> mtnew -a 7 7 
@@ -195,9 +195,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooo
 
 mtest> mtnew -a 8 8 
@@ -216,9 +216,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooo
 
 mtest> mtnew -a 9 9 
@@ -237,9 +237,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooo
 
 mtest> mtnew -a 10 10 
@@ -258,9 +258,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooo
 
 mtest> mtnew -a 7 2
@@ -279,9 +279,9 @@ mtest> mtp
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxooooooooooooooooooooooooooooooooooooooooooooo
+xxoooooooooooooooooooooooooooooooooooooooooooooooo
 oooooooooooooooooooooooo
 
 mtest> mtdel -r 8 -a
@@ -294,16 +294,16 @@ mtest> mtp
 * Number of blocks      : 62
 * Free mem in last block: 8
 * Recycle list          : 
-[  0] = 2         [  1] = 1         [  2] = 48        [  3] = 4         
-[  4] = 3         
+[  0] = 2         [  1] = 2         [  2] = 47        [  3] = 3         
+[  4] = 3         [  6] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxoooooooooxoooooxoooxoxooooooooxooooxoooooxooo
-ooooooxooooooooooooooooo
+xxooxxoooooooooooooooooooxoooooooooxoooooooooxoxoo
+oooooooooooooooxooooooxo
 
 mtest> mtdel -i 12 -a
 
@@ -315,16 +315,16 @@ mtest> mtp
 * Number of blocks      : 62
 * Free mem in last block: 8
 * Recycle list          : 
-[  0] = 2         [  1] = 1         [  2] = 49        [  3] = 4         
-[  4] = 3         
+[  0] = 2         [  1] = 2         [  2] = 48        [  3] = 3         
+[  4] = 3         [  6] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxoooooooxoxoooooxoooxoxooooooooxooooxoooooxooo
-ooooooxooooooooooooooooo
+xxooxxooooooxooooooooooooxoooooooooxoooooooooxoxoo
+oooooooooooooooxooooooxo
 
 mtest> mtnew -a 1 1 
 
@@ -336,16 +336,16 @@ mtest> mtp
 * Number of blocks      : 62
 * Free mem in last block: 8
 * Recycle list          : 
-[  0] = 2         [  2] = 49        [  3] = 4         [  4] = 3         
-
+[  0] = 2         [  1] = 1         [  2] = 48        [  3] = 3         
+[  4] = 3         [  6] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxx
+xxo
 Array list ---
-oooxxoooooooxoxoooooxoooxoxooooooooxooooxoooooxooo
-ooooooxoooooooooooooooooo
+xxooxxooooooxooooooooooooxoooooooooxoooooooooxoxoo
+oooooooooooooooxooooooxoo
 
 mtest> mtnew 8  
 
@@ -357,15 +357,16 @@ mtest> mtp
 * Number of blocks      : 64
 * Free mem in last block: 232
 * Recycle list          : 
-[  2] = 49        [  3] = 4         [  4] = 3         
+[  1] = 1         [  2] = 48        [  3] = 3         [  4] = 3         
+[  6] = 1         
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxxoooooooo
+xxooooooooo
 Array list ---
-oooxxoooooooxoxoooooxoooxoxooooooooxooooxoooooxooo
-ooooooxoooooooooooooooooo
+xxooxxooooooxooooooooooooxoooooooooxoooooooooxoxoo
+oooooooooooooooxooooooxoo
 
 mtest> mtnew -a 6 1
 
@@ -374,19 +375,19 @@ mtest> mtp
 =              Memory Manager           =
 =========================================
 * Block size            : 280 Bytes
-* Number of blocks      : 65
-* Free mem in last block: 8
+* Number of blocks      : 64
+* Free mem in last block: 232
 * Recycle list          : 
-[  2] = 49        [  3] = 4         [  4] = 3         [  5] = 1         
+[  1] = 1         [  2] = 48        [  3] = 3         [  4] = 3         
 
 =========================================
 =             class MemTest             =
 =========================================
 Object list ---
-oxxoooooooo
+xxooooooooo
 Array list ---
-oooxxoooooooxoxoooooxoooxoxooooooooxooooxoooooxooo
-ooooooxooooooooooooooooooo
+xxooxxooooooxooooooooooooxoooooooooxoooooooooxoxoo
+oooooooooooooooxooooooxooo
 
 mtest> q -f
 
