@@ -3,7 +3,8 @@
 ../memTest -f do3 &> J3.log
 ../memTest -f do4 &> J4.log
 ../memTest -f do5 &> J5.log
-../memTest -f do7 &> J7.log          
+../memTest -f do7 &> J7.log      
+../memTest -f do8 &> J8.log          
 ../memTest -f do9 &> J9.log         
 ../memTest -f doJ2         &> dJ2.log 
 ../memTest -f doJJ         &> dJJ.log 
@@ -20,7 +21,8 @@
 ../ref/memTest -f do3 &> H3.log
 ../ref/memTest -f do4 &> H4.log
 ../ref/memTest -f do5 &> H5.log
-../ref/memTest -f do7 &> H7.log          
+../ref/memTest -f do7 &> H7.log
+../ref/memTest -f do8 &> H8.log          
 ../ref/memTest -f do9 &> H9.log         
 ../ref/memTest -f doJ2         &> dH2.log 
 ../ref/memTest -f doJJ         &> dHJ.log 
@@ -38,6 +40,7 @@ diff J3.log H3.log #&> yydiff.log
 diff J4.log H4.log #&> yydiff.log
 diff J5.log H5.log
 diff J7.log H7.log #&> yydiff.log
+diff J8.log H8.log #&> yydiff.log
 diff J9.log H9.log
 diff dJ2.log         dH2.log     #&> yydiff.log    
 diff dJJ.log         dHJ.log     #&> yydiff.log

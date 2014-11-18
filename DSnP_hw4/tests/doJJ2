@@ -1,8 +1,8 @@
 usage
-mtn  -a 745 500000
+mtn  -a 745 200000
 mtp
 usage
-mtn  -a 744 400000
+mtn  -a 744 160000
 mtp
 usage
 q -f
