@@ -17,6 +17,7 @@
 ../memTest -f doJJ2        &> dJJ2.log   #big case 
 ../memTest -f doJJArr      &> dJJArr.log 
 ../memTest -f doExtra      &> dExJ.log 
+../memTest -f do_a      &> Ja.log 
 ../ref/memTest -f do1 &> H1.log
 ../ref/memTest -f do2 &> H2.log
 ../ref/memTest -f do3 &> H3.log
@@ -36,6 +37,7 @@
 ../ref/memTest -f doJJ2        &> dHJ2.log  #big case
 ../ref/memTest -f doJJArr      &> dHJArr.log 
 ../ref/memTest -f doExtra      &> dExH.log 
+../ref/memTest -f do_a      &> Ha.log 
 diff J1.log H1.log #&> yydiff.log 
 diff J2.log H2.log #&> yydiff.log 
 diff J3.log H3.log #&> yydiff.log
@@ -53,5 +55,6 @@ diff dJ.log          dH.log      #&> yydiff.log
 diff J8Arr.log       H8Arr.log   #&> yydiff.log
 diff dJ3.log         dH3.log     #&> yydiff.log
 diff dJJ2.log        dHJ2.log    &> yydiff.log
-diff dJJArr.log      dHJArr.log  #&> yyydiff.log 
-diff dExJ.log      dExH.log  #&> yyydiff.log 
+diff dJJArr.log      dHJArr.log  #&> yydiff.log 
+diff dExJ.log      dExH.log      &> yydiff.log 
+diff Ja.log          Ha.log      #& yydiff.log
