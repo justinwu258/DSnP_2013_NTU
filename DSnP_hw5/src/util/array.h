@@ -36,29 +36,51 @@ public:
       // TODO: implement these overloaded operators
       const T& operator * () const { return (*this); }
       T& operator * () { return (*_node); }
-      iterator& operator ++ () { return (*this); }
-      iterator operator ++ (int) { return (*this); }
+      iterator& operator ++ () {
+        //cout << "call iterator& ++" << endl;
+        ++_node;   
+        return (*this); 
+      }
+      iterator operator ++ (int) {
+        cout << "call iterator ++" << endl;
+        iterator iter = (*this);
+        ++_node;
+        return iter; 
+      }
       iterator& operator -- () { return (*this); }
       iterator operator -- (int) { return (*this); }
 
-      iterator operator + (int i) const { return (*this); }
-      iterator& operator += (int i) { return (*this); }
+      iterator operator + (int i) const { 
+        cout << "call iterator +" << endl;
+        //this->_node += i; 
+        return (this->_node + i); 
+      }
+      iterator& operator += (int i) { 
+        cout << "call iterator +=" << endl;
+        _node = _node+i;
+        return (*this); 
+      }
 
       iterator& operator = (const iterator& i) { 
+        cout << "call iterator& =" << endl;
         _node = _node+i; 
         return (*this); 
       }
 
-      bool operator != (const iterator& i) const { return false; }
-      bool operator == (const iterator& i) const { return false; }
+      bool operator != (const iterator& i) const { 
+            return _node!=i._node; 
+      }
+      bool operator == (const iterator& i) const { 
+            return _node==i._node; 
+      }
 
    private:
       T*    _node;
    };
 
    // TODO: implement these functions
-   iterator begin() const { return 0; }
-   iterator end() const { return 0; }
+   iterator begin() const { return _data; }
+   iterator end() const { return _data+_size; }
    bool empty() const { return false; }
    size_t size() const { return 0; }
 
@@ -66,12 +88,29 @@ public:
    const T& operator [] (size_t i) const { return _data[i]; }
 
    void push_back(const T& x) {
+
+        size_t i = 0;
+
         if(_capacity == 0) _capacity = 1;
         else if(_size+1 > _capacity) _capacity *= 2;
         T* dataSpace = new T[_capacity];
-        _data = dataSpace;
-        _data[_size] = x;
+        //_data = dataSpace;
         
+        if(_capacity >= 2){
+              for(i=0;i < _size;i++) {
+                  dataSpace[i] = _data[i];
+                  //cout << "_data[" << i <<"] = " << _data[i] << endl;
+              }
+              //printf("\n\n");
+              delete [] _data;
+              _data = dataSpace;
+        } 
+        else{
+            _data = dataSpace;
+        }
+        //cout << "x = " << x << endl;
+              _data[_size] = x;
+        //printf("_capacity = %d , _size = %d\n",_capacity,_size); 
         ++_size;
    }
    void pop_front() { 
