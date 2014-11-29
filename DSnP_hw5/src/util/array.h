@@ -44,7 +44,10 @@ public:
       iterator operator + (int i) const { return (*this); }
       iterator& operator += (int i) { return (*this); }
 
-      iterator& operator = (const iterator& i) { return (*this); }
+      iterator& operator = (const iterator& i) { 
+        _node = _node+i; 
+        return (*this); 
+      }
 
       bool operator != (const iterator& i) const { return false; }
       bool operator == (const iterator& i) const { return false; }
@@ -59,17 +62,29 @@ public:
    bool empty() const { return false; }
    size_t size() const { return 0; }
 
-   T& operator [] (size_t i) { return _data[0]; }
-   const T& operator [] (size_t i) const { return _data[0]; }
+   T& operator [] (size_t i) { return _data[i]; }
+   const T& operator [] (size_t i) const { return _data[i]; }
 
-   void push_back(const T& x) { }
-   void pop_front() { }
-   void pop_back() { }
+   void push_back(const T& x) {
+        if(_capacity == 0) _capacity = 1;
+        else if(_size+1 > _capacity) _capacity *= 2;
+        T* dataSpace = new T[_capacity];
+        _data = dataSpace;
+        _data[_size] = x;
+        
+        ++_size;
+   }
+   void pop_front() { 
+        --_size; 
+   }
+   void pop_back() { 
+        --_size;
+   }
 
    bool erase(iterator pos) { return false; }
    bool erase(const T& x) { return false; }
 
-   void clear() { }
+   void clear() {_size=0; }
 
    // This is done. DO NOT change this one.
    void sort() const { if (!empty()) ::sort(_data, _data+_size); }
