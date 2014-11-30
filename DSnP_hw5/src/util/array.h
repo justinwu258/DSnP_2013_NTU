@@ -36,7 +36,7 @@ public:
       // TODO: implement these overloaded operators
       const T& operator * () const { 
             cout << "const T& operator * () " << endl;
-            return (*this); 
+            return *(this->_node); 
       }
       T& operator * () { 
         //cout << "T& operator * () " << endl;
@@ -47,6 +47,7 @@ public:
         return (*this); 
       }
       iterator operator ++ (int) {
+        //*
         cout << "call iterator ++" << endl;
         iterator iter = (*this);
         ++_node;
@@ -57,14 +58,14 @@ public:
         return (*this); 
       }
       iterator operator -- (int) {
-                
+        // *      
         iterator iter = (*this);
         --_node;
         return iter; 
       }
 
       iterator operator + (int i) const { 
-        cout << "call iterator +" << endl;
+        //cout << "call iterator +" << endl;
         //this->_node += i; 
         return (this->_node + i); 
       }
@@ -76,7 +77,7 @@ public:
 
       iterator& operator = (const iterator& i) { 
         cout << "call iterator& =" << endl;
-        _node = _node+i; 
+        _node = i._node; 
         return (*this); 
       }
 
@@ -85,7 +86,7 @@ public:
             return _node!=i._node; 
       }
       bool operator == (const iterator& i) const { 
-        cout << "call iterator& ==" << endl;
+        //cout << "call iterator& ==" << endl;
             return _node==i._node; 
       }
 
