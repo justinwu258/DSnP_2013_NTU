@@ -1,6 +1,22 @@
 adta -s yyy
-adta -r 10
+
 adta -s zz
 adta -s pp
 adtp
+adtp -r 
+#adta -r 100000
+adta -s afa
+adta -s beta
+adta -s cega
+adta -s omega
+adtp
+adtp -r 
+#adts
+#adtd -f 3
+#adtd -s cega
+adtd -all
+adtp
+adtp -r 
+
+usage
 q -f 
