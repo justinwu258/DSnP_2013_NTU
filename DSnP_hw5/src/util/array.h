@@ -48,7 +48,7 @@ public:
       }
       iterator operator ++ (int) {
         //*
-        cout << "call iterator ++" << endl;
+        //cout << "call iterator ++" << endl;
         iterator iter = (*this);
         ++_node;
         return iter; 
@@ -70,13 +70,13 @@ public:
         return (this->_node + i); 
       }
       iterator& operator += (int i) { 
-        cout << "call iterator +=" << endl;
+        //cout << "call iterator +=" << endl;
         _node = _node+i;
         return (*this); 
       }
 
       iterator& operator = (const iterator& i) { 
-        cout << "call iterator& =" << endl;
+        //cout << "call iterator& =" << endl;
         _node = i._node; 
         return (*this); 
       }
@@ -95,8 +95,18 @@ public:
    };
 
    // TODO: implement these functions
-   iterator begin() const { return iterator(_data); }
-   iterator end() const { return iterator(_data+_size); }
+   iterator begin() const { 
+        if(_size == 0)
+            return end();
+        else
+            return iterator(_data); 
+   }
+   iterator end() const { 
+        if(_capacity == 0)
+            return 0;
+        else
+            return iterator(_data+_size); 
+   }
    bool empty() const { return (_size == 0); }
    size_t size() const { return _size; }
 
@@ -108,28 +118,7 @@ public:
         //size_t i = 0;
         if(_size == _capacity)
             expand();
-        //start expand
-       // if(_capacity == 0) _capacity = 1;
-       // else if(_size+1 > _capacity) _capacity *= 2;
-       // T* dataSpace = new T[_capacity];
-       // //_data = dataSpace;
-       // 
-       // if(_capacity >= 2){
-       //       for(i=0;i < _size;i++) {
-       //           dataSpace[i] = _data[i];
-       //           //cout << "_data[" << i <<"] = " << _data[i] << endl;
-       //       }
-       //       //printf("\n\n");
-       //       delete [] _data;
-       //       _data = dataSpace;
-       // } 
-       // else{
-       //     _data = dataSpace;
-       // }
-        //end expand 
-        //cout << "x = " << x << endl;
               _data[_size++] = x;
-        //printf("_capacity = %d , _size = %d\n",_capacity,_size); 
         //++_size;
    }
    void pop_front() { 
