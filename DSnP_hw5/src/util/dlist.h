@@ -55,26 +55,35 @@ public:
       ~iterator() {} // Should NOT delete _node
 
       // TODO: implement these overloaded operators
-      const T& operator * () const { return *(this); }
+      const T& operator * () const { 
+            return _node->_data; 
+      }
       T& operator * () { 
             // cout << "T& operator * ()" << endl; 
             return _node->_data; 
       }
       iterator& operator ++ () {
-         //cout << " iterator& operator ++ ()" << endl; 
+         cout << " iterator& operator ++ ()" << endl; 
          _node = _node->_next;
          return *(this); 
       }
-      iterator operator ++ (int) { return *(this); }
+      iterator operator ++ (int) {
+        cout << " iterator operator ++ (int)" << endl; 
+        iterator iter = *(this);
+        _node = _node->_next; 
+        return iter;
+      }
       iterator& operator -- () { 
         //cout << " iterator& operator -- ()" << endl; 
         _node = _node->_prev;
         return *(this); 
         }
       iterator operator -- (int) { 
-        cout << " iterator operator -- (int)" << endl;
+        //cout << " iterator operator -- (int)" << endl;
+        iterator iter = *(this);
+        //cout << "(int --) iter._node = " << iter._node << endl;
         _node = _node->_prev; 
-         return *(this); 
+         return iter; 
       }
 
       iterator& operator = (const iterator& i) { 
@@ -83,7 +92,7 @@ public:
       }
 
       bool operator != (const iterator& i) const {
-            //usleep(1*10^5); 
+            ///usleep(1000000; 
             //cout << "bool operator != " << endl; 
             return _node!=i._node; 
       }
@@ -98,13 +107,13 @@ public:
 
    // TODO: implement these functions
    iterator begin() const { 
-        return iterator(_head->_next); 
+        return iterator(_head); 
    }
    iterator end() const { 
         // ***
         //iterator(_next) = begin();
         //iterator(_prev) = _node->_data;
-        return iterator(_head); 
+        return iterator(_head->_prev); 
    }
    bool empty() const { 
         if (_head->_next == _head)
@@ -115,47 +124,53 @@ public:
         else     
             return false; 
    }
-   size_t size() const {  return 0; }
+   size_t size() const {  
+        size_t count = 0;
+        iterator iter;
+        for(iter = begin(); iter!= end(); ++iter) {
+            count++;
+        }
+        return count; 
+   }
 
    void push_back(const T& x) {
-      //if(_head->_prev == _head) { 
-      if(empty()) { 
-                    cout << "a. "<<endl;
+        //DListNode<T>* dummy;  // origin _head is point to dummy
+        //DListNode<T>* t = new DListNode<T>(x,dummy,dummy);
+        if(empty()){
+            //dummy = new DListNode<T>(x,_head,_head);  // origin _head is point to dummy
+            cout << "push in empty" << endl;
             DListNode<T>* t = new DListNode<T>(x,_head,_head);
-            _head->_next = t;
-            _head->_prev = t;
-            //_head->_prev = _head;  // not necessary , but equal to this 
-            //_head = t;
-        }
- //       else if(_head->_prev == _head->_next){    // end().prev == begin()
- //                   cout << "b." <<endl;
- //           iterator iter = _head->_prev;
- //           if(iter._node->_next == _head) {
- //                   cout << "5. iter._node" << iter._node <<endl;
- //                   cout << "add new node"  << endl;
- //                   DListNode<T>* t = new DListNode<T>(x,iter._node,_head);
- //                   //iter._node->_next = t;  //_head->_prev->_next
- //                   //iter._node = t;         //_head->_prev 
- //                   _head->_prev->_next = t;
- //                   _head->_prev= t;
- //           }
- //       }
-        else {
-            iterator iter = end();
-                    //cout << "0. iter._node->_data = " << iter._node->_data <<endl;
-            for(iter = end(); (iter != begin()) || (_head->_prev == _head->_next); --iter) { //(_head->_prev == _head->_next) means only 
-                    //cout << "1. iter._node->_data = " << iter._node->_data <<endl;         //dummy node & another one node
-                    //cout << "1. iter._node = " << iter._node <<endl;
-               if(iter._node->_next == _head) {
-                    //cout << "2. iter._node" << iter._node <<endl;
-                    //cout << "add new node"  << endl;
-                    DListNode<T>* t = new DListNode<T>(x,iter._node,_head);
-                    _head->_prev->_next = t;
-                    _head->_prev= t;
-               }
-            }
+            _head->_next = t; // dummy->_next = t
+            _head->_prev = t; // dummy->_prev = t
+            _head = t;        //_head point to "actual first data"        
+        } else {
+            cout << "push in else" << endl;
+            iterator iter;
             
-        }
+            for(iter = _head->_prev->_prev; iter != end() ; --iter)
+            {
+                if(iter._node->_next == _head->_prev){
+                    DListNode<T>* v = new DListNode<T>(x,iter._node,_head->_prev);
+                    iter._node->_next = v;   // t->_next = v
+                    _head->_prev->_prev = v;          // 
+                }
+            }
+           // if(iter == begin())
+          //  {
+
+          //      if(iter._node->_next == _head->_prev){
+          //          DListNode<T>* v = new DListNode<T>(x,iter._node,_head->_prev);
+          //          iter._node->_next = v;   // t->_next = v
+          //          _head->_prev->_prev = v;          //
+          //      } 
+          //  }
+            /* 
+            iterator iter;
+            
+            for(iter = end(); iter != begin(); --iter){  //step1 end() = _head->_prev = dummy 
+                DListNode<T>* t = new DListNode<T>(x,it->_node,dummy);  // step2 dummy->_prev = t , begin = head = t
+            }*/
+        } 
    }
    void pop_front() { }
    void pop_back() { }
@@ -164,7 +179,17 @@ public:
    bool erase(iterator pos) { return false; }
    bool erase(const T& x) { return false; }
 
-   void clear() { }  // delete all nodes except for the dummy node
+   void clear() { 
+        iterator iter;
+        for(iter = _head->_next; iter != _head->_prev;){
+            DListNode<T>* delNode = iter._node;
+            iter._node->_prev->_next = iter._node->_next;
+            iter._node->_next->_prev = iter._node->_prev;
+            ++iter; 
+            delete delNode;
+        }
+        _head->_prev = _head->_next = _head; // _head is a dummy node 
+   }  // delete all nodes except for the dummy node
 
    void sort() const { }
 
