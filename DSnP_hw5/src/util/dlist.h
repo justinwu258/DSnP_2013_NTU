@@ -147,7 +147,7 @@ public:
             cout << "push in else" << endl;
             iterator iter;
             
-            for(iter = _head->_prev->_prev; iter != end() ; --iter)
+            for(iter = _head->_prev->_prev; iter != end() ; --iter) // start from "dummy->_prev" , end in _head->prev = "dummy"
             {
                 if(iter._node->_next == _head->_prev){
                     DListNode<T>* v = new DListNode<T>(x,iter._node,_head->_prev);
