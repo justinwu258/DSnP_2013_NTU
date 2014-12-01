@@ -63,7 +63,7 @@ public:
             return _node->_data; 
       }
       iterator& operator ++ () {
-         cout << " iterator& operator ++ ()" << endl; 
+         //cout << " iterator& operator ++ ()" << endl; 
          _node = _node->_next;
          return *(this); 
       }
@@ -118,7 +118,7 @@ public:
    bool empty() const { 
         if (_head->_next == _head)
         {   
-            cout << "empty " << endl;
+            //cout << "empty " << endl;
             return true;
         }
         else     
@@ -138,13 +138,13 @@ public:
         //DListNode<T>* t = new DListNode<T>(x,dummy,dummy);
         if(empty()){
             //dummy = new DListNode<T>(x,_head,_head);  // origin _head is point to dummy
-            cout << "push in empty" << endl;
+            //cout << "push in empty" << endl;
             DListNode<T>* t = new DListNode<T>(x,_head,_head);
             _head->_next = t; // dummy->_next = t
             _head->_prev = t; // dummy->_prev = t
             _head = t;        //_head point to "actual first data"        
         } else {
-            cout << "push in else" << endl;
+            //cout << "push in else" << endl;
             iterator iter;
             
             for(iter = _head->_prev->_prev; iter != end() ; --iter) // start from "dummy->_prev" , end in _head->prev = "dummy"
@@ -155,25 +155,31 @@ public:
                     _head->_prev->_prev = v;          // 
                 }
             }
-           // if(iter == begin())
-          //  {
-
-          //      if(iter._node->_next == _head->_prev){
-          //          DListNode<T>* v = new DListNode<T>(x,iter._node,_head->_prev);
-          //          iter._node->_next = v;   // t->_next = v
-          //          _head->_prev->_prev = v;          //
-          //      } 
-          //  }
-            /* 
-            iterator iter;
-            
-            for(iter = end(); iter != begin(); --iter){  //step1 end() = _head->_prev = dummy 
-                DListNode<T>* t = new DListNode<T>(x,it->_node,dummy);  // step2 dummy->_prev = t , begin = head = t
-            }*/
         } 
    }
-   void pop_front() { }
-   void pop_back() { }
+   void pop_front() {
+        if(!empty()){
+           iterator iter = begin(); //_head
+           DListNode<T>* delNode = iter._node;
+           iter._node->_prev->_next = iter._node->_next;
+           iter._node->_next->_prev = iter._node->_prev;
+           ++iter;
+           _head = iter._node; // ** important!! can't delete  _head 
+           delete delNode;
+        }
+   }
+   void pop_back() {
+        if(!empty()){
+           iterator iter = _head->_prev->_prev; //dummy->prev
+           DListNode<T>* delNode = iter._node;
+           if(iter._node == _head) //means now is point to _head
+                _head = iter._node->_prev; // let _head point to dummy 
+           iter._node->_prev->_next = iter._node->_next;
+           iter._node->_next->_prev = iter._node->_prev;
+           ++iter;
+           delete delNode;
+        }
+   }
 
    // return false if nothing to erase
    bool erase(iterator pos) { return false; }
