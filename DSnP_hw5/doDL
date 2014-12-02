@@ -1,0 +1,53 @@
+adta -s xx
+adtp
+adtp -r 
+adtd -f 20
+adtp
+adtp -r 
+adta -s yyy
+adta -s yyy2
+adtd -b 3
+adta -s zz
+adtp
+adtp -r 
+adta -s oo
+adta -s pp
+adtp
+adtp -r 
+#adta -r 5
+adta -s giga
+adta -s teresa
+adta -s tabe
+adta -s #22tcc
+adta -s  31tcz
+adta -s _22tc
+adta -s #33tca
+adta -s $31tcz
+adta -s *21tabb
+adta -s  !31tcz
+adta -s "31tcz
+adta -s aha
+adta -s beta
+adta -s Z31tcz
+adta -s ceta
+adta -s deta
+adta -s eta
+adtd -f 2
+adtd -b 3
+adtp
+adtp -r 
+adta -s fca
+adta -s omega
+adta -s ziga
+adtd -s omegq
+adta -s tabz
+adtp
+adts
+#adtp -r
+#adtd -r 3 
+adtd -s omega
+adtp
+#adtp -r 
+
+usage
+q -f 
