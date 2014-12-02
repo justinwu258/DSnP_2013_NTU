@@ -197,7 +197,18 @@ public:
             return false; 
         }
    }
-   bool erase(const T& x) { return false; }
+   bool erase(const T& x) { 
+         if(empty())
+            return false;
+        for(iterator i = _head ; i!= _head->_prev; ++i ) { 
+           // cout << "*i.node = " << i._node << " , x = " << x << endl;
+            if(i._node->_data == x) {
+                erase(i);
+                return true;
+            }   
+        }   
+        return false; 
+   }
 
    void clear() { 
         iterator iter;
@@ -211,7 +222,20 @@ public:
         _head->_prev = _head->_next = _head; // _head is a dummy node 
    }  // delete all nodes except for the dummy node
 
-   void sort() const { }
+   void sort() const { 
+
+       //   if(!empty()){
+       //       for(iterator i = _head ; i!= _head->_prev; ++i ) { 
+       //           for(iterator j = _head->next ; j!= _head->_prev; ++i ) { 
+       //               if(i._node->_data == x) {
+
+       //               }   
+       //           }   
+       //       }   
+       //   }
+
+   
+   }
 
 private:
    DListNode<T>*  _head;  // = dummy node if list is empty
