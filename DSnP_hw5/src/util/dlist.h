@@ -173,7 +173,7 @@ public:
            iterator iter = _head->_prev->_prev; //dummy->prev
            DListNode<T>* delNode = iter._node;
            if(iter._node == _head) //means now is point to _head
-                _head = iter._node->_prev; // let _head point to dummy 
+                _head = iter._node->_next; // let _head point to dummy 
            iter._node->_prev->_next = iter._node->_next;
            iter._node->_next->_prev = iter._node->_prev;
            ++iter;
@@ -182,7 +182,21 @@ public:
    }
 
    // return false if nothing to erase
-   bool erase(iterator pos) { return false; }
+   bool erase(iterator pos) { 
+        if(!empty()){
+           DListNode<T>* delNode = pos._node;
+           if(pos._node == _head) //means now is point to _head
+                _head = pos._node->_next; // let _head point to dummy 
+           pos._node->_prev->_next = pos._node->_next;
+           pos._node->_next->_prev = pos._node->_prev;
+           ++pos;
+           delete delNode;
+           return true;
+        }  
+        else {        
+            return false; 
+        }
+   }
    bool erase(const T& x) { return false; }
 
    void clear() { 
