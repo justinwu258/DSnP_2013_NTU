@@ -59,14 +59,24 @@ private:
       return end;
    }
    
-   void aagDebugPrint(string  token, size_t countLine, size_t beginAddr, string specStr, int ID = -1,bool invert = false) {
+   void aagDebugPrint(string  token, size_t countLine, size_t beginAddr, string specStr, int ID = -1) {
        #ifdef aagDebug
-        if(ID == -1)
-            cout << token << " - " << specStr << " (" << countLine << "," << beginAddr << ")" << endl; 
-        else if(!invert)
-            cout << token << " - " << specStr << " " << ID << " (" << countLine << "," << beginAddr << ")" << endl; 
-        else
-            cout << token << " - " << specStr << " !" << ID << " (" << countLine << "," << beginAddr << ")" << endl; 
+        string tmpToken = token;
+        cout << token << " - " << specStr;
+        if(ID != -1) {
+            size_t m;
+            size_t n = newMyStrGetTok(tmpToken, token, m);
+            while(token.size()){    
+                if(atoi(token.c_str())%2 == 0) {
+                    cout << " " << atoi(token.c_str())/2;
+                } else {
+                    cout << " !" << atoi(token.c_str())/2;
+                }
+                n = newMyStrGetTok(tmpToken, token, m , n);
+                
+            }
+        }
+        cout << " (" << countLine << ", " << beginAddr << ")" << endl; 
        #endif
    }
    void aagRecorder(string  token, size_t countLine, size_t beginAddr)
@@ -93,17 +103,14 @@ private:
         } else if(countLine >=2){
            // int tmpLine = countLine;
             if(countLine <= I+1) {
-                aagDebugPrint(token, countLine, beginAddr, "PI" , atoi(token.c_str())/2 );
+                aagDebugPrint(token, countLine, beginAddr, "PI" , 1);
             } else if(countLine <= O+I+1) {
                 if(atoi(token.c_str())%2 == 0)
-                    aagDebugPrint(token, countLine, beginAddr, "PO" , atoi(token.c_str())/2 );
+                    aagDebugPrint(token, countLine, beginAddr, "PO" , 1 );
                 else
-                    aagDebugPrint(token, countLine, beginAddr, "PO" , atoi(token.c_str())/2, true);
+                    aagDebugPrint(token, countLine, beginAddr, "PO" , 1);
             } else if(countLine <= A+O+I+1) {
-                if(atoi(token.c_str())%2 == 0)
-                    aagDebugPrint(token, countLine, beginAddr, "aig" , atoi(token.c_str())/2 );
-                else
-                    aagDebugPrint(token, countLine, beginAddr, "aig" , atoi(token.c_str())/2, true);
+                    aagDebugPrint(token, countLine, beginAddr, "aig" , 1 );
             } 
         } 
    }
