@@ -96,7 +96,7 @@ class MemBlock
           ret = NULL; 
           return false;
       } 
-      _ptr += t; 
+      _ptr += t;     //2014.12.11  Update _ptr first ?? 
           //cout <<" ret t = " << t  << endl;
       //ret =  (T*) _ptr; // convert "char*" _ptr to "T*"
 
