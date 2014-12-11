@@ -1,0 +1,7 @@
+mtn  -a 745 2
+mtn  -a 350 5
+mtn  -a 250 10
+mtn  -a 777 2
+mtn  -a 744 1
+mtp
+q -f

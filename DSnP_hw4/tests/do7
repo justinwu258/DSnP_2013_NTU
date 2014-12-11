@@ -1,0 +1,25 @@
+mtreset 44
+mtnew 5
+mtp
+mtreset 48
+mtnew 5
+mtp
+mtreset 52
+mtnew 5
+mtp
+mtreset 96
+mtnew 8
+mtp
+mtreset 144
+mtnew 16
+mtp
+mtreset 192
+mtnew 24
+mtp
+mtreset 240
+mtnew 32
+mtp
+mtreset 280
+mtnew 40
+mtp
+q -f

@@ -1,0 +1,15 @@
+mtn 10
+mtd -i -1
+mtd -i -01
+mtd -i 01 
+mtd -i -000
+mtd -ip -5
+mtd -pi -9
+mtd -I 5
+mtd -r -0
+mtd -r 0 
+mtd -r 1
+mtd -r =1
+mtd -r -1  
+mtp
+q -f

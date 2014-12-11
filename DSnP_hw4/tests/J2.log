@@ -1,0 +1,99 @@
+mtest> mtn 10
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 65536 Bytes
+* Number of blocks      : 1
+* Free mem in last block: 65056
+* Recycle list          : 
+
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+oooooooooo
+Array list ---
+
+
+mtest> mtn 5 -a 256
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 65536 Bytes
+* Number of blocks      : 1
+* Free mem in last block: 8696
+* Recycle list          : 
+
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+oooooooooo
+Array list ---
+ooooo
+
+mtest> mtn 1 -a 198
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 65536 Bytes
+* Number of blocks      : 2
+* Free mem in last block: 56816
+* Recycle list          : 
+[197] = 1         
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+oooooooooo
+Array list ---
+oooooo
+
+mtest> mtd -i 7 -a
+Size of array list (6) is <= 7!!
+Illegal option!! (7)
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 65536 Bytes
+* Number of blocks      : 2
+* Free mem in last block: 56816
+* Recycle list          : 
+[197] = 1         
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+oooooooooo
+Array list ---
+oooooo
+
+mtest> mtd -i 0 -a
+
+mtest> mtp
+=========================================
+=              Memory Manager           =
+=========================================
+* Block size            : 65536 Bytes
+* Number of blocks      : 2
+* Free mem in last block: 56816
+* Recycle list          : 
+[256] = 1         [197] = 1         
+=========================================
+=             class MemTest             =
+=========================================
+Object list ---
+oooooooooo
+Array list ---
+xooooo
+
+mtest> q -f
+

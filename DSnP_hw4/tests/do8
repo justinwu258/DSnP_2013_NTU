@@ -1,0 +1,701 @@
+mtn 886 -a 777
+mtp
+//usage
+mtn 793 -a 335
+mtd -r 0
+mtn 362 -a 27
+mtd -i 0 
+mtd -r 0
+mtp
+mtd -r 0
+mtp
+mtd -i 0 
+mtp
+mtd -i 0 
+mtn 67 -a 135
+mtp
+mtd -r 1860 -a
+mtp
+mtn 69
+mtp
+mtd -i 1231 -a
+mtp
+mtn 42 -a 229
+mtp
+mtd -i 47 -a
+mtp
+mtd -i 48 
+mtp
+mtd -i 50 
+mtp
+mtd -r 1342 -a
+mtp
+mtd -i 23 
+mtp
+mtd -i 36 
+mtp
+mtn 305 -a 925
+mtp
+mtd -i 66 
+mtp
+mtd -r 641 -a
+mtp
+mtn 857 -a 124
+mtp
+mtd -i 2163 -a
+mtp
+mtd -i 4 
+mtp
+mtd -i 0 
+mtp
+mtn 808 -a 276
+mtp
+mtd -i 4 
+mtp
+mtd -i 1179 -a
+mtp
+mtn 932 -a 60
+mtp
+mtd -i 49 
+mtp
+mtd -r 6
+mtp
+mtn 539
+mtd -i 2437 -a
+mtp
+mtd -r 432
+mtp
+mtd -r 2198 -a
+mtp
+mtn 652
+mtp
+mtd -i 881 
+mtp
+mtd -i 1 
+mtp
+mtd -r 1267 -a
+mtp
+mtd -r 630
+mtp
+mtn 97 -a 771
+mtp
+mtd -i 4109 -a
+mtp
+mtp
+mtn 567 -a 856
+mtp
+mtd -r 2072 -a
+mtp
+mtd -r 1399 -a
+mtp
+mtd -r 4113 -a
+mtp
+mtd -i 2774 -a
+mtp
+mtd -i 4861 -a
+mtp
+mtn 708
+mtp
+mtd -r 689 -a
+mtp
+mtn 723
+mtp
+mtd -i 774 
+mtp
+mtd -i 2123 -a
+mtp
+mtd -r 4811 -a
+mtp
+mtd -i 1734 
+mtp
+mtn 500 -a 34
+mtp
+mtd -r 1898
+mtp
+mtd -r 5929 -a
+mtp
+mtd -i 699 -a
+mtp
+mtd -i 969 -a
+mtp
+mtd -r 1835 -a
+mtp
+mtd -r 2090 -a
+mtp
+mtn 858 -a 395
+mtp
+mtd -r 3510 -a
+mtp
+mtn 818 -a 428
+mtp
+mtp
+mtd -i 6486 -a
+mtd -i 208 -a
+mtp
+mtp
+mtn 763 -a 613
+mtp
+mtd -i 1724 
+mtp
+mtd -r 1140
+mtp
+mtn 369
+mtp
+mtd -i 1524 -a
+mtp
+mtd -i 1762 
+mtp
+mtd -r 5259 -a
+mtp
+mtd -r 157
+mtp
+mtn 505
+mtp
+mtd -r 3162 -a
+mtp
+mtd -i 8622 -a
+mtp
+mtd -i 71 
+mtp
+mtd -i 8028 -a
+mtp
+mtd -r 532 -a
+mtp
+mtd -r 818 -a
+mtp
+mtd -i 3294 
+mtp
+mtd -r 1717 -a
+mtp
+mtn 661 -a 730
+mtp
+mtd -r 322
+mtp
+mtd -i 2542 
+mtp
+mtn 465
+mtp
+mtd -i 3039 
+mtp
+mtd -i 1648 
+mtp
+mtn 624
+mtp
+mtn 36
+mtp
+mtd -i 2948 
+mtp
+mtd -r 3015
+mtp
+mtd -i 7019 -a
+mtp
+mtd -r 717
+mtp
+mtp
+mtd -r 2467
+mtp
+mtd -r 4786 -a
+mtp
+mtd -i 7140 -a
+mtp
+mtn 190
+mtp
+mtn 926 -a 466
+mtp
+mtd -i 1933 
+mtp
+mtd -i 3660 
+mtp
+mtn 107
+mtp
+mtd -i 2513 -a
+mtp
+mtn 887
+mtp
+mtd -i 2672 
+mtp
+mtd -i 6817 -a
+mtp
+mtd -i 2837 
+mtp
+mtn 301
+mtp
+mtn 372 -a 321
+mtp
+mtn 819 -a 599
+mtp
+mtd -i 6821 -a
+mtp
+mtn 940 -a 667
+mtp
+mtd -r 8811 -a
+mtp
+mtd -i 2258 
+mtp
+mtn 224
+mtp
+mtd -r 2196
+mtp
+mtn 630 -a 84
+mtp
+mtd -r 4472
+mtd -i 1385 
+mtp
+mtd -i 5840 
+mtp
+mtd -i 4713 
+mtp
+mtd -i 2124 
+mtp
+mtd -i 6181 
+mtp
+mtd -i 6184 -a
+mtp
+mtn 994 -a 4
+mtp
+mtp
+mtd -r 1605 -a
+mtp
+mtd -i 855 
+mtp
+mtd -r 1179
+mtp
+mtd -r 5605
+mtp
+mtd -r 7964 -a
+mtp
+mtn 961 -a 754
+mtp
+mtn 259
+mtp
+mtd -r 553
+mtp
+mtd -i 6005 
+mtp
+mtn 868
+mtp
+mtn 189
+mtp
+mtd -r 3198
+mtp
+mtn 36
+mtp
+mtn 753
+mtp
+mtd -i 3088 
+mtp
+mtn 648 -a 890
+mtp
+mtn 567
+mtn 368
+mtp
+mtd -i 15264 -a
+mtp
+mtn 797
+mtp
+mtd -r 927 -a
+mtp
+mtn 363 -a 497
+mtp
+mtd -r 4876 -a
+mtp
+mtd -i 1566 -a
+mtp
+mtn 188 -a 157
+mtp
+mtd -i 4500 -a
+mtp
+mtd -i 7031 
+mtp
+mtd -i 9987 
+mtp
+mtd -i 4923 
+mtp
+mtd -i 7644 
+mtp
+mtn 43 -a 39
+mtp
+mtd -i 7207 
+mtp
+mtp
+mtd -i 2743 
+mtp
+mtn 159
+mtp
+mtd -r 5872 -a
+mtp
+mtn 692 -a 215
+mtp
+mtd -i 5717 -a
+mtp
+mtn 964 -a 285
+mtp
+mtn 343 -a 335
+mtp
+mtd -i 1038 -a
+mtp
+mtd -r 11689 -a
+mtp
+mtd -r 4492 -a
+mtp
+mtd -r 11744 -a
+mtp
+mtd -i 14682 -a
+mtp
+mtd -i 4073 
+mtp
+mtp
+mtd -i 2805 
+mtp
+mtn 360
+mtp
+mtd -i 6561 -a
+mtp
+mtd -i 8790 -a
+mtp
+mtd -i 367 -a
+mtp
+mtd -r 15490 -a
+mtp
+mtd -r 9145
+mtp
+mtd -i 1177 
+mtp
+mtd -i 1610 
+mtp
+mtd -r 8978
+mtp
+mtn 916
+mtp
+mtd -i 2145 
+mtp
+mtn 290
+mtp
+mtd -r 17051 -a
+mtp
+mtn 631
+mtp
+mtn 857 -a 627
+mtp
+mtd -i 6394 
+mtp
+mtp
+mtn 512 -a 90
+mtp
+mtn 479
+mtp
+mtd -i 9709 
+mtp
+mtd -i 1817 
+mtp
+mtd -i 6971 
+mtp
+mtd -r 1238
+mtp
+mtd -r 7784
+mtp
+mtd -i 2035 -a
+mtp
+mtn 237 -a 205
+mtn 217 -a 518
+mtd -r 2211 -a
+mtd -i 11973 
+mtd -i 16628 -a
+mtn 757
+mtd -r 12408
+mtn 459
+mtd -i 11369 
+mtn 74
+mtd -r 3035 -a
+mtd -i 11561 -a
+mtn 417 -a 839
+mtd -r 11582 -a
+mtd -r 12319
+mtd -i 17282 -a
+mtd -i 7923 
+mtd -r 4521 -a
+mtd -r 4171 -a
+mtn 951 -a 231
+mtn 537 -a 740
+mtn 30
+mtd -i 13729 
+mtd -r 14154
+mtd -i 7556 -a
+mtd -r 1004
+mtn 21
+mtn 862
+mtd -r 6327
+mtn 536 -a 904
+mtn 483
+mtd -r 10137 -a
+mtd -r 10025
+mtd -r 19028 -a
+mtd -r 289
+mtd -i 956 -a
+mtd -i 254 -a
+mtn 375 -a 955
+mtn 589
+mtd -r 3527
+mtd -i 21830 -a
+mtd -r 15983
+mtd -i 10060 -a
+mtn 486 -a 253
+mtd -r 13139 -a
+mtd -i 21377 -a
+mtn 775
+mtd -i 12716 
+mtd -i 14153 
+mtd -i 10809 
+mtd -i 21743 -a
+mtn 328 -a 925
+mtn 710 -a 18
+mtn 836 -a 963
+mtd -r 10453 -a
+mtn 904
+mtd -r 24992 -a
+mtd -i 18267 -a
+mtn 851
+mtd -r 4199 -a
+mtd -r 4783 -a
+mtd -i 19530 -a
+mtd -i 8236 
+mtn 677 -a 596
+mtd -i 22548 -a
+mtd -i 17003 
+mtn 211
+mtn 532
+mtd -r 1701
+mtd -i 10912 
+mtd -r 15772 -a
+mtd -i 15254 -a
+mtd -r 16127
+mtn 30
+mtn 714 -a 59
+mtn 47
+mtd -i 2928 
+mtn 204
+mtd -r 3878
+mtn 640
+mtd -r 19292
+mtn 683
+mtd -r 13373 -a
+mtd -i 2442 
+mtn 335
+mtd -i 3135 -a
+mtd -i 14856 -a
+mtd -i 9791 -a
+mtn 653 -a 933
+mtd -r 17373 -a
+mtd -i 18231 
+mtn 308
+mtn 698
+mtd -i 12552 -a
+mtd -r 19268 -a
+mtd -i 2603 -a
+mtn 16
+mtd -r 2388
+mtn 378
+mtd -r 4667 -a
+mtd -r 3887
+mtn 67
+mtd -r 18451 -a
+mtd -r 15128 -a
+mtn 875 -a 850
+mtn 590 -a 254
+mtn 131
+mtd -i 13694 -a
+mtd -r 24507 -a
+mtd -i 3995 
+mtd -r 20679 -a
+mtd -r 8461
+mtd -r 6909
+mtd -i 11962 -a
+mtd -i 20139 -a
+mtn 708 -a 595
+mtn 962 -a 297
+mtd -i 29980 -a
+mtd -r 27447 -a
+mtn 382
+mtd -i 13315 -a
+mtd -r 10461
+mtn 86 -a 285
+mtd -r 22586
+mtn 476
+mtd -r 22362
+mtd -i 3479 -a
+mtd -r 28032 -a
+mtn 618
+mtd -r 20704 -a
+mtn 621
+mtn 955
+mtd -r 13906
+mtd -r 22812
+mtn 722
+mtd -i 2529 -a
+mtd -i 11942 -a
+mtd -r 13371 -a
+mtd -i 24304 -a
+mtd -i 14880 -a
+mtd -r 25263
+mtn 976
+mtn 552 -a 931
+mtd -r 9867 -a
+mtd -i 18184 -a
+mtn 641 -a 735
+mtn 298
+mtd -i 19001 
+mtd -r 24996 -a
+mtd -i 5408 
+mtd -r 6841 -a
+mtn 672 -a 774
+mtn 0 -a 325
+mtd -r 22649 -a
+mtn 382 -a 421
+mtd -r 6692 -a
+mtd -r 25139
+mtd -r 29345 -a
+mtd -r 8847 -a
+mtn 716 -a 852
+mtd -r 11872
+mtd -r 9037 -a
+mtd -r 9205 -a
+mtd -i 16536 -a
+mtn 491 -a 172
+mtd -r 29351 -a
+mtd -r 19290
+mtd -i 15724 -a
+mtd -r 11616 -a
+mtn 511 -a 69
+mtn 361 -a 83
+mtn 112 -a 300
+mtd -i 26707 
+mtn 489
+mtd -r 3470
+mtd -i 14443 -a
+mtd -i 24623 
+mtd -r 28160
+mtd -r 19315
+mtd -r 26804
+mtn 886
+mtd -r 18271 -a
+mtn 152 -a 621
+mtn 790 -a 289
+mtd -r 2809 -a
+mtd -i 12808 
+mtd -i 16157 -a
+mtd -r 20889 -a
+mtd -r 22321 -a
+mtd -r 2200
+mtd -i 24394 -a
+mtd -i 32117 -a
+mtd -r 21681
+mtd -r 10867 -a
+mtd -r 25694
+mtd -i 27322 -a
+mtd -i 3219 
+mtd -r 15957 -a
+mtd -i 7716 
+mtn 19 -a 133
+mtd -r 27113 -a
+mtn 475 -a 666
+mtd -r 28920 -a
+mtd -i 14742 
+mtd -i 15002 
+mtd -i 18238 
+mtn 183
+mtd -r 4878 -a
+mtn 957 -a 62
+mtd -i 2057 -a
+mtn 418
+mtd -i 21236 -a
+mtd -i 6435 
+mtn 948 -a 305
+mtd -i 12906 
+mtd -r 9416
+mtd -r 27454
+mtd -r 20550 -a
+mtd -r 16434
+mtn 140 -a 708
+mtn 938 -a 557
+mtd -r 9420 -a
+mtd -i 3836 
+mtd -r 1563 -a
+mtd -r 22463
+mtd -i 13425 -a
+mtd -i 1795 -a
+mtd -r 4260
+mtn 569
+mtn 969
+mtd -r 17361
+mtd -r 10762 -a
+mtd -i 13628 -a
+mtd -r 21725 -a
+mtd -i 30037 
+mtd -r 560
+mtn 186 -a 881
+mtd -i 1107 -a
+mtd -r 7941 -a
+mtd -r 21987 -a
+mtd -r 29973
+mtd -i 28494 
+mtn 418 -a 353
+mtn 269
+mtd -r 30408 -a
+mtd -i 14069 -a
+mtd -r 29812 -a
+mtd -i 7425 -a
+mtd -r 34212 -a
+mtn 89
+mtn 205
+mtd -i 1471 
+mtn 829 -a 403
+mtd -r 20515
+mtd -i 6771 
+mtd -r 24216 -a
+mtd -i 7674 
+mtd -r 28719 -a
+mtd -i 23141 -a
+mtd -i 15112 
+mtd -i 3330 
+mtn 107
+mtd -i 32200 
+mtn 820 -a 480
+mtn 994
+mtn 123
+mtd -r 29204 -a
+mtd -i 28049 -a
+mtd -i 13955 -a
+mtd -i 7703 
+mtd -i 800 -a
+mtd -r 16225 -a
+mtd -r 5042 -a
+mtd -i 11098 
+mtn 743 -a 172
+mtn 89 -a 527
+mtd -r 3434
+mtn 196
+mtd -i 30355 
+mtn 499
+mtd -r 24917
+mtn 141 -a 342
+mtd -r 21546 -a
+mtd -r 20857
+mtd -r 16246
+mtn 257
+mtd -r 27290
+mtd -r 41267 -a
+mtd -r 26107 -a
+mtn 226
+mtd -i 2641 
+mtd -r 8485
+mtn 446
+mtd -r 21353 -a
+mtd -i 39591 -a
+mtd -i 9509 
+mtd -r 2236
+mtp
+mtn 267
+mtp
+mtd -r 12633
+mtp
+q -f 

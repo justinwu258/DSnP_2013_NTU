@@ -1,0 +1,9 @@
+mer 65535
+usage
+mtn  -a 745 20000
+mtp
+usage
+mtn  -a 744 16000
+mtp
+usage
+q -f

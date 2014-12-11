@@ -1,0 +1,5 @@
+mtn -a 1395 1 
+mtp
+mtn -a 100  1
+mtp
+q -f
