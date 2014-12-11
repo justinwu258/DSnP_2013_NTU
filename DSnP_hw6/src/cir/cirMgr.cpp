@@ -151,6 +151,39 @@ parseError(CirParseError err)
 bool
 CirMgr::readCircuit(const string& fileName)
 {
+   string line;
+   size_t countLine = 0;
+   ifstream myfile;
+   string token;
+   cout << "fileName = " << fileName << endl; 
+   myfile.open(fileName,ios::in);
+   if(myfile.is_open()) {
+     while(getline(myfile,line)) {
+        ++countLine;
+        //cout << line << endl;
+        size_t m = 0; //record beginAddr
+        size_t n; 
+       // cout << "n = " << n << endl;
+        
+        if(countLine == 1){
+            n = newMyStrGetTok(line, token, m);
+            while(token.size()){
+              //cout << "token = " << token << endl;
+             // cout << "token = " << token << ",  m+1 = " << m+1 << endl;
+              aagRecorder(token,countLine,m+1);
+              n = newMyStrGetTok(line, token, m,n);
+             // cout << "n = " << n << endl;
+            }
+        } else {
+            aagRecorder(line,countLine,m+1);
+        }
+     }
+     cout << "M = " << M << ", I = " << I << ", L = " << L<< " , O = " << O<< ", A = " << A << endl<<endl;
+     myfile.close();
+   } else  {
+        cout  << "read failure" << endl;
+        return false; 
+   }
    return true;
 }
 
