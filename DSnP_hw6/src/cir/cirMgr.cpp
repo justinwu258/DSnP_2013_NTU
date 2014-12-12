@@ -144,10 +144,56 @@ parseError(CirParseError err)
    }
    return false;
 }
-
+enum Gates{ePI, ePO};
 /**************************************************************/
 /*   class CirMgr member functions for circuit construction   */
 /**************************************************************/
+void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr)
+{
+        if(countLine == 1) {
+            if(beginAddr == 1)
+                aagDebugPrint(token, countLine, beginAddr,token);
+            else if(beginAddr == 5) {
+                aagDebugPrint(token, countLine, beginAddr, "M");
+                M = atoi(token.c_str());
+            }  else if(beginAddr == 7) {
+                aagDebugPrint(token, countLine, beginAddr, "I");
+                I = atoi(token.c_str());
+            }  else if(beginAddr == 9) {
+                aagDebugPrint(token, countLine, beginAddr, "L");
+                L = atoi(token.c_str());
+            }  else if(beginAddr == 11) {
+                aagDebugPrint(token, countLine, beginAddr, "O");
+                O = atoi(token.c_str());
+            }  else if(beginAddr == 13) {
+                aagDebugPrint(token, countLine, beginAddr, "A");
+                A = atoi(token.c_str());
+            }
+        } else if(countLine >=2){
+           // int tmpLine = countLine;
+            if(countLine <= I+1) {
+                aagDebugPrint(token, countLine, beginAddr, "PI" , 1);
+                CirPIGate* pi = new CirPIGate(countLine,atoi(token.c_str())/2 );
+                //CirPIGate* pi = new CirPIGate();
+                //pi->setLineNo(countLine);
+                //pi->_lineNo = countLine;
+                //cout << "*pi = " << pi << endl;
+                //printf("pi = %p\n",pi);
+                //cout << "getLine = " << pi->getLineNo() << endl;
+                //cout << "ID = " << pi->getID() << endl;
+                _piList.push_back(pi);
+                //_totalList.push_back(piG);
+                
+                //pi->_type  = 1;
+                
+            } else if(countLine <= O+I+1) {
+                    aagDebugPrint(token, countLine, beginAddr, "PO" , 1 );
+            } else if(countLine <= A+O+I+1) {
+                    aagDebugPrint(token, countLine, beginAddr, "aig" , 1 );
+            } 
+        } 
+}
+
 bool
 CirMgr::readCircuit(const string& fileName)
 {
@@ -164,7 +210,6 @@ CirMgr::readCircuit(const string& fileName)
         size_t m = 0; //record beginAddr
         size_t n; 
        // cout << "n = " << n << endl;
-        
         if(countLine == 1){
             n = newMyStrGetTok(line, token, m);
             while(token.size()){
@@ -178,6 +223,7 @@ CirMgr::readCircuit(const string& fileName)
             aagRecorder(line,countLine,m+1);
         }
      }
+     cout << "_piList.size() = " << _piList.size() << endl;
      cout << "M = " << M << ", I = " << I << ", L = " << L<< " , O = " << O<< ", A = " << A << endl<<endl;
      myfile.close();
    } else  {

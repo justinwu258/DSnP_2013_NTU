@@ -16,32 +16,72 @@
 
 using namespace std;
 
+class CirPIGate;
 class CirGate;
 
 //------------------------------------------------------------------------
 //   Define classes
 //------------------------------------------------------------------------
 // TODO: Define your own data members and member functions, or classes
+
 class CirGate
 {
 public:
-   CirGate() {}
+   //CirGate(){}
+   CirGate(int l, int I): _lineNo(l), _ID(I){};
    virtual ~CirGate() {}
+   //virtual ~CirGate() {}
 
    // Basic access methods
-   string getTypeStr() const { return ""; }
-   unsigned getLineNo() const { return 0; }
+   string getTypeStr() const { 
+        if(_type == 1)
+            return "input"; 
+        return ""; 
+   }
+   unsigned getLineNo() const { return _lineNo; }
+   unsigned getID() const { return _ID; }
 
    // Printing functions
-   virtual void printGate() const = 0;
+   //virtual void printGate() const = 0;
+   void printGate() const;
    void reportGate() const;
    void reportFanin(int level) const;
    void reportFanout(int level) const;
 
+   //friend class CirPIGate;
+   
 private:
-
+    int _lineNo;
+    int _type;
+    
 protected:
+    int _flag;
+    int _column;
+    int _ID;
+    string _name; 
+    vector<CirGate*> _faninList;
+    vector<CirGate*> _fanoutList;
 
+};
+
+class CirPIGate: public CirGate{
+    public:
+        //friend class CirGate;
+        //CirPIGate(){}
+        CirPIGate(int l, int I): CirGate(l, I){}
+        ~CirPIGate() {}
+        //void printGate() const;
+        //void setLineNo(int number){ _lineNo = number; }
+   // friend int _lineNo;
+   // friend int _type;
+    //void printGate();
+};
+class CirPOGate: public CirGate{
+        CirPOGate(int l, int I): CirGate(l, I){};
+        ~CirPOGate() {}
+        //void printGate() const;
+    //void printGate();
+    
 };
 
 #endif // CIR_GATE_H

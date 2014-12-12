@@ -32,10 +32,11 @@ public:
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
    CirGate* getGate(unsigned gid) const { return 0; }
+   //CirPIGate* getPIGate(unsigned gid) const { return 0; }
    
    // Member functions about circuit construction
    bool readCircuit(const string&);
-
+   void aagRecorder(string  , size_t , size_t );
    // Member functions about circuit reporting
    void printSummary() const;
    void printNetlist() const;
@@ -45,10 +46,13 @@ public:
    void writeAag(ostream&) const;
 
 private:
-   vector<CirGate*> _PI, _PO, _totalList; 
+   // below all , is added by Justin
+   vector<CirPIGate*> _piList;
+   vector<CirGate*> _poList, _totalList; 
    size_t M, I, L, O, A;
-   vector<string> _tokenList;  
-   
+   vector<string> _tokenList; 
+ 
+   // ---------  member function -----------   
    size_t newMyStrGetTok(const string& str, string& tok, size_t& beginAddr,           size_t pos = 0 ,const char del = ' ')
    {
       size_t begin = str.find_first_not_of(del, pos);
@@ -79,6 +83,7 @@ private:
         cout << " (" << countLine << ", " << beginAddr << ")" << endl; 
        #endif
    }
+   /*
    void aagRecorder(string  token, size_t countLine, size_t beginAddr)
    {
         if(countLine == 1) {
@@ -105,15 +110,13 @@ private:
             if(countLine <= I+1) {
                 aagDebugPrint(token, countLine, beginAddr, "PI" , 1);
             } else if(countLine <= O+I+1) {
-                if(atoi(token.c_str())%2 == 0)
                     aagDebugPrint(token, countLine, beginAddr, "PO" , 1 );
-                else
-                    aagDebugPrint(token, countLine, beginAddr, "PO" , 1);
             } else if(countLine <= A+O+I+1) {
                     aagDebugPrint(token, countLine, beginAddr, "aig" , 1 );
             } 
         } 
    }
+    */
 };
 
 #endif // CIR_MGR_H
