@@ -50,6 +50,7 @@ private:
    vector<CirPIGate*> _piList;
    vector<CirPOGate*> _poList;
    vector<CirAIGGate*> _aigList;
+   vector<CirUndefGate*> _undefList;
    vector<CirGate*> _totalList;
    //CirGate**        _myTotalList; 
    size_t M, I, L, O, A;

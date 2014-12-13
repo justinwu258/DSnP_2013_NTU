@@ -26,6 +26,7 @@ class CirGate;
 
 class CirGate
 {
+    friend class CirMgr; // that's , CirMgr can access Protected member
 public:
    //CirGate(){}
    CirGate(int l, int I): _lineNo(l), _ID(I){};
@@ -34,7 +35,7 @@ public:
 
    // Basic access methods
    string getTypeStr() const { 
-        if(_type == 1)
+        if(_type == "PO")
             return "input"; 
         return ""; 
    }
@@ -52,7 +53,7 @@ public:
    
 private:
     int _lineNo;
-    int _type;
+    string _type;
     
 protected:
     int _flag;
@@ -87,24 +88,33 @@ class CirPIGate: public CirGate{
     //void printGate();
 };
 class CirPOGate: public CirGate{
+        friend class CirMgr;
     public:
         CirPOGate(int l, int I, int in): CirGate(l, I), _faninID(in){};
         ~CirPOGate() {}
 
         int getFaninID() { return _faninID;}
     private:
+        int _isInvert = 0;
         int _faninID;
 };
 
 class CirAIGGate: public CirGate{
+        friend class CirMgr;
     public:
         CirAIGGate(int l, int I): CirGate(l, I){};
         ~CirAIGGate() {}
+    protected:
+        int _rhs1_invert = 0;
+        int _rhs2_invert = 0;
 };
 class CirUndefGate: public CirGate{
+        friend class CirMgr;
     public:
         CirUndefGate(int l, int I): CirGate(l, I){};
         ~CirUndefGate() {}
+    protected:
+        int isDefine = 0;
 };
 class CirConstGate: public CirGate{
     public:

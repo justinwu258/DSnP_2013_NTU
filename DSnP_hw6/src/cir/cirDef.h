@@ -18,7 +18,7 @@ class CirMgr;
 class CirPIGate;
 class CirPOGate;
 class CirAIGGate;
-class CirUnderGate;
+class CirUndefGate;
 class CirConstGate;
 class CirGateInfo;
 

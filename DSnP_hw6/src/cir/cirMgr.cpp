@@ -156,7 +156,10 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
             else if(order == 1) {
                 aagDebugPrint(token, countLine, beginAddr, "M");
                 M = atoi(token.c_str());
-                _totalList.resize(M);
+                _totalList.resize(M+1); // init Vector Size
+                CirConstGate* conGate = new CirConstGate(0,0);
+                _totalList[0] = conGate;  //store const Gate in tail
+                conGate->_type = "CONST";
             }  else if(order == 2) {
                 aagDebugPrint(token, countLine, beginAddr, "I");
                 I = atoi(token.c_str());
@@ -177,20 +180,18 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                 CirPIGate* pi = new CirPIGate(countLine,atoi(token.c_str())/2 );
                 _piList.push_back(pi);
                 _totalList[atoi(token.c_str())/2] = pi;
-                //vector<CirGate*>::iterator it = _totalList.begin();
-                //cout << "size: " << _totalList.size() << "\n";
-                //cout << "capacity: " << _totalList.capacity() << "\n";
-                //cout << "max_size: " << _totalList.max_size() << "\n";
+                pi->_type = "PI";
                 //_totalList.insert(_totalList.begin()+(atoi(token.c_str())/2),pi);
                 //cout << "pi = " << pi << endl;
-                //cout << "_totalList[atoi(token.c_str())/2] =  " << _totalList[atoi(token.c_str())/2] ;
-                //_totalList.push_back(piG); 
-                //pi->_type  = 1;
             } else if(countLine <= O+I+1) { // read PO
                     aagDebugPrint(token, countLine, beginAddr, "PO" , 1 );
-                    CirPOGate* po = new CirPOGate(countLine, M+_poList.size()+1, atoi(token.c_str())/2);
+                    CirPOGate* po = new CirPOGate(countLine, M+_poList.size()+1, atoi(token.c_str())/2); //(line,ID,faninID)
+                    if(atoi(token.c_str())%2 == 1) {po->_isInvert = 1;}
                     _poList.push_back(po);
-                    _totalList[atoi(token.c_str())/2] = po;
+                    //cout << "faninID = " << atoi(token.c_str())/2 << endl;
+                    _totalList.resize(M+_poList.size()+1);
+                    _totalList[M+_poList.size()] = po;
+                    po->_type = "PO";
             } else if(countLine <= A+O+I+1) {
                     aagDebugPrint(token, countLine, beginAddr, "aig" , 1 );
                     string tmpToken = token;
@@ -200,17 +201,41 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                     CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
                     _aigList.push_back(aig);
                     _totalList[atoi(token.c_str())/2] = aig;
-                    n = newMyStrGetTok(tmpToken, token, m , n); 
+                    aig->_type = "AIG";
+                    n = newMyStrGetTok(tmpToken, token, m , n);
+                    int rhs1,rhs2, count = 1; 
                     while(token.size()){    
-                        cout << "   while token = "  << token << endl;
-                        if(atoi(token.c_str())%2 == 0) {
-                           //CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
-                           //_aigList.push_back(aig);
-                        } else {
-                        
-                        }    
+                        //cout << "   while token = "  << token << endl;
+                        if(count == 1) rhs1 = atoi(token.c_str());
+                        else if(count == 2) rhs2 = atoi(token.c_str());
+                        ++count ;
                         n = newMyStrGetTok(tmpToken, token, m , n); 
                     }
+
+                    
+                    if(_totalList[rhs1/2] != 0) {         // this Gate is defined
+                        aig->_faninList.push_back(_totalList[rhs1/2]);
+                        _totalList[rhs1/2]->_fanoutList.push_back(aig);
+                        if(rhs1%2 == 1) aig->_rhs1_invert = 1;
+                    } else {
+                        CirUndefGate* undef = new CirUndefGate(countLine, rhs1/2);
+                        _undefList.push_back(undef);
+                        aig->_faninList.push_back(undef);
+                        undef->_fanoutList.push_back(aig);
+                        if(rhs1%2 == 1) aig->_rhs1_invert = 1;
+                    }
+                    if(_totalList[rhs2/2] != 0) {         // this Gate is defined
+                        aig->_faninList.push_back(_totalList[rhs2/2]);
+                        _totalList[rhs2/2]->_fanoutList.push_back(aig);
+                        if(rhs2%2 == 1) aig->_rhs2_invert = 1;
+                    } else {
+                        CirUndefGate* undef = new CirUndefGate(countLine, rhs2/2);
+                        _undefList.push_back(undef);
+                        aig->_faninList.push_back(undef);
+                        undef->_fanoutList.push_back(aig);
+                        if(rhs2%2 == 1) aig->_rhs2_invert = 1;
+                    }
+                    
             } 
         } 
 }
@@ -244,6 +269,53 @@ CirMgr::readCircuit(const string& fileName)
         } else {
             aagRecorder(line,countLine,m+1);
         }
+     }
+    
+        //cout << "undef ID  "  << endl;
+     for(vector<CirUndefGate*>::const_iterator it = _undefList.begin(); it != _undefList.end(); ) {
+        cout << "undef ID = " << (*it)->getID() << endl;
+        if(_totalList[(*it)->getID()] != 0) {
+            
+            cout << "refind find it " << endl;
+            (*it)->_type = _totalList[(*it)->getID()]->_type;
+            _totalList[(*it)->getID()]->_fanoutList.push_back((*it)->_fanoutList[0]); // assign fanout to Correct gate
+          //  for(vector<CirGate*>::const_iterator itG = _totalList[(*it)->getID()]->_fanoutList.begin(); itG != _totalList[(*it)->getID()]->_fanoutList.end(); itG++) {
+          //      cout << "new itG =  " << (*itG)->getID() << endl;
+          //  }
+            
+            //(*it)->_fanoutList[0]->_faninList.push_back(_totalList[(*it)->getID()]); //(assigned when define undef) 
+                                                                                       //assign next gate it's fanin
+           // for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList[0]->_faninList.begin(); itG != (*it)->_fanoutList[0]->_faninList.end(); itG++) {
+           //     cout << "new itG =  " << (*itG)->getID() << endl;
+           // }
+            //aig->_faninList[ aig->_faninList.find((*it)) ] =  
+            cout << "ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
+            //_totalList[(*it)->getID()]->_fanoutList = (*it)
+            cout << *it << endl;
+            (*it)->isDefine = 1;
+            it = _undefList.erase(it);         
+        } else {
+            cout << "new it = "<<*it << endl;
+            cout << "done once " << endl;
+            ++it;
+        }
+     }
+    /* 
+     for(vector<CirUndefGate*>::const_iterator it = _undefList.begin(); it != _undefList.end(); it++) {
+            vector<CirUndefGate*>::const_iterator tmpIt = it;
+            if((*it)->isDefine == 1)
+                cout << "(*it)->getID = " << (*it)->getID() << endl;
+            
+           cout << "done twice " << endl;
+     }
+    */
+     
+     for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++) {
+                //cout << "ID check " << endl;; //<<  ", type = " << (*it)->_type;
+                //cout <<"(*it) = "  << (*it) << endl; 
+            if((*it) != 0)
+                cout <<"ID = " << it - _totalList.begin() <<  ", type = " << (*it)->_type << endl;
+                //cout << endl<<"ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
      }
      //cout << "_piList.size() = " << _piList.size() << endl;
      //cout << "M = " << M << ", I = " << I << ", L = " << L<< " , O = " << O<< ", A = " << A << endl<<endl;
