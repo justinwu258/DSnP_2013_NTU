@@ -174,18 +174,9 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr)
             if(countLine <= I+1) {
                 aagDebugPrint(token, countLine, beginAddr, "PI" , 1);
                 CirPIGate* pi = new CirPIGate(countLine,atoi(token.c_str())/2 );
-                //CirPIGate* pi = new CirPIGate();
-                //pi->setLineNo(countLine);
-                //pi->_lineNo = countLine;
-                //cout << "*pi = " << pi << endl;
-                //printf("pi = %p\n",pi);
-                //cout << "getLine = " << pi->getLineNo() << endl;
-                //cout << "ID = " << pi->getID() << endl;
                 _piList.push_back(pi);
-                //_totalList.push_back(piG);
-                
+                //_totalList.push_back(piG); 
                 //pi->_type  = 1;
-                
             } else if(countLine <= O+I+1) {
                     aagDebugPrint(token, countLine, beginAddr, "PO" , 1 );
             } else if(countLine <= A+O+I+1) {
