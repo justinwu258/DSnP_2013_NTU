@@ -1,0 +1,88 @@
+cirr tests.fraig/strash01.aag 
+cirp 
+cirr -r tests.fraig/strash02.aag 
+cirp 
+cirr -r tests.fraig/strash03.aag 
+cirp 
+cirr -r tests.fraig/strash04.aag 
+cirp 
+cirr -r tests.fraig/strash05.aag 
+cirp 
+cirr -r tests.fraig/strash06.aag 
+cirp 
+cirr -r tests.fraig/strash07.aag 
+cirp 
+cirr -r tests.fraig/strash08.aag 
+cirp 
+cirr -r tests.fraig/strash09.aag 
+cirp 
+cirr -r tests.fraig/strash10.aag 
+cirp 
+cirr -r tests.fraig/sim01.aag 
+cirp 
+cirr -r tests.fraig/sim02.aag 
+cirp 
+cirr -r tests.fraig/sim03.aag 
+cirp 
+cirr -r tests.fraig/sim04.aag 
+cirp 
+cirr -r tests.fraig/sim05.aag 
+cirp 
+cirr -r tests.fraig/sim06.aag 
+cirp 
+cirr -r tests.fraig/sim07.aag 
+cirp 
+cirr -r tests.fraig/sim08.aag 
+cirp 
+cirr -r tests.fraig/sim09.aag 
+cirp 
+cirr -r tests.fraig/sim10.aag 
+cirp 
+cirr -r tests.fraig/sim11.aag 
+cirp 
+cirr -r tests.fraig/sim12.aag 
+cirp 
+cirr -r tests.fraig/sim13.aag 
+cirp 
+cirr -r tests.fraig/sim14.aag 
+cirp 
+cirr -r tests.fraig/sim15.aag 
+cirp 
+cirr -r tests.fraig/opt01.aag 
+cirp 
+cirr -r tests.fraig/opt02.aag 
+cirp 
+cirr -r tests.fraig/opt03.aag 
+cirp 
+cirr -r tests.fraig/opt04.aag 
+cirp 
+cirr -r tests.fraig/opt05.aag 
+cirp 
+cirr -r tests.fraig/opt06.aag 
+cirp 
+cirr -r tests.fraig/test1.aag 
+cirp 
+cirr -r tests.fraig/test2.aag 
+cirp 
+cirr -r tests.fraig/ISCAS85/C1355.aag
+cirp 
+cirr -r tests.fraig/ISCAS85/C17.aag
+cirp 
+cirr -r tests.fraig/ISCAS85/C1908.aag
+cirp 
+cirr -r tests.fraig/ISCAS85/C432.aag
+cirp 
+cirr -r tests.fraig/ISCAS85/C432_r.aag
+cirp 
+cirr -r tests.fraig/sim05.aag 
+cirp -netlist
+cirr -r tests.fraig/ISCAS85/C17.aag
+cirp -netlist
+cirr -r just.aag
+cirp 
+cirp -summary 
+cirp -netlist
+cirr -r just_outputInver.aag
+cirp 
+cirp -netlist
+q -f 
