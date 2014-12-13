@@ -148,39 +148,65 @@ enum Gates{ePI, ePO};
 /**************************************************************/
 /*   class CirMgr member functions for circuit construction   */
 /**************************************************************/
-void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr)
+void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size_t order = -1)
 {
         if(countLine == 1) {
-            if(beginAddr == 1)
+            if(order == 0)
                 aagDebugPrint(token, countLine, beginAddr,token);
-            else if(beginAddr == 5) {
+            else if(order == 1) {
                 aagDebugPrint(token, countLine, beginAddr, "M");
                 M = atoi(token.c_str());
-            }  else if(beginAddr == 7) {
+                _totalList.resize(M);
+            }  else if(order == 2) {
                 aagDebugPrint(token, countLine, beginAddr, "I");
                 I = atoi(token.c_str());
-            }  else if(beginAddr == 9) {
+            }  else if(order == 3) {
                 aagDebugPrint(token, countLine, beginAddr, "L");
                 L = atoi(token.c_str());
-            }  else if(beginAddr == 11) {
+            }  else if(order == 4) {
                 aagDebugPrint(token, countLine, beginAddr, "O");
                 O = atoi(token.c_str());
-            }  else if(beginAddr == 13) {
+            }  else if(order == 5) {
                 aagDebugPrint(token, countLine, beginAddr, "A");
                 A = atoi(token.c_str());
             }
-        } else if(countLine >=2){
+        } else if(countLine >=2){  //read PI
            // int tmpLine = countLine;
             if(countLine <= I+1) {
                 aagDebugPrint(token, countLine, beginAddr, "PI" , 1);
                 CirPIGate* pi = new CirPIGate(countLine,atoi(token.c_str())/2 );
                 _piList.push_back(pi);
+                _totalList[atoi(token.c_str())/2] = pi;
+                //vector<CirGate*>::iterator it = _totalList.begin();
+                //cout << "size: " << _totalList.size() << "\n";
+                //cout << "capacity: " << _totalList.capacity() << "\n";
+                //cout << "max_size: " << _totalList.max_size() << "\n";
+                //_totalList.insert(_totalList.begin()+(atoi(token.c_str())/2),pi);
+                //cout << "pi = " << pi << endl;
+                //cout << "_totalList[atoi(token.c_str())/2] =  " << _totalList[atoi(token.c_str())/2] ;
                 //_totalList.push_back(piG); 
                 //pi->_type  = 1;
-            } else if(countLine <= O+I+1) {
+            } else if(countLine <= O+I+1) { // read PO
                     aagDebugPrint(token, countLine, beginAddr, "PO" , 1 );
+                    CirPOGate* po = new CirPOGate(countLine,atoi(token.c_str())/2 );
+                    _poList.push_back(po);
             } else if(countLine <= A+O+I+1) {
                     aagDebugPrint(token, countLine, beginAddr, "aig" , 1 );
+                    string tmpToken = token;
+                    size_t m;
+                    size_t n = newMyStrGetTok(tmpToken, token, m); 
+                    while(token.size()){    
+                        if(atoi(token.c_str())%2 == 0) {
+                           // CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
+                           // _aigList.push_back(aig);
+                        } else {
+                        
+                        }   
+                        n = newMyStrGetTok(tmpToken, token, m , n); 
+    
+                    }
+                    CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
+                    _aigList.push_back(aig);
             } 
         } 
 }
@@ -192,30 +218,31 @@ CirMgr::readCircuit(const string& fileName)
    size_t countLine = 0;
    ifstream myfile;
    string token;
-   cout << "fileName = " << fileName << endl; 
+   //cout << "fileName = " << fileName << endl; 
    myfile.open(fileName,ios::in);
    if(myfile.is_open()) {
      while(getline(myfile,line)) {
         ++countLine;
         //cout << line << endl;
         size_t m = 0; //record beginAddr
-        size_t n; 
+        size_t n , order = -1; 
        // cout << "n = " << n << endl;
         if(countLine == 1){
             n = newMyStrGetTok(line, token, m);
             while(token.size()){
+              order++;
               //cout << "token = " << token << endl;
-             // cout << "token = " << token << ",  m+1 = " << m+1 << endl;
-              aagRecorder(token,countLine,m+1);
+              //cout << "token = " << token << ",  m+1 = " << m+1 << endl;
+              aagRecorder(token,countLine,m+1,order);
               n = newMyStrGetTok(line, token, m,n);
-             // cout << "n = " << n << endl;
+              //cout << "n = " << n << endl;
             }
         } else {
             aagRecorder(line,countLine,m+1);
         }
      }
-     cout << "_piList.size() = " << _piList.size() << endl;
-     cout << "M = " << M << ", I = " << I << ", L = " << L<< " , O = " << O<< ", A = " << A << endl<<endl;
+     //cout << "_piList.size() = " << _piList.size() << endl;
+     //cout << "M = " << M << ", I = " << I << ", L = " << L<< " , O = " << O<< ", A = " << A << endl<<endl;
      myfile.close();
    } else  {
         cout  << "read failure" << endl;
@@ -239,6 +266,13 @@ Circuit Statistics
 void
 CirMgr::printSummary() const
 {
+    cout << "Circuit Statistics" << endl;
+    cout << "==================" << endl;
+    cout << "  PI   " << right << setw(9) << _piList.size() << endl; 
+    cout << "  PO   " << right << setw(9) << _poList.size() << endl; 
+    cout << "  AIG  " << right << setw(9) << _aigList.size() << endl; 
+    cout << "------------------" << endl;
+    cout << "  Total  " << right << setw(7) << _piList.size() + _poList.size() + _aigList.size() << endl;    
 }
 
 void
@@ -249,7 +283,16 @@ CirMgr::printNetlist() const
 void
 CirMgr::printPIs() const
 {
+    unsigned id;
    cout << "PIs of the circuit:";
+   for(vector<CirPIGate*>::const_iterator it = _piList.begin(); it != _piList.end(); it++){
+    cout << " " <<  (*it)->getID();
+    cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
+   }
+   //cout << " " <<  _piList[0]->getID();
+   //cout << " " <<  _piList[1]->getID();
+          //id = (*it)->_ID;
+
    cout << endl;
 }
 
@@ -257,6 +300,8 @@ void
 CirMgr::printPOs() const
 {
    cout << "POs of the circuit:";
+   for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++)
+    cout << " " <<  (*it)->getID();
    cout << endl;
 }
 

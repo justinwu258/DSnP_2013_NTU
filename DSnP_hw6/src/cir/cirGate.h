@@ -64,6 +64,16 @@ protected:
 
 };
 
+class CirGateInfo{
+    public:
+        CirGateInfo(int t, int I): _type(t), _ID(I){}
+        ~CirGateInfo(){}
+    protected:
+        int _type;
+        int _ID;
+    
+};
+
 class CirPIGate: public CirGate{
     public:
         //friend class CirGate;
@@ -77,11 +87,14 @@ class CirPIGate: public CirGate{
     //void printGate();
 };
 class CirPOGate: public CirGate{
+    public:
         CirPOGate(int l, int I): CirGate(l, I){};
         ~CirPOGate() {}
-        //void printGate() const;
-    //void printGate();
-    
 };
 
+class CirAIGGate: public CirGate{
+    public:
+        CirAIGGate(int l, int I): CirGate(l, I){};
+        ~CirAIGGate() {}
+};
 #endif // CIR_GATE_H

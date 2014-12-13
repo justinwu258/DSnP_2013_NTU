@@ -16,6 +16,9 @@ using namespace std;
 class CirGate;
 class CirMgr;
 class CirPIGate;
+class CirPOGate;
+class CirAIGGate;
+class CirGateInfo;
 
 typedef vector<CirGate*>           GateList;
 typedef vector<unsigned>           IdList;
