@@ -271,52 +271,20 @@ CirMgr::readCircuit(const string& fileName)
         }
      }
     
-        //cout << "undef ID  "  << endl;
      for(vector<CirUndefGate*>::const_iterator it = _undefList.begin(); it != _undefList.end(); ) {
-        cout << "undef ID = " << (*it)->getID() << endl;
+        //cout << "undef ID = " << (*it)->getID() << endl;
         if(_totalList[(*it)->getID()] != 0) {
             
-            cout << "refind find it " << endl;
             (*it)->_type = _totalList[(*it)->getID()]->_type;
             _totalList[(*it)->getID()]->_fanoutList.push_back((*it)->_fanoutList[0]); // assign fanout to Correct gate
-          //  for(vector<CirGate*>::const_iterator itG = _totalList[(*it)->getID()]->_fanoutList.begin(); itG != _totalList[(*it)->getID()]->_fanoutList.end(); itG++) {
-          //      cout << "new itG =  " << (*itG)->getID() << endl;
-          //  }
-            
             //(*it)->_fanoutList[0]->_faninList.push_back(_totalList[(*it)->getID()]); //(assigned when define undef) 
                                                                                        //assign next gate it's fanin
-           // for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList[0]->_faninList.begin(); itG != (*it)->_fanoutList[0]->_faninList.end(); itG++) {
-           //     cout << "new itG =  " << (*itG)->getID() << endl;
-           // }
-            //aig->_faninList[ aig->_faninList.find((*it)) ] =  
-            cout << "ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
-            //_totalList[(*it)->getID()]->_fanoutList = (*it)
-            cout << *it << endl;
-            (*it)->isDefine = 1;
             it = _undefList.erase(it);         
         } else {
-            cout << "new it = "<<*it << endl;
-            cout << "done once " << endl;
             ++it;
         }
      }
-    /* 
-     for(vector<CirUndefGate*>::const_iterator it = _undefList.begin(); it != _undefList.end(); it++) {
-            vector<CirUndefGate*>::const_iterator tmpIt = it;
-            if((*it)->isDefine == 1)
-                cout << "(*it)->getID = " << (*it)->getID() << endl;
-            
-           cout << "done twice " << endl;
-     }
-    */
      
-     for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++) {
-                //cout << "ID check " << endl;; //<<  ", type = " << (*it)->_type;
-                //cout <<"(*it) = "  << (*it) << endl; 
-            if((*it) != 0)
-                cout <<"ID = " << it - _totalList.begin() <<  ", type = " << (*it)->_type << endl;
-                //cout << endl<<"ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
-     }
      //cout << "_piList.size() = " << _piList.size() << endl;
      //cout << "M = " << M << ", I = " << I << ", L = " << L<< " , O = " << O<< ", A = " << A << endl<<endl;
      myfile.close();
