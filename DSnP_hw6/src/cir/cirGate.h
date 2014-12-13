@@ -88,13 +88,27 @@ class CirPIGate: public CirGate{
 };
 class CirPOGate: public CirGate{
     public:
-        CirPOGate(int l, int I): CirGate(l, I){};
+        CirPOGate(int l, int I, int in): CirGate(l, I), _faninID(in){};
         ~CirPOGate() {}
+
+        int getFaninID() { return _faninID;}
+    private:
+        int _faninID;
 };
 
 class CirAIGGate: public CirGate{
     public:
         CirAIGGate(int l, int I): CirGate(l, I){};
         ~CirAIGGate() {}
+};
+class CirUndefGate: public CirGate{
+    public:
+        CirUndefGate(int l, int I): CirGate(l, I){};
+        ~CirUndefGate() {}
+};
+class CirConstGate: public CirGate{
+    public:
+        CirConstGate(int l, int I): CirGate(l, I){};
+        ~CirConstGate() {}
 };
 #endif // CIR_GATE_H

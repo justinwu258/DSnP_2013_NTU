@@ -188,25 +188,29 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                 //pi->_type  = 1;
             } else if(countLine <= O+I+1) { // read PO
                     aagDebugPrint(token, countLine, beginAddr, "PO" , 1 );
-                    CirPOGate* po = new CirPOGate(countLine,atoi(token.c_str())/2 );
+                    CirPOGate* po = new CirPOGate(countLine, M+_poList.size()+1, atoi(token.c_str())/2);
                     _poList.push_back(po);
+                    _totalList[atoi(token.c_str())/2] = po;
             } else if(countLine <= A+O+I+1) {
                     aagDebugPrint(token, countLine, beginAddr, "aig" , 1 );
                     string tmpToken = token;
                     size_t m;
                     size_t n = newMyStrGetTok(tmpToken, token, m); 
-                    while(token.size()){    
-                        if(atoi(token.c_str())%2 == 0) {
-                           // CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
-                           // _aigList.push_back(aig);
-                        } else {
-                        
-                        }   
-                        n = newMyStrGetTok(tmpToken, token, m , n); 
-    
-                    }
+                    cout << "token = "  << token << endl;
                     CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
                     _aigList.push_back(aig);
+                    _totalList[atoi(token.c_str())/2] = aig;
+                    n = newMyStrGetTok(tmpToken, token, m , n); 
+                    while(token.size()){    
+                        cout << "   while token = "  << token << endl;
+                        if(atoi(token.c_str())%2 == 0) {
+                           //CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
+                           //_aigList.push_back(aig);
+                        } else {
+                        
+                        }    
+                        n = newMyStrGetTok(tmpToken, token, m , n); 
+                    }
             } 
         } 
 }
@@ -283,11 +287,10 @@ CirMgr::printNetlist() const
 void
 CirMgr::printPIs() const
 {
-    unsigned id;
    cout << "PIs of the circuit:";
    for(vector<CirPIGate*>::const_iterator it = _piList.begin(); it != _piList.end(); it++){
     cout << " " <<  (*it)->getID();
-    cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
+    //cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
    }
    //cout << " " <<  _piList[0]->getID();
    //cout << " " <<  _piList[1]->getID();

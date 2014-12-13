@@ -18,6 +18,8 @@ class CirMgr;
 class CirPIGate;
 class CirPOGate;
 class CirAIGGate;
+class CirUnderGate;
+class CirConstGate;
 class CirGateInfo;
 
 typedef vector<CirGate*>           GateList;
