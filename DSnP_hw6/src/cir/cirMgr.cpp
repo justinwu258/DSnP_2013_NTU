@@ -15,7 +15,7 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
-
+#define  debug_inout
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -197,7 +197,7 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                     string tmpToken = token;
                     size_t m;
                     size_t n = newMyStrGetTok(tmpToken, token, m); 
-                    cout << "token = "  << token << endl;
+                    //cout << "token = "  << token << endl;
                     CirAIGGate* aig = new CirAIGGate(countLine,atoi(token.c_str())/2 );
                     _aigList.push_back(aig);
                     _totalList[atoi(token.c_str())/2] = aig;
@@ -285,6 +285,18 @@ CirMgr::readCircuit(const string& fileName)
         }
      }
      
+     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end();it++ ) {
+        if(_totalList[(*it)->_faninID] != 0) {
+            (*it)->_faninList.push_back(_totalList[(*it)->_faninID]);
+        }
+     }
+    
+     
+//     reverse(_poList.begin(), _poList.end());
+     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
+         myDFS(*it);
+     } 
+//     reverse(_poList.begin(), _poList.end());
      //cout << "_piList.size() = " << _piList.size() << endl;
      //cout << "M = " << M << ", I = " << I << ", L = " << L<< " , O = " << O<< ", A = " << A << endl<<endl;
      myfile.close();
@@ -322,8 +334,47 @@ CirMgr::printSummary() const
 void
 CirMgr::printNetlist() const
 {
-}
 
+ //  for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
+ //       myDFS(*it);
+ //  } 
+   #ifdef debug_inout
+   for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
+      if(*it != 0){
+           // #ifdef debug_inout
+           cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type << "  (fanout)"<< endl;
+           //cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
+           for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList.begin(); itG != (*it)->_fanoutList.end(); itG++) {
+               cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
+           }
+           cout << "  ---- fanin ----" << endl;
+           //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type << "  (fanin)"<< endl;
+           //cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
+           for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
+               cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
+           }
+            cout << endl;
+           // #endif
+      }
+   }
+   #endif
+
+}
+void CirMgr::myDFS(CirGate* gate){
+    
+    gate->_isVisted = true;
+    //reverse(gate->_faninList.begin(), gate->_faninList.end());
+    for(vector<CirGate*>::const_iterator it = gate->_faninList.begin(); it != gate->_faninList.end(); it++)
+    {
+        if((*it)->_isVisted == false)  // this gate(node) , was not be visted
+        {
+            myDFS((*it));
+        }
+    }   
+    _dfsList.push_back(gate);
+    cout << "DFS search now is in this gate :   " << gate << " , gate ID = " << gate->getID() << " , type = " << gate->_type << endl;
+    //reverse(gate->_faninList.begin(), gate->_faninList.end());
+}
 void
 CirMgr::printPIs() const
 {

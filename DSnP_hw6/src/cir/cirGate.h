@@ -29,7 +29,7 @@ class CirGate
     friend class CirMgr; // that's , CirMgr can access Protected member
 public:
    //CirGate(){}
-   CirGate(int l, int I): _lineNo(l), _ID(I){};
+   CirGate(int l, int I): _lineNo(l), _ID(I), _isVisted(false){};
    virtual ~CirGate() {}
    //virtual ~CirGate() {}
 
@@ -62,7 +62,7 @@ protected:
     string _name; 
     vector<CirGate*> _faninList;
     vector<CirGate*> _fanoutList;
-
+    bool _isVisted;
 };
 
 class CirGateInfo{
