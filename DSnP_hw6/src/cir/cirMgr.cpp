@@ -15,8 +15,8 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
-#define debug_inout
-#define debug_DFS
+//#define debug_inout
+//#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -279,20 +279,12 @@ CirMgr::readCircuit(const string& fileName)
             (*it)->_type = _totalList[(*it)->getID()]->_type;
             _totalList[(*it)->getID()]->_fanoutList.push_back((*it)->_fanoutList[0]); // assign fanout to Correct gate
             
-         //   for(vector<CirGate*>::const_iterator itG = _totalList[(*it)->getID()]->_fanoutList.begin(); itG != _totalList[(*it)->getID()]->_fanoutList.end(); itG++) {
-         //       cout << "new itG =  " << (*itG)->getID() << endl;
-         //   }
             if((*it)->_fanoutList[0]->_faninList[0]->getID() == (*it)->getID()) // rhs1 is record undef Gate , replace defined Gate
                 (*it)->_fanoutList[0]->_faninList[0] = _totalList[(*it)->getID()];// assign next gate it's fanin
             else if((*it)->_fanoutList[0]->_faninList[1]->getID() == (*it)->getID()) // rhs2 is record undef Gate , replace defined Gate  
                (*it)->_fanoutList[0]->_faninList[1] = _totalList[(*it)->getID()];
-            for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList[0]->_faninList.begin(); itG != (*it)->_fanoutList[0]->_faninList.end(); itG++) {
-                cout << "new itG =  " << (*itG)->getID() << endl;
-            }
-            for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
-                cout << "new new itG =  " << (*itG)->getID() << endl;
-            }
-              cout << "ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
+              
+             //cout << "ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
              it = _undefList.erase(it);         
         } else {
             ++it;
