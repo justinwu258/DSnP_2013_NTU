@@ -15,7 +15,8 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
-#define  debug_inout
+//#define debug_inout
+//#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -334,7 +335,34 @@ CirMgr::printSummary() const
 void
 CirMgr::printNetlist() const
 {
-
+   size_t count = 0;
+   for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        if( (*it)->_type == "") //undef Gate
+            continue;
+        cout << "["  << count << "] ";
+        cout << (*it)->_type;
+        if((*it)->_type == "PI") {
+            cout << "  " << (*it)->getID();
+        } else if ((*it)->_type == "PO") {
+            cout << "  " << (*it)->getID();
+            if(((CirPOGate*)(*it))->_isInvert) { cout << " !"  << ((CirPOGate*)(*it))->_faninID; }
+            else         { cout << " "  << ((CirPOGate*)(*it))->_faninID;}
+        } else if  ((*it)->_type == "AIG"){
+             cout << " " << (*it)->getID();
+             //rhs1 
+             if((*it)->_faninList[0]->_type == "")  { cout << " *"; }
+             else                                   { cout << " " ; }
+             if(((CirAIGGate*)(*it))->_rhs1_invert) { cout << "!"  << ((CirPOGate*)(*it))->_faninList[0]->getID(); } 
+             else                                   { cout << ((CirPOGate*)(*it))->_faninList[0]->getID(); }
+             //rhs2
+             if((*it)->_faninList[1]->_type == "")  { cout << " *"; }
+             else                                   { cout << " " ; }
+             if(((CirAIGGate*)(*it))->_rhs2_invert) { cout << "!"  << ((CirPOGate*)(*it))->_faninList[1]->getID(); } 
+             else                                   { cout << ((CirPOGate*)(*it))->_faninList[1]->getID(); }
+        }
+        cout << endl;
+        ++count;
+   }
  //  for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
  //       myDFS(*it);
  //  } 
@@ -372,7 +400,9 @@ void CirMgr::myDFS(CirGate* gate){
         }
     }   
     _dfsList.push_back(gate);
+    #ifdef debug_DFS
     cout << "DFS search now is in this gate :   " << gate << " , gate ID = " << gate->getID() << " , type = " << gate->_type << endl;
+    #endif
     //reverse(gate->_faninList.begin(), gate->_faninList.end());
 }
 void
