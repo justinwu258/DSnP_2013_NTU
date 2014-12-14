@@ -273,7 +273,7 @@ CirMgr::readCircuit(const string& fileName)
      }
     
      for(vector<CirUndefGate*>::const_iterator it = _undefList.begin(); it != _undefList.end(); ) {
-        cout << "undef ID = " << (*it)->getID() << endl;
+        //cout << "undef ID = " << (*it)->getID() << endl;
         if(_totalList[(*it)->getID()] != 0) {
             
             (*it)->_type = _totalList[(*it)->getID()]->_type;
