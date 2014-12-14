@@ -30,7 +30,6 @@ class CirGate
 public:
    //CirGate(){}
    CirGate(int l, int I): _lineNo(l), _ID(I), _isVisted(false){};
-   CirGate(int l, int I, int in ): _lineNo(l), _ID(I), _faninID(in),_isVisted(false){};
    virtual ~CirGate() {}
    //virtual ~CirGate() {}
 
@@ -63,8 +62,8 @@ protected:
     string _name; 
     vector<CirGate*> _faninList;
     vector<CirGate*> _fanoutList;
-    int _faninID;
     bool _isVisted;
+    int _faninID;
 };
 
 class CirGateInfo{
@@ -92,12 +91,12 @@ class CirPIGate: public CirGate{
 class CirPOGate: public CirGate{
         friend class CirMgr;
     public:
-        CirPOGate(int l, int I, int in): CirGate(l, I, in) , _isInvert(0){};
+        CirPOGate(int l, int I, int in): CirGate(l, I), _faninID(in) , _isInvert(0){};
         ~CirPOGate() {}
 
         int getFaninID() { return _faninID;}
     private:
-        //int _faninID;
+        int _faninID;
         int _isInvert;
 };
 
