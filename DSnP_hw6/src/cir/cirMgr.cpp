@@ -237,8 +237,31 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                         if(rhs2%2 == 1) aig->_rhs2_invert = 1;
                     }
                     
+            }  else {        // symbolic
+                 string tmpToken = token;
+                 size_t m;
+                 size_t n = newMyStrGetTok(tmpToken, token, m);
+                 int count = 1 , index = -1;
+                 bool flagIO = false;   // Input = false ,  output = true;
+                 string subToken;
+                 while(token.size()){
+                     if(count == 1)  {
+                        if(token[0] == 'o')  flagIO = true;
+                        else               flagIO = false;
+                        subToken = token.substr(1);
+                        index = atoi(subToken.c_str());
+                        //cout << "index = " << index; 
+                     }
+                     else if(count == 2) {
+                        if(flagIO) { _poList[index]->_name = token;}
+                        else       { _piList[index]->_name = token;} 
+                     }
+                     ++count ;
+                     n = newMyStrGetTok(tmpToken, token, m , n);
+                 }
             } 
-        } 
+
+        }
 }
 
 bool
@@ -268,6 +291,10 @@ CirMgr::readCircuit(const string& fileName)
               //cout << "n = " << n << endl;
             }
         } else {
+            if(line=="c") { 
+                //cout << "line = " << countLine << " , read to 'c' , break ";
+                break; 
+            }
             aagRecorder(line,countLine,m+1);
         }
      }
@@ -291,9 +318,13 @@ CirMgr::readCircuit(const string& fileName)
         }
      }
      
-     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end();it++ ) {
+     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end();it++ ) { //add faninList to PO
         if(_totalList[(*it)->_faninID] != 0) {
             (*it)->_faninList.push_back(_totalList[(*it)->_faninID]);
+            #ifdef debug_inout
+                cout << "put ID = \"" <<  (*it)->getID() << "\"  to AIG output" << endl;
+            #endif
+            _totalList[(*it)->_faninID]->_fanoutList.push_back((*it));
         }
      }
     
@@ -328,6 +359,7 @@ Circuit Statistics
 void
 CirMgr::printSummary() const
 {
+    cout << endl;
     cout << "Circuit Statistics" << endl;
     cout << "==================" << endl;
     cout << "  PI   " << right << setw(9) << _piList.size() << endl; 
@@ -363,17 +395,25 @@ CirMgr::printNetlist() const
    }
    #endif
    size_t count = 0;
+   cout << endl;
    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if( (*it)->_type == "") //undef Gate
             continue;
         cout << "["  << count << "] ";
         cout << (*it)->_type;
-        if((*it)->_type == "PI") {
+        if((*it)->_type == "CONST") {
+            if(((CirConstGate*)(*it))->_isInvert) { cout << "1";}
+            else                                { cout << "0";}
+        }
+        else if((*it)->_type == "PI") {
             cout << "  " << (*it)->getID();
+            if((*it)->_name != "")  cout << " (" << (*it)->_name << ")";
         } else if ((*it)->_type == "PO") {
             cout << "  " << (*it)->getID();
             if(((CirPOGate*)(*it))->_isInvert) { cout << " !"  << ((CirPOGate*)(*it))->_faninID; }
             else         { cout << " "  << ((CirPOGate*)(*it))->_faninID;}
+
+            if((*it)->_name != "")  cout << " (" << (*it)->_name << ")";
         } else if  ((*it)->_type == "AIG"){
              //cout << " IP" ;
              cout << " " << (*it)->getID();
@@ -398,11 +438,11 @@ CirMgr::printNetlist() const
 }
 void CirMgr::myDFS(CirGate* gate){
     
-    gate->_isVisted = true;
+    gate->_isVisited = true;
     //reverse(gate->_faninList.begin(), gate->_faninList.end());
     for(vector<CirGate*>::const_iterator it = gate->_faninList.begin(); it != gate->_faninList.end(); it++)
     {
-        if((*it)->_isVisted == false)  // this gate(node) , was not be visted
+        if((*it)->_isVisited == false)  // this gate(node) , was not be visted
         {
             myDFS((*it));
         }
@@ -439,10 +479,52 @@ CirMgr::printPOs() const
 
 void
 CirMgr::printFloatGates() const
-{
+{   
+    vector<int> floatingGate;
+    vector<int> notUsedGate;
+    for(vector<CirAIGGate*>::const_iterator it = _aigList.begin(); it != _aigList.end(); it++) {
+        if((*it) != 0) {
+          if((*it)->_faninList.size() !=2){
+                cout << "fanin size error " << endl;
+               // cout << "fanin size =  " << (*it)->_faninList.size()<<  endl;
+               // cout << "fanout size =  " << (*it)->_fanoutList.size()<<  endl;
+                floatingGate.push_back((*it)->getID());
+          } else if((*it)->_fanoutList.size() == 0){
+                notUsedGate.push_back((*it)->getID()); 
+          } else if((*it)->_faninList.size() ==2 && (*it)->_fanoutList.size() >= 1) { // if input had undef Gate
+                #ifdef debug_inout
+                     cout << "(*it)->getID() = " << (*it)->getID() << endl;
+                     cout << "(*it)->_faninList[0]->_type = " << (*it)->_faninList[0]->_type << endl;
+                     cout << "(*it)->_faninList[1]->_type = " << (*it)->_faninList[1]->_type << endl;
+                #endif
+                if((*it)->_faninList[0]->_type == "") floatingGate.push_back((*it)->getID());
+                else if ((*it)->_faninList[1]->_type == "") floatingGate.push_back((*it)->getID());
+          }
+        //  else if((*it)->_isVisited == false) {
+        //        floatingGate.push_back((*it)->getID());
+        //  }
+             // cout << " " << (*it)->getID();
+        }
+    }
+    
+    if(!floatingGate.empty()) {
+         cout << "Gates with floating fanin(s):" ;
+        for(vector<int>::iterator it = floatingGate.begin(); it != floatingGate.end(); it++) {
+         cout << " " << *it; 
+        }
+        cout << endl;
+    }
+    if(!notUsedGate.empty()) {
+        cout << "Gates defined but not used  :"; 
+        for(vector<int>::iterator it = notUsedGate.begin(); it != notUsedGate.end(); it++) {
+         cout << " " << *it; 
+        }
+        cout << endl;
+    }
 }
 
 void
 CirMgr::writeAag(ostream& outfile) const
 {
+    
 }
