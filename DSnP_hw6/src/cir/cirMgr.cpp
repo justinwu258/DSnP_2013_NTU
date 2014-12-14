@@ -15,8 +15,8 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
-//#define debug_inout
-//#define debug_DFS
+#define debug_inout
+#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -273,14 +273,27 @@ CirMgr::readCircuit(const string& fileName)
      }
     
      for(vector<CirUndefGate*>::const_iterator it = _undefList.begin(); it != _undefList.end(); ) {
-        //cout << "undef ID = " << (*it)->getID() << endl;
+        cout << "undef ID = " << (*it)->getID() << endl;
         if(_totalList[(*it)->getID()] != 0) {
             
             (*it)->_type = _totalList[(*it)->getID()]->_type;
             _totalList[(*it)->getID()]->_fanoutList.push_back((*it)->_fanoutList[0]); // assign fanout to Correct gate
-            //(*it)->_fanoutList[0]->_faninList.push_back(_totalList[(*it)->getID()]); //(assigned when define undef) 
-                                                                                       //assign next gate it's fanin
-            it = _undefList.erase(it);         
+            
+         //   for(vector<CirGate*>::const_iterator itG = _totalList[(*it)->getID()]->_fanoutList.begin(); itG != _totalList[(*it)->getID()]->_fanoutList.end(); itG++) {
+         //       cout << "new itG =  " << (*itG)->getID() << endl;
+         //   }
+            if((*it)->_fanoutList[0]->_faninList[0]->getID() == (*it)->getID()) // rhs1 is record undef Gate , replace defined Gate
+                (*it)->_fanoutList[0]->_faninList[0] = _totalList[(*it)->getID()];// assign next gate it's fanin
+            else if((*it)->_fanoutList[0]->_faninList[1]->getID() == (*it)->getID()) // rhs2 is record undef Gate , replace defined Gate  
+               (*it)->_fanoutList[0]->_faninList[1] = _totalList[(*it)->getID()];
+            for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList[0]->_faninList.begin(); itG != (*it)->_fanoutList[0]->_faninList.end(); itG++) {
+                cout << "new itG =  " << (*itG)->getID() << endl;
+            }
+            for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
+                cout << "new new itG =  " << (*itG)->getID() << endl;
+            }
+              cout << "ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
+             it = _undefList.erase(it);         
         } else {
             ++it;
         }
@@ -335,6 +348,28 @@ CirMgr::printSummary() const
 void
 CirMgr::printNetlist() const
 {
+   #ifdef debug_inout
+   for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
+      if(*it != 0){
+           // #ifdef debug_inout
+           cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it)<< endl;
+           cout << "  ---- fanout ----" << endl;
+           //cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
+           for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList.begin(); itG != (*it)->_fanoutList.end(); itG++) {
+               cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
+           }
+           cout << "  ---- fanin ----" << endl;
+           //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type << "  (fanin)"<< endl;
+           //cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
+           for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
+               cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
+           }
+            cout << endl;
+           // #endif
+      }
+             //cout << " IP" << endl ;
+   }
+   #endif
    size_t count = 0;
    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if( (*it)->_type == "") //undef Gate
@@ -348,6 +383,7 @@ CirMgr::printNetlist() const
             if(((CirPOGate*)(*it))->_isInvert) { cout << " !"  << ((CirPOGate*)(*it))->_faninID; }
             else         { cout << " "  << ((CirPOGate*)(*it))->_faninID;}
         } else if  ((*it)->_type == "AIG"){
+             //cout << " IP" ;
              cout << " " << (*it)->getID();
              //rhs1 
              if((*it)->_faninList[0]->_type == "")  { cout << " *"; }
@@ -366,26 +402,6 @@ CirMgr::printNetlist() const
  //  for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
  //       myDFS(*it);
  //  } 
-   #ifdef debug_inout
-   for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
-      if(*it != 0){
-           // #ifdef debug_inout
-           cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type << "  (fanout)"<< endl;
-           //cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
-           for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList.begin(); itG != (*it)->_fanoutList.end(); itG++) {
-               cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
-           }
-           cout << "  ---- fanin ----" << endl;
-           //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type << "  (fanin)"<< endl;
-           //cout << "(totalList[ID] =" << _totalList[(*it)->getID()]->getID() << ")"; 
-           for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
-               cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
-           }
-            cout << endl;
-           // #endif
-      }
-   }
-   #endif
 
 }
 void CirMgr::myDFS(CirGate* gate){
