@@ -29,7 +29,7 @@ class CirGate
     friend class CirMgr; // that's , CirMgr can access Protected member
 public:
    //CirGate(){}
-   CirGate(int l, int I): _lineNo(l), _ID(I), _isVisited(false){};
+   CirGate(int l, int I): _lineNo(l), _ID(I), _isVisited(false), _isRecurVisited(false){};
    virtual ~CirGate() {}
    //virtual ~CirGate() {}
 
@@ -41,7 +41,7 @@ public:
    }
    unsigned getLineNo() const { return _lineNo; }
    unsigned getID() const { return _ID; }
-
+   void recurFaninDFS(int, const CirGate* , int, bool) const; 
    // Printing functions
    //virtual void printGate() const = 0;
    void printGate() const;
@@ -63,7 +63,8 @@ protected:
     vector<CirGate*> _faninList;
     vector<CirGate*> _fanoutList;
     bool _isVisited;
-    int _faninID;
+    bool _isRecurVisited;
+    int _faninI;
 };
 
 class CirGateInfo{
@@ -93,8 +94,9 @@ class CirPOGate: public CirGate{
     public:
         CirPOGate(int l, int I, int in): CirGate(l, I), _faninID(in) , _isInvert(0){};
         ~CirPOGate() {}
-
-        int getFaninID() { return _faninID;}
+        
+        int getIsInv()   { return _isInvert; }
+        int getFaninID() { return _faninID;  }
     private:
         int _faninID;
         int _isInvert;
@@ -105,6 +107,8 @@ class CirAIGGate: public CirGate{
     public:
         CirAIGGate(int l, int I): CirGate(l, I), _rhs1_invert(0),_rhs2_invert(0){};
         ~CirAIGGate() {}
+        int getRhs1Inv()   { return _rhs1_invert; }
+        int getRhs2Inv()   { return _rhs2_invert; }
     protected:
         int _rhs1_invert;
         int _rhs2_invert;
