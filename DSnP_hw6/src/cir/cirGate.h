@@ -65,7 +65,6 @@ protected:
     vector<CirGate*> _fanoutList;
     bool _isVisited;
     mutable bool _isRecurVisited; //store AIG visited or not , when recur search
-    int _faninI;
 };
 
 class CirGateInfo{

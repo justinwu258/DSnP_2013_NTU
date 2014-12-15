@@ -171,6 +171,7 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
             }  else if(order == 4) {
                 aagDebugPrint(token, countLine, beginAddr, "O");
                 O = atoi(token.c_str());
+                _totalList.resize(M+O+1); // init Vector Size
             }  else if(order == 5) {
                 aagDebugPrint(token, countLine, beginAddr, "A");
                 A = atoi(token.c_str());
@@ -183,6 +184,8 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                 _piList.push_back(pi);
                 _totalList[atoi(token.c_str())/2] = pi;
                 pi->_type = "PI";
+               // cout << "_totalList.size() = " << _totalList.size() << endl; 
+               // cout << "_totalList.capacity() = " << _totalList.capacity() << endl; 
                 //_totalList.insert(_totalList.begin()+(atoi(token.c_str())/2),pi);
                 //cout << "pi = " << pi << endl;
             } else if(countLine <= O+I+1) { // read PO
@@ -191,9 +194,12 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                     if(atoi(token.c_str())%2 == 1) {po->_isInvert = 1;}
                     _poList.push_back(po);
                     //cout << "faninID = " << atoi(token.c_str())/2 << endl;
-                    _totalList.resize(M+_poList.size()+1);
+                    //_totalList.resize(M+_poList.size()+1);
                     _totalList[M+_poList.size()] = po;
                     po->_type = "PO";
+                    //  cout << "PO _totalList.size() = " << _totalList.size() << endl; 
+                    //  cout << "PO _totalList.capacity() = " << _totalList.capacity() << endl; 
+                    //  if(_totalList.capacity()==16) cout << "_totalList[16] = "  <<_totalList[16] << endl;
             } else if(countLine <= A+O+I+1) {
                     aagDebugPrint(token, countLine, beginAddr, "aig" , 1 );
                     string tmpToken = token;
@@ -379,7 +385,10 @@ void
 CirMgr::printNetlist() const
 {
    #ifdef debug_inout
+   int bugCount = 0;
    for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
+      cout << "bug count = " << bugCount << ",  *it = " <<(*it) << endl;
+      ++bugCount;
       if(*it != 0){
            // #ifdef debug_inout
            cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it)<< endl;

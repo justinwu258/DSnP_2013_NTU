@@ -31,7 +31,12 @@ public:
 
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
-   CirGate* getGate(unsigned gid) const { return _totalList[gid]; }
+   CirGate* getGate(unsigned gid) const { 
+        if(gid <= M+O)
+            return _totalList[gid]; 
+        else
+            return 0;
+   }
    void myDFS(CirGate*);
    //CirPIGate* getPIGate(unsigned gid) const { return 0; }
    

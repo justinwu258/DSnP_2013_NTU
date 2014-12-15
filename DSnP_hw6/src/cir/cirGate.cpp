@@ -30,8 +30,9 @@ CirGate::reportGate() const
     cout << "==================================================" << endl;
     ostringstream oStr;
     int remainLenth = 0;
-    oStr << "= " << (*this)._type << "(" <<  (*this).getID() << ")"
-         << ", line " << (*this).getLineNo();
+    oStr << "= " << (*this)._type << "(" <<  (*this).getID() << ")";
+    if((*this)._name != "") oStr << "\"" << (*this)._name << "\"";
+    oStr     << ", line " << (*this).getLineNo();
     remainLenth = 50 - oStr.str().length();
     cout << oStr.str() << right << setw(remainLenth) << "=" << endl;  
     cout << "==================================================" << endl;
@@ -72,11 +73,17 @@ void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv , vec
         cout << gate->_type << " " << gate->getID()<< endl;
         if(level != 0){
             if(((CirPOGate*)gate)->getIsInv()) inv = true;
-            recurFaninDFS(level-1,gate->_faninList[0],N+1,inv , vPathRecord);
+            
+            if(gate->_faninList.size()==0) 
+                recurFaninDFS(level-1,new CirUndefGate(0,((CirPOGate*)gate)->getFaninID()),N+1,inv , vPathRecord);
+            else recurFaninDFS(level-1,gate->_faninList[0],N+1,inv , vPathRecord);
         }
     }
     if(gate->_type == "PI") {
         cout << gate->_type << " " << gate->getID() << endl;
+    }
+    if(gate->_type == "CONST") {
+        cout << gate->_type << " 0"  << endl;
     }
     if(gate->_type == "") {
         cout << gate->_type << "UNDEF " << gate->getID() << endl;
@@ -95,8 +102,8 @@ void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv , vec
                 if(((CirAIGGate*)gate)->getRhs2Inv()) inv = true;
                 else                                  inv = false;
                 recurFaninDFS(level-1,gate->_faninList[1],N+1,inv, vPathRecord);
+                gate->_isRecurVisited = true; // level != 0 , print will do , set it visited
             }
-            gate->_isRecurVisited = true;
             vPathRecord.push_back((CirAIGGate*)gate);
         }
     }
