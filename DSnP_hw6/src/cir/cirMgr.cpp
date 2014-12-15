@@ -13,6 +13,7 @@
 #include <ctype.h>
 #include <cassert>
 #include <cstring>
+#include <algorithm>
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
@@ -211,7 +212,7 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                     _totalList[atoi(token.c_str())/2] = aig;
                     aig->_type = "AIG";
                     n = newMyStrGetTok(tmpToken, token, m , n);
-                    int rhs1,rhs2, count = 1; 
+                    int rhs1 = 0 ,rhs2 = 0, count = 1; 
                     while(token.size()){    
                         //cout << "   while token = "  << token << endl;
                         if(count == 1) rhs1 = atoi(token.c_str());
