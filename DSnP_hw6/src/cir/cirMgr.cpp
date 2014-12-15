@@ -284,7 +284,7 @@ CirMgr::readCircuit(const string& fileName)
    ifstream myfile;
    string token;
    //cout << "fileName = " << fileName << endl; 
-   myfile.open(fileName,ios::in);
+   myfile.open(fileName.c_str(),ios::in);
    if(myfile.is_open()) {
      while(getline(myfile,line)) {
         ++countLine;
@@ -311,7 +311,7 @@ CirMgr::readCircuit(const string& fileName)
         }
      }
     
-     for(vector<CirUndefGate*>::const_iterator it = _undefList.begin(); it != _undefList.end(); ) {
+     for(vector<CirUndefGate*>::iterator it = _undefList.begin(); it != _undefList.end(); ) {
         //cout << "undef ID = " << (*it)->getID() << endl;
         if(_totalList[(*it)->getID()] != 0) {
             
