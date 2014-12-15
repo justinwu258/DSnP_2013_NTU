@@ -42,6 +42,7 @@ public:
    unsigned getLineNo() const { return _lineNo; }
    unsigned getID() const { return _ID; }
    void recurFaninDFS(int, const CirGate* , int, bool , vector<CirAIGGate*>&) const; 
+   void recurFanoutDFS(int, const CirGate* , int, bool , vector<CirAIGGate*>&) const; 
    void setVisited(bool visited)  {  _isRecurVisited = visited; }
    // Printing functions
    //virtual void printGate() const = 0;
