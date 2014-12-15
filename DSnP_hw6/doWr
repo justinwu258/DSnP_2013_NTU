@@ -1,129 +1,129 @@
 cirr tests.fraig/strash01.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash02.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash03.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash04.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash05.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash06.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash07.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash08.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash09.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/strash10.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim01.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim02.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim03.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim04.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim05.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim06.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim07.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim08.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim09.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim10.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim11.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim12.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim13.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim14.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/sim15.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/opt01.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/opt02.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/opt03.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/opt04.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/opt05.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/opt06.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/test1.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/test2.aag 
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C1355.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C17.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C1908.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C3540.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C432.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C432_r.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C499.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C499_r.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C5315.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C6288.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C7552.aag
-cirp -netlist 
+cirw 
 cirr -r tests.fraig/ISCAS85/C880.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/flt01.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/flt02.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/flt03.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/flt04.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/flt05.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/flt06.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/flt07.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok01.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok02.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok03.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok04.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok05.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok06.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok07.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok08.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok09.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok10.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/ok11.aag
-cirp -netlist 
+cirw 
 cirr -r tests.err/good.aag
-cirp -netlist 
+cirw 
 q -f 

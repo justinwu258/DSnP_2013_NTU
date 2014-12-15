@@ -70,60 +70,8 @@ cirr -r tests.fraig/ISCAS85/C17.aag
 cirp -netlist 
 cirr -r tests.fraig/ISCAS85/C1908.aag
 cirp -netlist 
-cirr -r tests.fraig/ISCAS85/C3540.aag
-cirp -netlist 
 cirr -r tests.fraig/ISCAS85/C432.aag
 cirp -netlist 
 cirr -r tests.fraig/ISCAS85/C432_r.aag
-cirp -netlist 
-cirr -r tests.fraig/ISCAS85/C499.aag
-cirp -netlist 
-cirr -r tests.fraig/ISCAS85/C499_r.aag
-cirp -netlist 
-cirr -r tests.fraig/ISCAS85/C5315.aag
-cirp -netlist 
-cirr -r tests.fraig/ISCAS85/C6288.aag
-cirp -netlist 
-cirr -r tests.fraig/ISCAS85/C7552.aag
-cirp -netlist 
-cirr -r tests.fraig/ISCAS85/C880.aag
-cirp -netlist 
-cirr -r tests.err/flt01.aag
-cirp -netlist 
-cirr -r tests.err/flt02.aag
-cirp -netlist 
-cirr -r tests.err/flt03.aag
-cirp -netlist 
-cirr -r tests.err/flt04.aag
-cirp -netlist 
-cirr -r tests.err/flt05.aag
-cirp -netlist 
-cirr -r tests.err/flt06.aag
-cirp -netlist 
-cirr -r tests.err/flt07.aag
-cirp -netlist 
-cirr -r tests.err/ok01.aag
-cirp -netlist 
-cirr -r tests.err/ok02.aag
-cirp -netlist 
-cirr -r tests.err/ok03.aag
-cirp -netlist 
-cirr -r tests.err/ok04.aag
-cirp -netlist 
-cirr -r tests.err/ok05.aag
-cirp -netlist 
-cirr -r tests.err/ok06.aag
-cirp -netlist 
-cirr -r tests.err/ok07.aag
-cirp -netlist 
-cirr -r tests.err/ok08.aag
-cirp -netlist 
-cirr -r tests.err/ok09.aag
-cirp -netlist 
-cirr -r tests.err/ok10.aag
-cirp -netlist 
-cirr -r tests.err/ok11.aag
-cirp -netlist 
-cirr -r tests.err/good.aag
 cirp -netlist 
 q -f 

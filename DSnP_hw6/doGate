@@ -1,0 +1,8 @@
+cirr just.aag
+cirg 25
+cirg 13
+cirg 25 -fanin 3
+cirg 7 -fanin 1
+cirg 6
+q -f
+

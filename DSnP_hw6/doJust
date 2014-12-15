@@ -4,4 +4,10 @@ cirp -pi
 cirp -po
 cirp -float
 cirp  
+cirr -r tests.fraig/sim01.aag 
+cirp -netlist
+cirp -pi 
+cirp -po
+cirp -float
+cirp  
 q -f 

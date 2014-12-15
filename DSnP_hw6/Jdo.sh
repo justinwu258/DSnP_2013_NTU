@@ -1,6 +1,11 @@
+./cirTest -f doOpt04
 ./cirTest -f doJ
 ./cirTest -f doStrash06
 ./cirTest -f doJust
-#./cirTest -f doSim13
-#./cirTest -f doTest
-#./ref/cirTest -f doTestNetList
+./cirTest -f doSim13
+./cirTest -f doSim05
+./cirTest -f doFlt05
+./cirTest -f doTest
+./cirTest -f doTestIO
+./cirTest -f doTestNetList
+./cirTest -f doTestFloating

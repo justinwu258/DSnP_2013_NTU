@@ -1,0 +1,1 @@
+./cirTest -f doGate

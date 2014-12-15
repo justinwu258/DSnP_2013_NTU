@@ -1,0 +1,4 @@
+cirr tests.fraig/ISCAS85/C17.aag
+cirw 
+cirw -o opt.aag/C17-opt.aag
+q -f 
