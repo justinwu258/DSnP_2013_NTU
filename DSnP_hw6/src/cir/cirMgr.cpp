@@ -244,21 +244,26 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                  int count = 1 , index = -1;
                  bool flagIO = false;   // Input = false ,  output = true;
                  string subToken;
-                 while(token.size()){
+                 //while(token.size()){
                      if(count == 1)  {
                         if(token[0] == 'o')  flagIO = true;
                         else               flagIO = false;
                         subToken = token.substr(1);
                         index = atoi(subToken.c_str());
                         //cout << "index = " << index; 
+                        ++count ;
+                        //n = newMyStrGetTok(tmpToken, token, m , n);
                      }
-                     else if(count == 2) {
+                     
+                    if(count == 2) {
+                        token = tmpToken.substr(n+1);
+                        //cout << "token =" << token << endl; 
                         if(flagIO) { _poList[index]->_name = token;}
                         else       { _piList[index]->_name = token;} 
                      }
-                     ++count ;
-                     n = newMyStrGetTok(tmpToken, token, m , n);
-                 }
+                     //++count ;
+                     //n = newMyStrGetTok(tmpToken, token, m , n);
+                 //}
             } 
 
         }
@@ -410,8 +415,10 @@ CirMgr::printNetlist() const
             if((*it)->_name != "")  cout << " (" << (*it)->_name << ")";
         } else if ((*it)->_type == "PO") {
             cout << "  " << (*it)->getID();
-            if(((CirPOGate*)(*it))->_isInvert) { cout << " !"  << ((CirPOGate*)(*it))->_faninID; }
-            else         { cout << " "  << ((CirPOGate*)(*it))->_faninID;}
+            if((*it)->_faninList.size() == 0)  { cout << " *"; }
+            else                               { cout << " " ; }
+            if(((CirPOGate*)(*it))->_isInvert) { cout << "!"  << ((CirPOGate*)(*it))->_faninID; }
+            else         { cout << ""  << ((CirPOGate*)(*it))->_faninID;}
 
             if((*it)->_name != "")  cout << " (" << (*it)->_name << ")";
         } else if  ((*it)->_type == "AIG"){
@@ -506,7 +513,22 @@ CirMgr::printFloatGates() const
              // cout << " " << (*it)->getID();
         }
     }
-    
+     
+    for(vector<CirPIGate*>::const_iterator it = _piList.begin(); it != _piList.end(); it++) {
+        if((*it) != 0) {
+          if((*it)->_fanoutList.size() ==0){
+                 notUsedGate.push_back((*it)->getID());
+          }
+        }
+    }
+    for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++) {
+        if((*it) != 0) {
+          if((*it)->_faninList.size() ==0){
+                 floatingGate.push_back((*it)->getID());
+          }
+        }
+    }
+        
     if(!floatingGate.empty()) {
          cout << "Gates with floating fanin(s):" ;
         for(vector<int>::iterator it = floatingGate.begin(); it != floatingGate.end(); it++) {
