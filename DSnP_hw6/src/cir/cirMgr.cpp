@@ -308,7 +308,7 @@ CirMgr::readCircuit(const string& fileName)
             
             if((*it)->_fanoutList[0]->_faninList[0]->getID() == (*it)->getID()) // rhs1 is record undef Gate , replace defined Gate
                 (*it)->_fanoutList[0]->_faninList[0] = _totalList[(*it)->getID()];// assign next gate it's fanin
-            else if((*it)->_fanoutList[0]->_faninList[1]->getID() == (*it)->getID()) // rhs2 is record undef Gate , replace defined Gate  
+            if((*it)->_fanoutList[0]->_faninList[1]->getID() == (*it)->getID()) // rhs2 is record undef Gate , replace defined Gate  
                (*it)->_fanoutList[0]->_faninList[1] = _totalList[(*it)->getID()];
               
              //cout << "ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
