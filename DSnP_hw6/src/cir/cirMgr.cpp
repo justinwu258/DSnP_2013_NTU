@@ -557,6 +557,7 @@ CirMgr::writeAag(ostream& outfile) const
 {
         int optA = 0;
         ostringstream  tmpOutfile;
+        // use ostring record AIG output
         for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++) {
             if((*it) != 0) {
                 if((*it)->_type == "AIG") {
@@ -573,70 +574,35 @@ CirMgr::writeAag(ostream& outfile) const
                 }
             }
         }
-      //  for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++) {
-      //      if((*it) != 0) {
-      //          if((*it)->_type == "AIG") {
-      //              if((*it)->_isVisited){
-      //                  ++optA;
-      //              }
-      //          }
-
-      //      }
-      //  }
         outfile << "aag " << M << " "<< I << " 0 " <<  O << " " << optA  << endl;
         for(vector<CirPIGate*>::const_iterator it = _piList.begin(); it != _piList.end(); it++) {
             if((*it) != 0) {
-                    //if((*it)->_isVisited){
-                        outfile << (*it)->getID()*2 << endl;
-                    //}
+                outfile << (*it)->getID()*2 << endl;
             }
         }
         for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++) {
             if((*it) != 0) {
-                    //if((*it)->_isVisited){
-                        if((*it)->_isInvert)  outfile << (*it)->_faninID*2+1 << endl;
-                        else  outfile << (*it)->_faninID*2 << endl;
-                    //}
+                if((*it)->_isInvert)  outfile << (*it)->_faninID*2+1 << endl;
+                else  outfile << (*it)->_faninID*2 << endl;
             }
         }
-   //     for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++) {
-   //         if((*it) != 0) {
-   //             if((*it)->_type == "AIG") {
-   //                 if((*it)->_isVisited){
-   //                     outfile << (*it)->getID()*2 << " ";
-   //                     if(((CirAIGGate*)(*it))->_rhs1_invert)  outfile << (*it)->_faninList[0]->getID()*2+1 << " ";
-   //                     else   outfile << (*it)->_faninList[0]->getID()*2 << " ";
-   //                     
-   //                     if(((CirAIGGate*)(*it))->_rhs2_invert)  outfile << (*it)->_faninList[1]->getID()*2+1;
-   //                     else   outfile << (*it)->_faninList[1]->getID()*2;
-   //                     outfile << endl;
-   //                 }
-   //             }
-   //         }
-   //     }
         outfile << tmpOutfile.str();
         int symIdx = 0;
         for(vector<CirPIGate*>::const_iterator it = _piList.begin(); it != _piList.end(); it++) {
             if((*it) != 0) {
-                    //if((*it)->_isVisited){
-                        if((*it)->_name != ""){
-                            outfile << "i" << symIdx << " " << (*it)->_name << endl;
-                            ++symIdx;
-                        }
-                    //}
+                 if((*it)->_name != ""){
+                     outfile << "i" << symIdx << " " << (*it)->_name << endl;
+                     ++symIdx;
+                 }
             }
         }
         symIdx = 0;
         for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++) {
             if((*it) != 0) {
-                    //if((*it)->_isVisited){
-                        if((*it)->_name != ""){
-                            outfile << "o" << symIdx << " " << (*it)->_name << endl;
-                            ++symIdx;
-                        }
-                        //if((*it)->_isInvert)  outfile << (*it)->_faninID*2+1 << endl;
-                        //else  outfile << (*it)->_faninID*2 << endl;
-                    //}
+                 if((*it)->_name != ""){
+                     outfile << "o" << symIdx << " " << (*it)->_name << endl;
+                     ++symIdx;
+                 }
             }
         }        
         outfile << "c" << endl;
