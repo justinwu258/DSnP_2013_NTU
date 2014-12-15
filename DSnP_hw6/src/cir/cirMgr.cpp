@@ -496,9 +496,7 @@ CirMgr::printFloatGates() const
                // cout << "fanin size =  " << (*it)->_faninList.size()<<  endl;
                // cout << "fanout size =  " << (*it)->_fanoutList.size()<<  endl;
                 floatingGate.push_back((*it)->getID());
-          } else if((*it)->_fanoutList.size() == 0){
-                notUsedGate.push_back((*it)->getID()); 
-          } else if((*it)->_faninList.size() ==2 && (*it)->_fanoutList.size() >= 1) { // if input had undef Gate
+          } else if((*it)->_faninList.size() ==2) { // if input had undef Gate
                 #ifdef debug_inout
                      cout << "(*it)->getID() = " << (*it)->getID() << endl;
                      cout << "(*it)->_faninList[0]->_type = " << (*it)->_faninList[0]->_type << endl;
@@ -506,6 +504,10 @@ CirMgr::printFloatGates() const
                 #endif
                 if((*it)->_faninList[0]->_type == "") floatingGate.push_back((*it)->getID());
                 else if ((*it)->_faninList[1]->_type == "") floatingGate.push_back((*it)->getID());
+          } 
+          // check notUsedGate
+          if((*it)->_fanoutList.size() == 0){
+                notUsedGate.push_back((*it)->getID());
           }
         //  else if((*it)->_isVisited == false) {
         //        floatingGate.push_back((*it)->getID());
@@ -525,11 +527,14 @@ CirMgr::printFloatGates() const
         if((*it) != 0) {
           if((*it)->_faninList.size() ==0){
                  floatingGate.push_back((*it)->getID());
-          }
-        }
+          } else {
+                 if((*it)->_faninList[0]->_type == "") floatingGate.push_back((*it)->getID());
+          } 
+        } 
     }
         
     if(!floatingGate.empty()) {
+        sort( floatingGate.begin(), floatingGate.end());
          cout << "Gates with floating fanin(s):" ;
         for(vector<int>::iterator it = floatingGate.begin(); it != floatingGate.end(); it++) {
          cout << " " << *it; 
@@ -537,6 +542,7 @@ CirMgr::printFloatGates() const
         cout << endl;
     }
     if(!notUsedGate.empty()) {
+        sort( notUsedGate.begin(), notUsedGate.end());
         cout << "Gates defined but not used  :"; 
         for(vector<int>::iterator it = notUsedGate.begin(); it != notUsedGate.end(); it++) {
          cout << " " << *it; 

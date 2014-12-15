@@ -27,6 +27,15 @@ extern CirMgr *cirMgr;
 void
 CirGate::reportGate() const
 {
+    cout << "==================================================" << endl;
+    ostringstream oStr;
+    int remainLenth = 0;
+    oStr << "= " << (*this)._type << "(" <<  (*this).getID() << ")"
+         << ", line " << (*this).getLineNo();
+    remainLenth = 50 - oStr.str().length();
+    cout << oStr.str() << right << setw(remainLenth) << "=" << endl;  
+    cout << "==================================================" << endl;
+
 }
 
 void
