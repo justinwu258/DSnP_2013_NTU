@@ -41,7 +41,8 @@ public:
    }
    unsigned getLineNo() const { return _lineNo; }
    unsigned getID() const { return _ID; }
-   void recurFaninDFS(int, const CirGate* , int, bool) const; 
+   void recurFaninDFS(int, const CirGate* , int, bool , vector<CirAIGGate*>&) const; 
+   void setVisited(bool visited)  {  _isRecurVisited = visited; }
    // Printing functions
    //virtual void printGate() const = 0;
    void printGate() const;
@@ -63,7 +64,7 @@ protected:
     vector<CirGate*> _faninList;
     vector<CirGate*> _fanoutList;
     bool _isVisited;
-    bool _isRecurVisited;
+    mutable bool _isRecurVisited; //store AIG visited or not , when recur search
     int _faninI;
 };
 

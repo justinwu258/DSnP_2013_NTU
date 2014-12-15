@@ -180,6 +180,7 @@ CirGateCmd::exec(const string& option)
    bool doFanin = false, doFanout = false;
    CirGate* thisGate = 0;
    for (size_t i = 0, n = options.size(); i < n; ++i) {
+      //cout << "options.size = " <<  options.size()<< endl;
       bool checkLevel = false;
       if (myStrNCmp("-FANIn", options[i], 5) == 0) {
          if (doFanin || doFanout)

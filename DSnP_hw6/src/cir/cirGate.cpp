@@ -44,7 +44,14 @@ CirGate::reportFanin(int level) const
    assert (level >= 0);
    int printCount = 0;
    bool invert = false;
-   recurFaninDFS(level, this,printCount, invert);
+   vector<CirAIGGate*>  vPathRecord;
+   recurFaninDFS(level, this,printCount, invert, vPathRecord);
+   for(vector<CirAIGGate*>::iterator it = vPathRecord.begin(); it != vPathRecord.end(); it++) {
+        if(*it != 0) {
+             (*it)->_isRecurVisited = false;
+        }
+   }
+   vPathRecord.clear();
 }
 
 void
@@ -53,7 +60,7 @@ CirGate::reportFanout(int level) const
    assert (level >= 0);
 }
 
-void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv) const {
+void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv , vector<CirAIGGate*>& vPathRecord) const {
     
     for (int i = 0; i < N ; i++) {
         cout << "  ";
@@ -65,7 +72,7 @@ void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv) cons
         cout << gate->_type << " " << gate->getID()<< endl;
         if(level != 0){
             if(((CirPOGate*)gate)->getIsInv()) inv = true;
-            recurFaninDFS(level-1,gate->_faninList[0],N+1,inv);
+            recurFaninDFS(level-1,gate->_faninList[0],N+1,inv , vPathRecord);
         }
     }
     if(gate->_type == "PI") {
@@ -75,16 +82,22 @@ void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv) cons
         cout << gate->_type << "UNDEF " << gate->getID() << endl;
     }
     if(gate->_type == "AIG") { 
-        cout << gate->_type << " " << gate->getID() << endl;
-        if(level != 0){
-            // search rhs1
-            if(((CirAIGGate*)gate)->getRhs1Inv()) inv = true;
-            else                                  inv = false;
-            recurFaninDFS(level-1,gate->_faninList[0],N+1,inv);
-            // search rhs2
-            if(((CirAIGGate*)gate)->getRhs2Inv()) inv = true;
-            else                                  inv = false;
-            recurFaninDFS(level-1,gate->_faninList[1],N+1,inv);
+        if(gate->_isRecurVisited && level != 0)
+            cout << gate->_type << " " << gate->getID() << " (*)"<< endl;
+        else {
+            cout << gate->_type << " " << gate->getID() << endl;
+            if(level != 0){
+                // search rhs1
+                if(((CirAIGGate*)gate)->getRhs1Inv()) inv = true;
+                else                                  inv = false;
+                recurFaninDFS(level-1,gate->_faninList[0],N+1,inv, vPathRecord);
+                // search rhs2
+                if(((CirAIGGate*)gate)->getRhs2Inv()) inv = true;
+                else                                  inv = false;
+                recurFaninDFS(level-1,gate->_faninList[1],N+1,inv, vPathRecord);
+            }
+            gate->_isRecurVisited = true;
+            vPathRecord.push_back((CirAIGGate*)gate);
         }
     }
 }
