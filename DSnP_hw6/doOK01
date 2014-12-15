@@ -1,0 +1,54 @@
+cirr ./ok01.aag -R
+cirg 16 
+cirg 13 -fani 4
+cirg 11 -fani 9
+cirg -1
+cirg 13
+cirg 8 -fani 5
+cirg 10 -fani 0
+cirp -po
+cirg -3
+cirg 12
+cirg 11 -fani 9
+cirg 10
+cirp -n
+cirg -3 -fani 2
+cirg 12
+cirg 8 -fani 3
+cirg -3
+cirg 16 
+cirg 16 -fani 1
+cirg 2 -fani 4
+cirp -fl
+cirg 2
+cirg 2
+cirg 8
+cirp -n
+cirg 1
+cirg 10 -fani 8
+cirg 10 -fani 8
+cirp -pi
+cirg 4
+cirg 10 -fani 4
+cirg 11 -fani 7
+cirg -3
+cirp -po
+cirg -3
+cirg 2 -fani 1
+cirg -2 -fani 4
+cirg 6
+cirp -fl
+cirp -fl
+cirg 3 -fani 2
+cirg 8
+cirg 13
+cirg 14
+cirp -n
+cirp -s
+cirg 15
+cirg 9 -fani 1
+cirg 8 -fani 6
+cirw
+cirg 13
+cirp -n
+q -f 
