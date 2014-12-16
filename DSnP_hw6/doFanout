@@ -1,0 +1,16 @@
+cirr -r fanout01.aag
+cirp -netlist
+cirp -float
+cirp 
+cirg 3 -fano 3
+cirr -r fanout02.aag
+cirp -netlist
+cirp -float
+cirp 
+cirg 1 -fano 3
+cirr -r fanout03.aag
+cirp -netlist
+cirp -float
+cirp 
+cirg 5 -fano 4
+q -f 
