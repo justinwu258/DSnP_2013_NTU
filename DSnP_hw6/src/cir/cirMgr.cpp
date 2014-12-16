@@ -17,8 +17,8 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
-#define debug_inout
-#define debug_DFS
+//#define debug_inout
+//#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -630,5 +630,5 @@ CirMgr::writeAag(ostream& outfile) const
             }
         }       
         outfile << "c" << endl;
-        outfile << "AAG output by Chung-Yang (Ric) Huang" << endl;
+        //outfile << "AAG output by Chung-Yang (Ric) Huang" << endl;
 }
