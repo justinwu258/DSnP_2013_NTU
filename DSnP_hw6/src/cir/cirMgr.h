@@ -27,7 +27,7 @@ class CirMgr
 {
 public:
    CirMgr(){}
-   ~CirMgr() {}
+   ~CirMgr() { cleanGate();}
 
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
@@ -43,6 +43,7 @@ public:
    // Member functions about circuit construction
    bool readCircuit(const string&);
    void aagRecorder(string  , size_t , size_t, size_t );
+   void cleanGate();
    // Member functions about circuit reporting
    void printSummary() const;
    void printNetlist() const;

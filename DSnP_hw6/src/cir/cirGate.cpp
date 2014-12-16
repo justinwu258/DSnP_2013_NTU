@@ -84,8 +84,11 @@ void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv , vec
         if(level != 0){
             if(((CirPOGate*)gate)->getIsInv()) inv = true;
             
-            if(gate->_faninList.size()==0) 
-                recurFaninDFS(level-1,new CirUndefGate(0,((CirPOGate*)gate)->getFaninID()),N+1,inv , vPathRecord);
+            if(gate->_faninList.size()==0) { 
+                CirUndefGate* undef = new CirUndefGate(0,((CirPOGate*)gate)->getFaninID()); //only for recur issue
+                recurFaninDFS(level-1,undef,N+1,inv , vPathRecord);  
+                delete undef;         //remember release it 
+            }
             else recurFaninDFS(level-1,gate->_faninList[0],N+1,inv , vPathRecord);
         }
     }

@@ -17,8 +17,8 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
-//#define debug_inout
-//#define debug_DFS
+#define debug_inout
+#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -151,6 +151,19 @@ enum Gates{ePI, ePO};
 /**************************************************************/
 /*   class CirMgr member functions for circuit construction   */
 /**************************************************************/
+void CirMgr::cleanGate() {
+   for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
+        if((*it) != 0 ) { 
+            delete *it;
+        }   
+   }
+   for(vector<CirUndefGate*>::iterator it = _undefList.begin(); it != _undefList.end(); ++it ) { 
+      if((*it) != 0 ) { 
+          delete *it;
+      }   
+   }      
+}
+
 void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size_t order = -1)
 {
         if(countLine == 1) {
@@ -325,6 +338,7 @@ CirMgr::readCircuit(const string& fileName)
                (*it)->_fanoutList[0]->_faninList[1] = _totalList[(*it)->getID()];
               
              //cout << "ID = " << (*it)->getID() <<  ", type = " << (*it)->_type << endl;
+             delete *it;
              it = _undefList.erase(it);         
         } else {
             ++it;
@@ -616,4 +630,5 @@ CirMgr::writeAag(ostream& outfile) const
             }
         }       
         outfile << "c" << endl;
+        outfile << "AAG output by Chung-Yang (Ric) Huang" << endl;
 }
