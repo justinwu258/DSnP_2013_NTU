@@ -52,6 +52,7 @@ public:
 
    const TaskNode& min() const { return _taskHeap.min(); }
    void add(size_t nMachines);
+   bool add(const string&, size_t);
    bool assign (size_t l);
    bool query(TaskNode& n) { return _taskHash.query(n); }
    void printAll() const;

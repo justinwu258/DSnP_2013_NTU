@@ -67,7 +67,8 @@ TaskInitCmd::help() const
 }
 
 //----------------------------------------------------------------------
-//    TASKNew <(size_t numMachines)>
+//    TASKNew <-Random (size_t numMachines) |
+//             -Name (string name) (size_t load)>
 //----------------------------------------------------------------------
 CmdExecStatus
 TaskNewCmd::exec(const string& option)
@@ -77,21 +78,60 @@ TaskNewCmd::exec(const string& option)
       return CMD_EXEC_ERROR;
    }
    // check option
-   string token;
-   if (!CmdExec::lexSingleOption(option, token, false))
+   vector<string> options;
+   if (!CmdExec::lexOptions(option, options))
       return CMD_EXEC_ERROR;
-   int numMachines;
-   if (!myStr2Int(token, numMachines) || numMachines <= 0)
-      return CmdExec::errorOption(CMD_OPT_ILLEGAL, token);
-   taskMgr->add(numMachines);
-   cout << "... " << numMachines << " new task nodes are added." << endl;
+   if (options.empty())
+      return CmdExec::errorOption(CMD_OPT_MISSING, "");
+
+   bool doRandom = false, doName = false;
+   int numMachines, load;
+   string name;
+   for (size_t i = 0, n = options.size(); i < n; ++i) {
+      if (myStrNCmp("-Random", options[i], 2) == 0) {
+         if (doRandom || doName)
+            return CmdExec::errorOption(CMD_OPT_EXTRA,options[i]);
+         doRandom = true;
+	 if (++i >= n)
+            return CmdExec::errorOption(CMD_OPT_MISSING,options[i-1]);
+         if (!myStr2Int(options[i], numMachines) || numMachines <= 0)
+            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[i]);
+      }
+      else if (myStrNCmp("-Name", options[i], 2) == 0) {
+         if (doRandom || doName)
+            return CmdExec::errorOption(CMD_OPT_EXTRA,options[i]);
+         doName = true;
+	 if (++i >= n)
+            return CmdExec::errorOption(CMD_OPT_MISSING,options[i-1]);
+         if (!isValidVarName(options[i]))
+            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[i]);
+         name = options[i];
+	 if (++i >= n)
+            return CmdExec::errorOption(CMD_OPT_MISSING,options[i-1]);
+         if (!myStr2Int(options[i], load) || load <= 0)
+            return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[i]);
+      }
+      else
+         return CmdExec::errorOption(CMD_OPT_ILLEGAL, options[i]);
+   }
+
+   if (doRandom) {
+      taskMgr->add(numMachines);
+      cout << "... " << numMachines << " new task nodes are added." << endl;
+   }
+   else { // doName
+      assert(doName); 
+      if (!taskMgr->add(name, load))
+         cerr << "Error: Task node (" << name << ") already exists.\n";
+   }
    return CMD_EXEC_DONE;
 }
 
 void
 TaskNewCmd::usage(ostream& os) const
 {
-   os << "Usage: TASKNew <(size_t numMachines)>" << endl;
+   os << "Usage: TASKNew <-Random (size_t numMachines) |\n"
+      << "                -Name (string name) (size_t load)>" << endl;
 }
 
 void
@@ -141,7 +181,7 @@ TaskQueryCmd::usage(ostream& os) const
 void
 TaskQueryCmd::help() const
 {
-   cout << setw(15) << left << "TaskQueryCmd: "
+   cout << setw(15) << left << "TASKQuery: "
         << "Query task manager" << endl;
 }
 

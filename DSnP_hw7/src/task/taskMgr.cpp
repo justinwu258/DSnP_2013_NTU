@@ -29,8 +29,10 @@ TaskNode::TaskNode()
 size_t
 TaskNode::operator () () const 
 {
-   return _name[0] ^ (_name[1] <<  6) ^ (_name[2] << 12)
-                   ^ (_name[3] << 20) ^ (_name[4] << 26);
+   size_t k = 0, n = (_name.length() <= 5)? _name.length(): 5;
+   for (size_t i = 0; i < n; ++i)
+      k ^= (_name[i] << (i*6));
+   return k;
 }
 
 ostream& operator << (ostream& os, const TaskNode& n)
@@ -53,6 +55,15 @@ void
 TaskMgr::add(size_t nMachines)
 {
    // TODO...
+}
+
+// return true TaskNode is successfully inserted
+// return false if equivalent node has already existed
+bool
+TaskMgr::add(const string& s, size_t l)
+{
+   // TODO...
+   return false;
 }
 
 // Assign the min task node with 'l' extra load.
