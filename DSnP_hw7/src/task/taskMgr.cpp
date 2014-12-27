@@ -37,16 +37,19 @@ TaskNode::operator () () const
 
 ostream& operator << (ostream& os, const TaskNode& n)
 {
+   cout << "overload operator in taskMgr.cpp" << endl;
    return os << "(" << n._name << ", " << n._load << ")";
 }
 
 TaskMgr::TaskMgr(size_t nMachines)
 : _taskHeap(nMachines), _taskHash(getHashSize(nMachines))
 {
-   for (size_t i = 0, n = nMachines; i < n; ++i)
+   for (size_t i = 0, n = nMachines; i < n; ++i) {
       if (!_taskHash.insert(_taskHeap[i])) {
          _taskHeap.delData(i); --n; --i;
       }
+      cout << "insert ok , _taskHeap[" << i << "] = " << _taskHeap[i] << endl;
+   }
 }
 // END: DO NOT CHANGE THIS PART
 
@@ -83,8 +86,16 @@ TaskMgr::assign(size_t l)
 void
 TaskMgr::printAll() const 
 {
+    TaskNode* aa = new TaskNode("aaa",555);
+      cout << "Just test" << endl;
+      cout << "get Name = " << aa->getName() << ", get Load = " << aa->getLoad() << endl;
+      cout << "*aa = " << *aa << endl;
    HashSet<TaskNode>::iterator hi = _taskHash.begin();
-   for (; hi != _taskHash.end(); ++hi)
-      cout << *hi << endl;
+   for (; hi != _taskHash.end(); ++hi) 
+   {
+      //cout << "Just test" << endl;
+        cout << *hi << endl;
+   }
+      //cout << hi << endl;
 }
 

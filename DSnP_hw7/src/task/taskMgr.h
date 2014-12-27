@@ -16,30 +16,30 @@
 
 using namespace std;
 
-class TaskNode
-{
-#define NAME_LEN  5
-#define LOAD_RN   10000
-
-public:
-   TaskNode();
-   TaskNode(const string& n, size_t l) : _name(n), _load(l) {}
-   ~TaskNode() {}
-
-   void operator += (size_t l) { _load += l; }
-   bool operator == (const TaskNode& n) const { return _name == n._name; }
-   bool operator < (const TaskNode& n) const { return _load < n._load; }
-   size_t operator () () const;
-
-   const string& getName() const { return _name; }
-   size_t getLoad() const { return _load; }
-
-   friend ostream& operator << (ostream& os, const TaskNode& n);
-
-private:
-   string   _name;
-   size_t   _load;
-};
+//class TaskNode
+//{
+//#define NAME_LEN  5
+//#define LOAD_RN   10000
+//
+//public:
+//   TaskNode();
+//   TaskNode(const string& n, size_t l) : _name(n), _load(l) {}
+//   ~TaskNode() {}
+//
+//   void operator += (size_t l) { _load += l; }
+//   bool operator == (const TaskNode& n) const { return _name == n._name; }
+//   bool operator < (const TaskNode& n) const { return _load < n._load; }
+//   size_t operator () () const;
+//
+//   const string& getName() const { return _name; }
+//   size_t getLoad() const { return _load; }
+//
+//   friend ostream& operator << (ostream& os, const TaskNode& n);
+//
+//private:
+//   string   _name;
+//   size_t   _load;
+//};
 
 class TaskMgr
 {

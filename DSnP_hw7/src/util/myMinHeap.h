@@ -19,7 +19,11 @@ public:
    MinHeap() : _data(0) {}
    MinHeap(size_t s) {
       _data.reserve(s);
-      for (size_t i = 0; i < s; ++i) _data.push_back(Data());
+      for (size_t i = 0; i < s; ++i) {
+            //cout << "Heap push";
+            _data.push_back(Data());
+            //cout << ", _data[" << i << "] = " << _data[i] << endl;
+      }
       sort(_data.begin(), _data.end());
    }
    ~MinHeap() {}
@@ -32,10 +36,27 @@ public:
    size_t size() const { return _data.size(); }
 
    // TODO
-   const Data& min() const { return Data(); }
-   void insert(const Data& d) { }
+   const Data& min() const { 
+        cout << "get min() in MinHeap" << endl;
+        int tmpMin = 999999999, minIdx = -1;
+        for(int i = 0; i < _data.size() ; i++) {
+            if(tmpMin > _data[i].getLoad()){
+                tmpMin = _data[i].getLoad();
+                minIdx = i;
+                cout << "Now Min node = _data[" << i << "] = " << _data[i];
+            }
+            
+        }
+        return _data[minIdx]; 
+   }
+   void insert(const Data& d) {
+      cout << "minHeap insert success " << endl; 
+   }
    void delMin() { }
-   void delData(size_t i) { } // remove _data[i]
+   void delData(size_t i) { 
+      cout << "minHeap delData success " << endl; 
+     _data.erase(_data.begin()+i); 
+   } // remove _data[i]
 
 private:
    // DO NOT add or change data members
