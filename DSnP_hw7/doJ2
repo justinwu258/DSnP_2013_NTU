@@ -1,0 +1,4 @@
+taskinit 10
+taskquery -all
+taskquery -min
+q -f

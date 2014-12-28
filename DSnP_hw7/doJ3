@@ -1,0 +1,11 @@
+taskinit 1000
+taskquery -all
+taskquery -min
+taskquery abcde
+taskquery nzuea
+taskassign 1000
+taskquery -all
+taskassign 1000 -r 5
+taskquery -all
+usage
+q -f

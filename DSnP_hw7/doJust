@@ -1,0 +1,7 @@
+taskinit 1
+tasknew -Name a 1
+tasknew -Name b 1
+tasknew -Name c 1
+tasknew -Name d 1
+taskq -all
+q -f 
