@@ -91,9 +91,11 @@ TaskMgr::printAll() const
       cout << "get Name = " << aa->getName() << ", get Load = " << aa->getLoad() << endl;
       cout << "*aa = " << *aa << endl;
    HashSet<TaskNode>::iterator hi = _taskHash.begin();
+        cout << "Just test2" << endl;
+        cout << *hi << endl;
    for (; hi != _taskHash.end(); ++hi) 
    {
-      //cout << "Just test" << endl;
+        cout << "Just test" << endl;
         cout << *hi << endl;
    }
       //cout << hi << endl;
