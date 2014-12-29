@@ -34,7 +34,7 @@ public:
    Data& operator [] (size_t i) { return _data[i]; }
 
    size_t size() const { 
-        cout << "heappppp size = " << _data.size() << endl;
+        //cout << "heappppp size = " << _data.size() << endl;
         return _data.size(); 
     }
 
@@ -56,15 +56,15 @@ public:
    int insert(const Data& d) {
       int t = size() ;
       // gg = 1;
-      cout << "heap t = " << t << endl; 
+      //cout << "heap t = " << t << endl; 
       _data.push_back(d);
-      cout << "heap t = " << t << endl; 
-      cout << "_data[t] = " << _data[t] << endl;
+      //cout << "heap t = " << t << endl; 
+      //cout << "_data[t] = " << _data[t] << endl;
       while (t > 1) {
           int p = t/2;
           if(d.getLoad() >= _data[p].getLoad())
             break;
-          cout << "change p ,t " << endl;
+       //   cout << "change p ,t " << endl;
           _data[t] = _data[p];
           t = p;
       //    cin >> gg;

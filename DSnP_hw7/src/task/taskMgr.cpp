@@ -29,7 +29,7 @@ TaskNode::TaskNode()
 size_t
 TaskNode::operator () () const 
 {
-    cout << "overload TaskNode() " << endl;
+    //cout << "overload TaskNode() " << endl;
    size_t k = 0, n = (_name.length() <= 5)? _name.length(): 5;
    for (size_t i = 0; i < n; ++i)
       k ^= (_name[i] << (i*6));
@@ -101,29 +101,29 @@ TaskMgr::assign(size_t l)
 void
 TaskMgr::printAll() const 
 {
-     cout << "_taskHash.numBuckets = " << _taskHash.numBuckets() << endl;
-    for(unsigned i=0 ; i <  _taskHash.numBuckets() ; i++) {
-      if( !_taskHash._buckets[i].empty()){
-          for(vector<TaskNode>::iterator it =  _taskHash._buckets[i].begin(); it !=  _taskHash._buckets[i].end() ; it++ ) {
-                cout << "Just2 print" << endl;
-                cout << (*it) << endl;
-          }
-      }
-  
-    }
-    // _taskHash.myPrintAll();
+  //   cout << "_taskHash.numBuckets = " << _taskHash.numBuckets() << endl;
+  //  for(unsigned i=0 ; i <  _taskHash.numBuckets() ; i++) {
+  //    if( !_taskHash._buckets[i].empty()){
+  //        for(vector<TaskNode>::iterator it =  _taskHash._buckets[i].begin(); it !=  _taskHash._buckets[i].end() ; it++ ) {
+  //              cout << "Just2 print" << endl;
+  //              cout << (*it) << endl;
+  //        }
+  //    }
+  //
+  //  }
+          // _taskHash.myPrintAll();
  //   TaskNode* aa = new TaskNode("aaa",555);
  //     cout << "Just test" << endl;
  //     cout << "get Name = " << aa->getName() << ", get Load = " << aa->getLoad() << endl;
  //     cout << "*aa = " << *aa << endl;
-//   HashSet<TaskNode>::iterator hi = _taskHash.begin();
-//        cout << "Just begin = " ;
-//        cout << *hi << endl;
-//   for (; hi != _taskHash.end(); ++hi) 
-//   {
-//        cout << "Just test" << endl;
-//        cout << *hi << endl;
-//   }
+   HashSet<TaskNode>::iterator hi = _taskHash.begin();
+        //cout << "Just begin = " ;
+        //cout << *hi << endl;
+   for (; hi != _taskHash.end(); ++hi) 
+   {
+        //cout << "Just test" << endl;
+        cout << *hi << endl;
+   }
  //     //cout << hi << endl;
 }
 

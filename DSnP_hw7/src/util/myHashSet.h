@@ -84,19 +84,40 @@ public:
             return *_node;
       }
       Data& operator * () {
-            cout << "T& operator * ()" << endl; 
-            cout << "_buckIdx = " << _buckIdx << endl; 
-            return (*_node)[_buckIdx];
+        //    cout << "T& operator * ()" << endl; 
+           // cout << "_dataIdx = " << _dataIdx << endl; 
+            return (*_node)[_dataIdx];
       } 
       iterator& operator ++ () {
-         cout << " iterator& operator ++ ()" << endl; 
+        // cout << " iterator& operator ++ ()" << endl; 
         // _node = ++_node;
-        if((*_node)[_buckIdx].getLoad() != 0) {
-
-             ++_buckIdx;
+        //if((*_node)[_buckIdx].getLoad() != 0) {
+        if(_dataIdx == 0) {
+            it = (*_node).begin();
+            itEnd = (*_node).end()-1;
+        }
+   //     cout << "****************** (*_node).begin() = " << (*it) << endl;
+   //     cout << "****************** (*_node)[_dataIdx] = " << (*_node)[_dataIdx] << endl;
+   //     cout << "****************** (*_node).end() = " << (*itEnd) << endl;
+        if(it != itEnd) {
+            //cout << "2 _dataIdx = " << _dataIdx << endl; 
+   //     cout << "&&&&&&&&&&&&&&&&&& *it() = " << (*it) << endl;
+             ++_dataIdx;
+             ++it;
+            //cout << "3 _dataIdx = " << _dataIdx << endl; 
+             //return *(this); 
         } else {
-             _node+1;
-             _buckIdx = 0;
+             //cout << "change bucketIdx" << endl;
+             //int aa;
+             //cin >> aa;
+             while(1) {
+                ++_node;
+                if(!(*_node).empty())
+                    break;
+             }
+             //++_buckIdx;
+             _dataIdx = 0;
+             //return *(this); 
         }
              //++_dataIdx;
      //    }   else {
@@ -119,7 +140,7 @@ public:
         return iter;
       }
       bool operator != (const iterator& i) const {
-            cout << "bool operator != " << endl;
+        //    cout << "bool operator != " << endl;
             if(_buckIdx == 20)
                 return false; 
             return _node!=i._node;
@@ -133,6 +154,8 @@ public:
    private:
      vector<Data>* _node;
      size_t      _dataIdx , _buckIdx; 
+     typename vector<Data>::iterator it = (*_node).begin();
+     typename vector<Data>::iterator itEnd = (*_node).end()-1;
    };
 
    void init(size_t b) {
@@ -151,13 +174,17 @@ public:
    // Point to the first valid data
    iterator begin() const { 
         cout << "hash begin" << endl;
-        return iterator(_buckets); 
+        int buckPos = 0;
+        while((_buckets)[buckPos].empty()) { 
+            ++buckPos;
+        }
+        return iterator(_buckets+buckPos); 
         //return iterator(_buckets->begin()); 
    }
    // Pass the end
    iterator end() const { 
-        cout << "hash end" << endl;
-        return iterator(); 
+       // cout << "hash end , numBuckets = " << _numBuckets << endl;
+        return iterator(_buckets+_numBuckets); 
    }
    // return true if no valid data
    bool empty() const { return true; }
@@ -176,13 +203,13 @@ public:
         for(int i = 0; i < bucketSize ; i++) {
             if(!_buckets[bucketIdx].empty()){
                 cout << "_buckets[" << bucketIdx << "][" << i << "] = " << _buckets[bucketIdx][i] << endl;
+                cout << "check's d = " << d << endl;
                 if(_buckets[bucketIdx][i] == d){
                     cout << "d is already in the hash" << endl;
                     return true;
                 }
             }
         }
-
         return false; 
    }
 
@@ -201,12 +228,12 @@ public:
    bool insert(const Data& d) {
         size_t bucketIdx = bucketNum(d);
            // cout << "hash insert success , d = " << d  << endl;
-        cout << "bucketIdx = " << bucketIdx << endl;
-            cout << "**_buckets = " << &(_buckets[0])  << endl;
-            cout << "***_buckets = " << &(_buckets[bucketIdx])  << endl;
+  //      cout << "bucketIdx = " << bucketIdx << endl;
+  //          cout << "**_buckets = " << &(_buckets[0])  << endl;
+  //          cout << "***_buckets = " << &(_buckets[bucketIdx])  << endl;
         size_t bucketSize = _buckets[bucketIdx].size();
-        cout << "bucketSize = " << bucketSize << endl;
-        cout << "bucketCapacity = " << _buckets[bucketIdx].capacity() << endl;
+  //      cout << "bucketSize = " << bucketSize << endl;
+  //      cout << "bucketCapacity = " << _buckets[bucketIdx].capacity() << endl;
         //vector<Data>::iterator it;
         // it = (*_buckets).begin();
          if(check(d)) {
@@ -217,17 +244,17 @@ public:
     //        cout << "d is already in the hash" << endl;
     //        return false;
     //    } else {
-        cout << "2. bucketSize = " << bucketSize << endl;
+  //      cout << "2. bucketSize = " << bucketSize << endl;
             _buckets[bucketIdx].push_back(d);
-        ++bucketSize;
-        cout << "3. bucketSize = " << bucketSize << endl;
-           cout << "_buckets[" << bucketIdx << "][" << bucketSize-1 << "] = " << _buckets[bucketIdx][bucketSize-1] << endl;
-            //TaskNode taskNode(d.getName(),d.getLoad());
-            cout << "hash insert success , d = " << d  << endl;
-            cout << "_buckets = " << &(_buckets[bucketIdx])  << endl;
-            //cout << "_buckets->begin() = " << _buckets->begin()  << endl;
-            cout << "bucketIdx = " << bucketIdx  << endl;
-            cout << "bucketSize = " << bucketSize  << endl;
+          ++bucketSize;
+  //      cout << "3. bucketSize = " << bucketSize << endl;
+  //         cout << "_buckets[" << bucketIdx << "][" << bucketSize-1 << "] = " << _buckets[bucketIdx][bucketSize-1] << endl;
+  //          //TaskNode taskNode(d.getName(),d.getLoad());
+            cout << "hash insert success , d = " << d  << ",  bucketIdx = "  << bucketIdx << endl;
+  //          cout << "_buckets = " << &(_buckets[bucketIdx])  << endl;
+  //          //cout << "_buckets->begin() = " << _buckets->begin()  << endl;
+  //          cout << "bucketIdx = " << bucketIdx  << endl;
+  //          cout << "bucketSize = " << bucketSize  << endl;
         //    cout << "numBuckets = " << _numBuckets  << endl;
             return true; 
     //    }
@@ -244,13 +271,14 @@ public:
 
         }
    }
-   vector<Data>*     _buckets;
+   //vector<Data>*     _buckets;
 
 private:
    // Do not add any extra data member
    size_t            _numBuckets;
+   vector<Data>*     _buckets;
    //vector<Data>*     _buckets;
-   Data* _first;
+   //Data* _first;
 
    size_t bucketNum(const Data& d) const {
       //cout << "d() = " << d() << endl;
