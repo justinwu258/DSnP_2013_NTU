@@ -33,24 +33,40 @@ public:
    const Data& operator [] (size_t i) const { return _data[i]; }   
    Data& operator [] (size_t i) { return _data[i]; }
 
-   size_t size() const { return _data.size(); }
+   size_t size() const { 
+        cout << "heappppp size = " << _data.size() << endl;
+        return _data.size(); 
+    }
 
    // TODO
    const Data& min() const { 
-        cout << "get min() in MinHeap" << endl;
-        int tmpMin = 999999999, minIdx = -1;
-        for(int i = 0; i < _data.size() ; i++) {
-            if(tmpMin > _data[i].getLoad()){
-                tmpMin = _data[i].getLoad();
-                minIdx = i;
-                cout << "Now Min node = _data[" << i << "] = " << _data[i];
-            }
-            
-        }
-        return _data[minIdx]; 
+        //cout << "get min() in MinHeap" << endl;
+     //   int tmpMin = 999999999, minIdx = -1;
+     //   for(int i = 0; i < _data.size() ; i++) {
+     //       if(tmpMin > _data[i].getLoad()){
+     //           tmpMin = _data[i].getLoad();
+     //           minIdx = i;
+     //           //cout << "Now Min node = _data[" << i << "] = " << _data[i];
+     //       }
+     //       
+     //   }
+     //   cout << "minIdx = " << minIdx << endl;
+        return _data[0]; 
    }
-   void insert(const Data& d) {
+   int insert(const Data& d) {
+      int t = size();
+      cout << "heap t = " << t << endl; 
+      while (t > 1) {
+          int p = t/2;
+          if(d.getLoad() >= _data[p].getLoad())
+            break;
+          cout << "change p ,t " << endl;
+          _data[t] = _data[p];
+          t = p;
+      }
+      _data[t] = d;
       cout << "minHeap insert success " << endl; 
+      return t;   // return insert's idx
    }
    void delMin() { }
    void delData(size_t i) { 

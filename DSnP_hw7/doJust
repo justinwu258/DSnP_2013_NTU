@@ -4,4 +4,8 @@ tasknew -Name b 1
 tasknew -Name c 1
 tasknew -Name d 1
 taskq -all
+taskq -min
+tasknew -r 3
+taskq -all
+taskq -min
 q -f 
