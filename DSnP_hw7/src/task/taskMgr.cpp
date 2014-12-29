@@ -59,7 +59,8 @@ void
 TaskMgr::add(size_t nMachines)
 {
    cout << "numBucketSize =" << _taskHash.numBuckets() << endl;
-   int heapIdx = -1 ,gg , initSize;
+   int heapIdx = -1 , initSize;
+   //int gg;
    initSize = _taskHeap.size();
    for (size_t i = initSize, n = nMachines; i < initSize+n; ++i) {
         TaskNode* newNode = new TaskNode();
@@ -101,7 +102,7 @@ void
 TaskMgr::printAll() const 
 {
      cout << "_taskHash.numBuckets = " << _taskHash.numBuckets() << endl;
-    for(int i=0 ; i <  _taskHash.numBuckets() ; i++) {
+    for(unsigned i=0 ; i <  _taskHash.numBuckets() ; i++) {
       if( !_taskHash._buckets[i].empty()){
           for(vector<TaskNode>::iterator it =  _taskHash._buckets[i].begin(); it !=  _taskHash._buckets[i].end() ; it++ ) {
                 cout << "Just2 print" << endl;

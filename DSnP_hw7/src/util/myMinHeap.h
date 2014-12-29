@@ -54,7 +54,8 @@ public:
         return _data[0]; 
    }
    int insert(const Data& d) {
-      int t = size() , gg = 1;
+      int t = size() ;
+      // gg = 1;
       cout << "heap t = " << t << endl; 
       _data.push_back(d);
       cout << "heap t = " << t << endl; 

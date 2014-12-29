@@ -170,7 +170,21 @@ public:
    // check if d is in the hash...
    // if yes, return true;
    // else return false;
-   bool check(const Data& d) const { return false; }
+   bool check(const Data& d) const { 
+        size_t bucketIdx = bucketNum(d);
+        size_t bucketSize = _buckets[bucketIdx].size();
+        for(int i = 0; i < bucketSize ; i++) {
+            if(!_buckets[bucketIdx].empty()){
+                cout << "_buckets[" << bucketIdx << "][" << i << "] = " << _buckets[bucketIdx][i] << endl;
+                if(_buckets[bucketIdx][i] == d){
+                    cout << "d is already in the hash" << endl;
+                    return true;
+                }
+            }
+        }
+
+        return false; 
+   }
 
    // query if d is in the hash...
    // if yes, replace d with the data in the hash and return true;
@@ -195,16 +209,10 @@ public:
         cout << "bucketCapacity = " << _buckets[bucketIdx].capacity() << endl;
         //vector<Data>::iterator it;
         // it = (*_buckets).begin();
-            //cout << "_buckets[" << bucketSize << "][" << 0 << "] = " << _buckets[bucketSize][0] << endl;
-  //      for(int i = 0; i < bucketSize ; i++) {
-  //          if(!_buckets[bucketIdx].empty()){
-  //              cout << "_buckets[" << bucketSize << "][" << i << "] = " << _buckets[bucketSize][i] << endl;
-  //              if(_buckets[bucketIdx][i] == d){
-  //                  cout << "d is already in the hash" << endl;
-  //                  return false;
-  //              }
-  //          }
-  //      }
+         if(check(d)) {
+                    cout << "d is already in the hash" << endl;
+                    return false;
+         }
     //    if(d == d) {
     //        cout << "d is already in the hash" << endl;
     //        return false;
