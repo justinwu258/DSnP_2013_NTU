@@ -59,15 +59,17 @@ void
 TaskMgr::add(size_t nMachines)
 {
    cout << "numBucketSize =" << _taskHash.numBuckets() << endl;
-   int heapIdx = -1;
-   for (size_t i = _taskHeap.size(), n = nMachines; i < _taskHeap.size()+n; ++i) {
+   int heapIdx = -1 ,gg , initSize;
+   initSize = _taskHeap.size();
+   for (size_t i = initSize, n = nMachines; i < initSize+n; ++i) {
         TaskNode* newNode = new TaskNode();
         heapIdx = _taskHeap.insert(*newNode);
         cout << "random node newNode = " << *newNode << ",  i = " << i << endl;
         if (!_taskHash.insert(*newNode)) {
          _taskHeap.delData(heapIdx); --n; --i;
         }
-
+        cout << "_taskHeap.size() = " << _taskHeap.size() <<  endl;
+   //     cin >> gg;
    }
    // TODO...
 }

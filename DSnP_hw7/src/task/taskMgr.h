@@ -28,7 +28,7 @@ public:
 
    void operator += (size_t l) { _load += l; }
    bool operator == (const TaskNode& n) const { return _name == n._name; }
-   void operator = (const TaskNode& n) { _name = n.getName(); _load = n.getLoad(); }
+//   void operator = (const TaskNode& n) { _name.assign(n.getName()); _load = n.getLoad(); }
    bool operator < (const TaskNode& n) const { return _load < n._load; }
    size_t operator () () const;
 

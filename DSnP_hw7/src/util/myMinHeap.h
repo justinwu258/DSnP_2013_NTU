@@ -54,8 +54,11 @@ public:
         return _data[0]; 
    }
    int insert(const Data& d) {
-      int t = size();
+      int t = size() , gg = 1;
       cout << "heap t = " << t << endl; 
+      _data.push_back(d);
+      cout << "heap t = " << t << endl; 
+      cout << "_data[t] = " << _data[t] << endl;
       while (t > 1) {
           int p = t/2;
           if(d.getLoad() >= _data[p].getLoad())
@@ -63,6 +66,7 @@ public:
           cout << "change p ,t " << endl;
           _data[t] = _data[p];
           t = p;
+      //    cin >> gg;
       }
       _data[t] = d;
       cout << "minHeap insert success " << endl; 
