@@ -53,8 +53,8 @@ template <class Data>
 class HashSet
 {
 public:
-   HashSet() : _numBuckets(0), _buckets(0), _debugCount(0) {}
-   HashSet(size_t b) : _numBuckets(0), _buckets(0) , _debugCount(0) { 
+   HashSet() : _numBuckets(0), _buckets(0) {}
+   HashSet(size_t b) : _numBuckets(0), _buckets(0) { 
         //cout << "b = " << b << endl;
         init(b); 
    }
@@ -217,13 +217,9 @@ public:
        //                 cout << ",  bucketSize = " << bucketSize << endl;
                         return true;
                     }
-       //             ++_debugCount;
                 }
             }
-            //++_debugCount;
         //}
-        int tmp = _debugCount;
-        //cout << "_debugCount = " << tmp << endl; 
         return false; 
    }
 
@@ -297,9 +293,6 @@ private:
    // Do not add any extra data member
    size_t            _numBuckets;
    vector<Data>*     _buckets;
-   //vector<Data>*     _buckets;
-   //Data* _first;
-   mutable int _debugCount;
 
    size_t bucketNum(const Data& d) const {
       //cout << "d() = " << d() << endl;
