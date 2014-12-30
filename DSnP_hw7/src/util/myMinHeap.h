@@ -91,7 +91,7 @@ public:
             p = t;
             t = 2*p;
         }
-        cout << "_data[n] = _data[" << n << "] = " << data[n] << endl;
+        cout << "_data[n] = _data[" << n << "] = " << _data[n] << endl;
         _data[p] = _data[n--];
         return ret;
    }
