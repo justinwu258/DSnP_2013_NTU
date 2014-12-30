@@ -136,6 +136,7 @@ TaskMgr::printAll() const
    HashSet<TaskNode>::iterator hi = _taskHash.begin();
    for (; hi != _taskHash.end(); ++hi)
       cout << *hi << endl;
+     //_taskHash.myPrintAll();
 }
 
 //help functions

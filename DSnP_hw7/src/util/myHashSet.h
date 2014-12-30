@@ -53,8 +53,8 @@ template <class Data>
 class HashSet
 {
 public:
-   HashSet() : _numBuckets(0), _buckets(0), _debugCount(0) {}
-   HashSet(size_t b) : _numBuckets(0), _buckets(0) , _debugCount(0) { 
+   HashSet() : _numBuckets(0), _buckets(0) {}
+   HashSet(size_t b) : _numBuckets(0), _buckets(0)  { 
         //cout << "b = " << b << endl;
         init(b); 
    }
@@ -75,6 +75,7 @@ public:
       friend class HashSet<Data>;
    public:
       iterator(vector<Data>* myN=0): _node(myN), _dataIdx(0),_buckIdx(0) {}
+      iterator(vector<Data>* myN=0, size_t b = 0): _node(myN), _dataIdx(0),_buckIdx(0), _buckNum(b) {}
       //iterator(const iterator& i) : _node(i._node) {}
       //iterator(const iterator& i) : _node(i._node) {}
       //iterator(const vector<Data> i) : _node(i._node) {}
@@ -112,10 +113,14 @@ public:
              //cin >> aa;
              while(1) {
                 ++_node;
-        //        cout << "++ node" << endl;
+                ++_buckIdx;
+                //cout << "++ node = " << _node << ", *this = " << &(*this) << endl;
                 if(!(*_node).empty())
                 {    
         //            cout << "*_node is empty " << endl;
+                    break;
+                } else if(_buckIdx == _buckNum) {
+                    cout << "buckIdx =  " << _buckIdx << endl;
                     break;
                 }
              }
@@ -157,7 +162,7 @@ public:
       //friend ostream& operator << (ostream& os, const TaskNode& n);
    private:
      vector<Data>* _node;
-     size_t      _dataIdx , _buckIdx; 
+     size_t      _dataIdx , _buckIdx , _buckNum; 
      typename vector<Data>::iterator it = (*_node).begin();
      typename vector<Data>::iterator itEnd = (*_node).end()-1;
    };
@@ -182,13 +187,14 @@ public:
         while((_buckets)[buckPos].empty()) { 
             ++buckPos;
         }
-        return iterator(_buckets+buckPos); 
+        return iterator(_buckets+buckPos, _numBuckets); 
         //return iterator(_buckets->begin()); 
    }
    // Pass the end
    iterator end() const { 
         //cout << "hash end , numBuckets = " << _numBuckets << endl;
-        return iterator(_buckets+_numBuckets); 
+        //cout << "_buckets+_numBuckets = " << _buckets+_numBuckets << endl;
+        return iterator(_buckets+_numBuckets, _numBuckets); 
    }
    // return true if no valid data
    bool empty() const { return true; }
@@ -217,13 +223,9 @@ public:
        //                 cout << ",  bucketSize = " << bucketSize << endl;
                         return true;
                     }
-       //             ++_debugCount;
                 }
             }
-            //++_debugCount;
         //}
-        int tmp = _debugCount;
-        //cout << "_debugCount = " << tmp << endl; 
         return false; 
    }
 
@@ -291,15 +293,23 @@ public:
             return true; 
     //    }
    }
-  
+
+   void myPrintAll() const {
+         for(int i=0 ; i <  numBuckets() ; i++) {
+             if( !_buckets[i].empty()){
+                 for(typename vector<Data>::iterator it =  _buckets[i].begin(); it !=  _buckets[i].end() ; it++ ) {
+//                     cout << "Just print" << endl;
+                     cout << (*it) << endl;
+                 }   
+             }   
+ 
+         }
+    }  
 
 private:
    // Do not add any extra data member
    size_t            _numBuckets;
    vector<Data>*     _buckets;
-   //vector<Data>*     _buckets;
-   //Data* _first;
-   mutable int _debugCount;
 
    size_t bucketNum(const Data& d) const {
       //cout << "d() = " << d() << endl;
