@@ -91,13 +91,19 @@ public:
             p = t;
             t = 2*p;
         }
-        cout << "_data[n] = _data[" << n << "] = " << _data[n] << endl;
+        cout << "  _data[n] = _data[" << n << "] = " << _data[n] << endl;
         _data[p] = _data[n--];
+        _data.pop_back();
         return ret;
    }
    void delData(size_t i) { 
-      //cout << "minHeap delData success " << endl; 
-     _data.erase(_data.begin()+i); 
+      cout << "------------- minHeap delData success ---------------" << endl; 
+      cout << "  _data[" << i << "] = " << _data[i] << endl;
+      _data[i] += -9999999;
+      cout << "  new balance, _data[" << i << "] = " << _data[i] << endl;
+      delMin();
+      cout << "  end delData debug" << endl;
+     //_data.erase(_data.begin()+i); 
    } // remove _data[i]
 
 private:

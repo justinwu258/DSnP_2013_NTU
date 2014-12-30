@@ -12,6 +12,7 @@
 #include "taskMgr.h"
 #include "rnGen.h"
 #include "util.h"
+//#define delMinDebug
 
 using namespace std;
 
@@ -105,7 +106,11 @@ TaskMgr::add(const string& s, size_t l)
 bool
 TaskMgr::assign(size_t l)
 {
-   // TODO...
+   // TODO... 
+   #ifdef delMinDebug
+        delMinPrint();  
+   #endif 
+
    return true;
 }
 
@@ -139,3 +144,20 @@ TaskMgr::printAll() const
  //     //cout << hi << endl;
 }
 
+//help function
+void TaskMgr::delMinPrint() 
+{
+   int count = 0;
+        //cout << "heap Size = " << _taskHeap.size() << endl;
+   while(_taskHeap.size() > 0) {
+        if( (count % 1) == 0){ 
+            cout << endl <<"------ now count == " << count <<  ",  heapSize = " << _taskHeap.size() <<" ------"<< endl;
+            for(int i = 0; i < _taskHeap.size() ; i++){
+                cout << "  _taskHeap[" << i << "] = " << _taskHeap[i] << endl;
+            }
+        }
+        //cout << "  heap Size = " << _taskHeap.size() << endl;
+        _taskHeap.delMin();
+        count++;
+   }
+}

@@ -57,6 +57,7 @@ public:
    bool assign (size_t l);
    bool query(TaskNode& n) { return _taskHash.query(n); }
    void printAll() const;
+   void delMinPrint();
 
 private:
    MinHeap<TaskNode>   _taskHeap;
