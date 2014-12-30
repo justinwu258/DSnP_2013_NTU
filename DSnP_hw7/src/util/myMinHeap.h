@@ -75,7 +75,26 @@ public:
       //cout << "minHeap insert success , t = " << t << ",  d = " << d << endl; 
       return t;   // return insert's idx
    }
-   void delMin() { }
+   Data& delMin() { 
+        Data ret = _data[0];
+        int p = 0, t = 2*(p+1)-1;
+        int n = _data.size()-1;
+        while(t <= n) {
+            if (t < n) {
+                if (_data[t].getLoad() > _data[t+1].getLoad()) {
+                    ++t;
+                }
+            } 
+            if (_data[n].getLoad() < _data[n].getLoad())
+                break;
+            _data[p] = _data[t];
+            p = t;
+            t = 2*p;
+        }
+        cout << "_data[n] = _data[" << n << "] = " << data[n] << endl;
+        _data[p] = _data[n--];
+        return ret;
+   }
    void delData(size_t i) { 
       //cout << "minHeap delData success " << endl; 
      _data.erase(_data.begin()+i); 
