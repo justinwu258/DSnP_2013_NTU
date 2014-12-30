@@ -58,18 +58,20 @@ TaskMgr::TaskMgr(size_t nMachines)
 void
 TaskMgr::add(size_t nMachines)
 {
-   cout << "numBucketSize =" << _taskHash.numBuckets() << endl;
-   int heapIdx = -1 , initSize;
+   //cout << "numBucketSize =" << _taskHash.numBuckets() << endl;
+   int heapIdx = -1; //, initSize;
    //int gg;
-   initSize = _taskHeap.size();
-   for (size_t i = initSize, n = nMachines; i < initSize+n; ++i) {
+   //initSize = _taskHeap.size();
+   for (size_t i = 0, n = nMachines; i < n; ++i) {
         TaskNode* newNode = new TaskNode();
         heapIdx = _taskHeap.insert(*newNode);
-        cout << "random node newNode = " << *newNode << ",  i = " << i << endl;
+        //cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
         if (!_taskHash.insert(*newNode)) {
-         _taskHeap.delData(heapIdx); --n; --i;
+            _taskHeap.delData(heapIdx); --n; --i;
+        } else {
+            cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
         }
-        cout << "_taskHeap.size() = " << _taskHeap.size() <<  endl;
+        //cout << "_taskHeap.size() = " << _taskHeap.size() <<  endl;
    //     cin >> gg;
    }
    // TODO...
@@ -81,7 +83,17 @@ bool
 TaskMgr::add(const string& s, size_t l)
 {
    // TODO...
-   return false;
+   int heapIdx = -1 ;
+   TaskNode* newNode = new TaskNode(s,l);
+   heapIdx = _taskHeap.insert(*newNode);
+   //cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
+   if (!_taskHash.insert(*newNode)) {
+       _taskHeap.delData(heapIdx); 
+      return false;
+   } else {
+        cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
+   }
+   return true;
 }
 
 // Assign the min task node with 'l' extra load.

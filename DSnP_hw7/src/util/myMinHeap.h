@@ -60,8 +60,10 @@ public:
       _data.push_back(d);
       //cout << "heap t = " << t << endl; 
       //cout << "_data[t] = " << _data[t] << endl;
-      while (t > 1) {
+      while (t > 0) {
           int p = t/2;
+          //cout << "t = " << t << endl;
+          //cout << "p = " << p << endl;
           if(d.getLoad() >= _data[p].getLoad())
             break;
        //   cout << "change p ,t " << endl;
@@ -70,12 +72,12 @@ public:
       //    cin >> gg;
       }
       _data[t] = d;
-      cout << "minHeap insert success " << endl; 
+      //cout << "minHeap insert success , t = " << t << ",  d = " << d << endl; 
       return t;   // return insert's idx
    }
    void delMin() { }
    void delData(size_t i) { 
-      cout << "minHeap delData success " << endl; 
+      //cout << "minHeap delData success " << endl; 
      _data.erase(_data.begin()+i); 
    } // remove _data[i]
 

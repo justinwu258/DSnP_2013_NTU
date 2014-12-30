@@ -55,7 +55,7 @@ class HashSet
 public:
    HashSet() : _numBuckets(0), _buckets(0) {}
    HashSet(size_t b) : _numBuckets(0), _buckets(0) { 
-        cout << "b = " << b << endl;
+        //cout << "b = " << b << endl;
         init(b); 
    }
    ~HashSet() { reset(); }
@@ -141,8 +141,8 @@ public:
       }
       bool operator != (const iterator& i) const {
         //    cout << "bool operator != " << endl;
-            if(_buckIdx == 20)
-                return false; 
+//            if(_buckIdx == 20) // debug use
+//                return false; 
             return _node!=i._node;
       }
        
@@ -173,7 +173,7 @@ public:
    //
    // Point to the first valid data
    iterator begin() const { 
-        cout << "hash begin" << endl;
+        //cout << "hash begin" << endl;
         int buckPos = 0;
         while((_buckets)[buckPos].empty()) { 
             ++buckPos;
@@ -190,7 +190,7 @@ public:
    bool empty() const { return true; }
    // number of valid data
    size_t size() const { 
-       cout << "hash size" << endl; 
+       //cout << "hash size" << endl; 
        size_t s = 0; return s; 
    }
 
@@ -202,10 +202,10 @@ public:
         size_t bucketSize = _buckets[bucketIdx].size();
         for(int i = 0; i < bucketSize ; i++) {
             if(!_buckets[bucketIdx].empty()){
-                cout << "_buckets[" << bucketIdx << "][" << i << "] = " << _buckets[bucketIdx][i] << endl;
-                cout << "check's d = " << d << endl;
+             //   cout << "_buckets[" << bucketIdx << "][" << i << "] = " << _buckets[bucketIdx][i] << endl;
+             //   cout << "check's d = " << d << endl;
                 if(_buckets[bucketIdx][i] == d){
-                    cout << "d is already in the hash" << endl;
+                    //cout << "d is already in the hash" << endl;
                     return true;
                 }
             }
@@ -237,7 +237,7 @@ public:
         //vector<Data>::iterator it;
         // it = (*_buckets).begin();
          if(check(d)) {
-                    cout << "d is already in the hash" << endl;
+        //            cout << "d is already in the hash" << endl;
                     return false;
          }
     //    if(d == d) {
@@ -250,7 +250,7 @@ public:
   //      cout << "3. bucketSize = " << bucketSize << endl;
   //         cout << "_buckets[" << bucketIdx << "][" << bucketSize-1 << "] = " << _buckets[bucketIdx][bucketSize-1] << endl;
   //          //TaskNode taskNode(d.getName(),d.getLoad());
-            cout << "hash insert success , d = " << d  << ",  bucketIdx = "  << bucketIdx << endl;
+            //cout << "hash insert success , d = " << d  << ",  bucketIdx = "  << bucketIdx << endl;
   //          cout << "_buckets = " << &(_buckets[bucketIdx])  << endl;
   //          //cout << "_buckets->begin() = " << _buckets->begin()  << endl;
   //          cout << "bucketIdx = " << bucketIdx  << endl;
@@ -260,18 +260,6 @@ public:
     //    }
    }
   
-   void myPrintAll() const {
-        for(int i=0 ; i <  numBuckets() ; i++) {
-            if( !_buckets[i].empty()){
-                for(typename vector<Data>::iterator it =  _buckets[i].begin(); it !=  _buckets[i].end() ; it++ ) {
-                    cout << "Just print" << endl;
-                    cout << (*it) << endl;
-                }   
-            }   
-
-        }
-   }
-   //vector<Data>*     _buckets;
 
 private:
    // Do not add any extra data member
