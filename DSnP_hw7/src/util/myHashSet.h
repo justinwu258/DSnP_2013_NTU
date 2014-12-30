@@ -53,8 +53,8 @@ template <class Data>
 class HashSet
 {
 public:
-   HashSet() : _numBuckets(0), _buckets(0) {}
-   HashSet(size_t b) : _numBuckets(0), _buckets(0) { 
+   HashSet() : _numBuckets(0), _buckets(0), _debugCount(0) {}
+   HashSet(size_t b) : _numBuckets(0), _buckets(0) , _debugCount(0) { 
         //cout << "b = " << b << endl;
         init(b); 
    }
@@ -89,7 +89,7 @@ public:
             return (*_node)[_dataIdx];
       } 
       iterator& operator ++ () {
-        // cout << " iterator& operator ++ ()" << endl; 
+     //    cout << " iterator& operator ++ ()" << endl; 
         // _node = ++_node;
         //if((*_node)[_buckIdx].getLoad() != 0) {
         if(_dataIdx == 0) {
@@ -112,8 +112,12 @@ public:
              //cin >> aa;
              while(1) {
                 ++_node;
+        //        cout << "++ node" << endl;
                 if(!(*_node).empty())
+                {    
+        //            cout << "*_node is empty " << endl;
                     break;
+                }
              }
              //++_buckIdx;
              _dataIdx = 0;
@@ -127,7 +131,7 @@ public:
          return *(this); 
       }   
       iterator operator ++ (int) {
-        cout << " iterator operator ++ (int)" << endl; 
+        //cout << " iterator operator ++ (int)" << endl; 
         iterator iter = *(this);
         //_node = _node+1; 
         if(_node[_buckIdx][_dataIdx+1] != 0) {
@@ -183,7 +187,7 @@ public:
    }
    // Pass the end
    iterator end() const { 
-       // cout << "hash end , numBuckets = " << _numBuckets << endl;
+        //cout << "hash end , numBuckets = " << _numBuckets << endl;
         return iterator(_buckets+_numBuckets); 
    }
    // return true if no valid data
@@ -200,28 +204,64 @@ public:
    bool check(const Data& d) const { 
         size_t bucketIdx = bucketNum(d);
         size_t bucketSize = _buckets[bucketIdx].size();
-        for(int i = 0; i < bucketSize ; i++) {
+        //cout << "bucketIdx = " << bucketIdx;
+        //cout << ",  bucketSize = " << bucketSize << endl;
+        //for(int i = 0; i < bucketSize ; i++) {
             if(!_buckets[bucketIdx].empty()){
-             //   cout << "_buckets[" << bucketIdx << "][" << i << "] = " << _buckets[bucketIdx][i] << endl;
-             //   cout << "check's d = " << d << endl;
-                if(_buckets[bucketIdx][i] == d){
-                    //cout << "d is already in the hash" << endl;
-                    return true;
+                for(int i = 0; i < bucketSize ; i++) {
+       //      //   cout << "_buckets[" << bucketIdx << "][" << i << "] = " << _buckets[bucketIdx][i] << endl;
+       //      //   cout << "check's d = " << d << endl;
+                    if(_buckets[bucketIdx][i] == d){
+       //                 cout << "d is already in the hash";
+       //                 cout << ",  bucketIdx = " << bucketIdx;
+       //                 cout << ",  bucketSize = " << bucketSize << endl;
+                        return true;
+                    }
+       //             ++_debugCount;
                 }
             }
-        }
+            //++_debugCount;
+        //}
+        int tmp = _debugCount;
+        //cout << "_debugCount = " << tmp << endl; 
         return false; 
    }
 
    // query if d is in the hash...
    // if yes, replace d with the data in the hash and return true;
    // else return false;
-   bool query(Data& d) const { return false; }
+   bool query(Data& d) const { 
+        size_t bucketIdx = bucketNum(d);
+        size_t bucketSize = _buckets[bucketIdx].size();
+        for(int i = 0; i < bucketSize ; i++) {
+            if(!_buckets[bucketIdx].empty()){
+                if(_buckets[bucketIdx][i] == d ) {
+                    d = _buckets[bucketIdx][i];
+                    return true;
+                }    
+            }
+        }
+        return false; 
+   }
 
    // update the entry in hash that is equal to d
    // if found, update that entry with d and return true;
    // else insert d into hash as a new entry and return false;
-   bool update(const Data& d) { return false; }
+   bool update(const Data& d) {  
+        size_t bucketIdx = bucketNum(d);
+        size_t bucketSize = _buckets[bucketIdx].size();
+        for(int i = 0; i < bucketSize ; i++) {
+            if(!_buckets[bucketIdx].empty()){
+                if(_buckets[bucketIdx][i].getName() == d.getName() ) {
+                    _buckets[bucketIdx][i] += d.getLoad();
+                   // cout << "d.getLoad() = " << d.getLoad() << ",  _buckets[bucketIdx][i]  = " <<  _buckets[bucketIdx][i]  << endl;
+                    return true;
+                }    
+            }
+        }
+        _buckets[bucketIdx].push_back(d);
+        return false; 
+   }
 
    // return true if inserted successfully (i.e. d is not in the hash)
    // return false is d is already in the hash ==> will not insert
@@ -234,20 +274,12 @@ public:
         size_t bucketSize = _buckets[bucketIdx].size();
   //      cout << "bucketSize = " << bucketSize << endl;
   //      cout << "bucketCapacity = " << _buckets[bucketIdx].capacity() << endl;
-        //vector<Data>::iterator it;
-        // it = (*_buckets).begin();
          if(check(d)) {
         //            cout << "d is already in the hash" << endl;
                     return false;
          }
-    //    if(d == d) {
-    //        cout << "d is already in the hash" << endl;
-    //        return false;
-    //    } else {
-  //      cout << "2. bucketSize = " << bucketSize << endl;
-            _buckets[bucketIdx].push_back(d);
-          ++bucketSize;
-  //      cout << "3. bucketSize = " << bucketSize << endl;
+         _buckets[bucketIdx].push_back(d);
+         ++bucketSize;
   //         cout << "_buckets[" << bucketIdx << "][" << bucketSize-1 << "] = " << _buckets[bucketIdx][bucketSize-1] << endl;
   //          //TaskNode taskNode(d.getName(),d.getLoad());
             //cout << "hash insert success , d = " << d  << ",  bucketIdx = "  << bucketIdx << endl;
@@ -267,6 +299,7 @@ private:
    vector<Data>*     _buckets;
    //vector<Data>*     _buckets;
    //Data* _first;
+   mutable int _debugCount;
 
    size_t bucketNum(const Data& d) const {
       //cout << "d() = " << d() << endl;

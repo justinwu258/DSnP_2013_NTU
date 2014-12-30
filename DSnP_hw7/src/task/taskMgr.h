@@ -58,6 +58,7 @@ public:
    bool query(TaskNode& n) { return _taskHash.query(n); }
    void printAll() const;
    void delMinPrint();
+   void delDataPrint();
    void printHeap() const;
 private:
    MinHeap<TaskNode>   _taskHeap;

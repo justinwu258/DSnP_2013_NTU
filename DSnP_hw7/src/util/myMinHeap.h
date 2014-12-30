@@ -91,14 +91,22 @@ public:
             p = t;
             t = 2*p;
         }
-        cout << "  _data[n] = _data[" << n << "] = " << _data[n] << endl;
+        //cout << "  _data[n] = _data[" << n << "] = " << _data[n] << endl;
         _data[p] = _data[n--];
         _data.pop_back();
         return ret;
    }
    void delData(size_t i) { 
      //cout << "------------- minHeap delData success ---------------" << endl; 
-     _data.erase(_data.begin()+i); 
+     if(i == 0){ 
+        delMin();
+     } else {
+         Data ret = _data[i];
+         int n = _data.size()-1;
+         _data[i] = _data[n];
+         _data.pop_back();
+     }
+     //_data.erase(_data.begin()+i); 
    } // remove _data[i]
 
 private:

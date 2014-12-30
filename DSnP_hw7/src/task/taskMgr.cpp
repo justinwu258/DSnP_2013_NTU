@@ -31,7 +31,6 @@ TaskNode::TaskNode()
 size_t
 TaskNode::operator () () const 
 {
-    //cout << "overload TaskNode() " << endl;
    size_t k = 0, n = (_name.length() <= 5)? _name.length(): 5;
    for (size_t i = 0; i < n; ++i)
       k ^= (_name[i] << (i*6));
@@ -40,19 +39,16 @@ TaskNode::operator () () const
 
 ostream& operator << (ostream& os, const TaskNode& n)
 {
-   //cout << "overload operator in taskMgr.cpp" << endl;
    return os << "(" << n._name << ", " << n._load << ")";
 }
 
 TaskMgr::TaskMgr(size_t nMachines)
 : _taskHeap(nMachines), _taskHash(getHashSize(nMachines))
 {
-   for (size_t i = 0, n = nMachines; i < n; ++i) {
+   for (size_t i = 0, n = nMachines; i < n; ++i)
       if (!_taskHash.insert(_taskHeap[i])) {
          _taskHeap.delData(i); --n; --i;
       }
-      //cout << "insert ok , _taskHeap[" << i << "] = " << _taskHeap[i] << endl;
-   }
 }
 // END: DO NOT CHANGE THIS PART
 
@@ -60,10 +56,7 @@ TaskMgr::TaskMgr(size_t nMachines)
 void
 TaskMgr::add(size_t nMachines)
 {
-   //cout << "numBucketSize =" << _taskHash.numBuckets() << endl;
    int heapIdx = -1; //, initSize;
-   //int gg;
-   //initSize = _taskHeap.size();
    for (size_t i = 0, n = nMachines; i < n; ++i) {
         TaskNode* newNode = new TaskNode();
         heapIdx = _taskHeap.insert(*newNode);
@@ -73,8 +66,6 @@ TaskMgr::add(size_t nMachines)
         } else {
             cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
         }
-        //cout << "_taskHeap.size() = " << _taskHeap.size() <<  endl;
-   //     cin >> gg;
    }
    // TODO...
 }
@@ -112,22 +103,29 @@ TaskMgr::assign(size_t l)
         delMinPrint();  
    #endif 
    #ifdef delDataDebug
-        cout << "  --- Before delData ---" << endl;
-        printHeap();
-        int delIdx = 1;
-        for(int i = 0; i < 100 ; i++) {
-            delIdx = (i+1)*3;
-            if( delIdx > (_taskHeap.size()-1)) {
-                cout << "  --- break delData debug --- " << endl;
-                break;
-            }
-            _taskHeap.delData(delIdx);
-            //_taskHeap.delData(delIdx);
-            cout << "  --- After delData ---" << endl;
-            printHeap();
-        }
+        delDataPrint();
    #endif 
-
+   
+   if(size() == 0) {
+        cout << "taskMgr is empty" << endl;
+        return false;
+   } 
+   TaskNode* tmpNode = new TaskNode();
+   *tmpNode  = _taskHeap[0];
+   //cout << "tmpNode = " << *tmpNode << endl;  
+  
+   (*tmpNode) += -(*tmpNode).getLoad();
+   (*tmpNode) += l;
+   if(!_taskHash.update(*tmpNode)) {
+   } else {
+        (*tmpNode) = _taskHeap[0];
+        (*tmpNode) += l; 
+        _taskHeap.delMin();
+        //cout << "*tmpNode = " << *tmpNode << endl;
+        _taskHeap.insert(*tmpNode);
+   } 
+    
+    
    return true;
 }
 
@@ -135,33 +133,12 @@ TaskMgr::assign(size_t l)
 void
 TaskMgr::printAll() const 
 {
-  //   cout << "_taskHash.numBuckets = " << _taskHash.numBuckets() << endl;
-  //  for(unsigned i=0 ; i <  _taskHash.numBuckets() ; i++) {
-  //    if( !_taskHash._buckets[i].empty()){
-  //        for(vector<TaskNode>::iterator it =  _taskHash._buckets[i].begin(); it !=  _taskHash._buckets[i].end() ; it++ ) {
-  //              cout << "Just2 print" << endl;
-  //              cout << (*it) << endl;
-  //        }
-  //    }
-  //
-  //  }
-          // _taskHash.myPrintAll();
- //   TaskNode* aa = new TaskNode("aaa",555);
- //     cout << "Just test" << endl;
- //     cout << "get Name = " << aa->getName() << ", get Load = " << aa->getLoad() << endl;
- //     cout << "*aa = " << *aa << endl;
    HashSet<TaskNode>::iterator hi = _taskHash.begin();
-        //cout << "Just begin = " ;
-        //cout << *hi << endl;
-   for (; hi != _taskHash.end(); ++hi) 
-   {
-        //cout << "Just test" << endl;
-        cout << *hi << endl;
-   }
- //     //cout << hi << endl;
+   for (; hi != _taskHash.end(); ++hi)
+      cout << *hi << endl;
 }
 
-//help function
+//help functions
 void TaskMgr::delMinPrint() 
 {
    int count = 0;
@@ -175,6 +152,21 @@ void TaskMgr::delMinPrint()
    }
 }
 
+void TaskMgr::delDataPrint() {
+    cout << "  --- Before delData ---" << endl;
+    printHeap();
+    int delIdx = 1;
+    for(int i = 0; i < 100 ; i++) {
+        delIdx = (i+1)*3;
+        if( delIdx > (_taskHeap.size()-1)) {
+            cout << "  --- break delData debug --- " << endl;
+            break;
+        }
+        _taskHeap.delData(delIdx);
+        cout << "  --- After delData ---" << endl;
+        printHeap();
+    }
+}
 void TaskMgr::printHeap() const
 {
             for(int i = 0; i < _taskHeap.size() ; i++){
