@@ -9,4 +9,8 @@ taskq -min
 tasknew -r 3
 taskq -all
 taskq -min
+taskq a
+taskq b
+taskq z
+taskq d
 q -f 

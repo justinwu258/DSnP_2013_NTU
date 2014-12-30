@@ -1,9 +1,22 @@
-taski 1000000
+taski 7900
 taskq -all
+taskn -r 1
+taskq -all
+#taskn -r 100
+#taskq -all
+#taskn -r 1000
+#taskq -all
+#taskn -r 5000
+#taskq -all
+#taskn -r 100000
+#taskq -all
+#taski 1000000
+#taskq -all
 taska 100
 taskq -all
 taska 1000
 taskq -all
-taska 1000 -r 100000
-taskq -all
+#taska 1000 -r 100000
+#taskq -all
 usage
+q -f
