@@ -1,0 +1,15 @@
+taskinit 10
+taskquery -all
+taskquery -min
+taskquery abcde
+taskquery nzuea
+taskassign 10
+taskquery -all
+tasknew -Name a 1 
+tasknew -Name b 1 
+tasknew -Name c 1 
+tasknew -Name d 1 
+taskassign 10
+taskquery -all
+usage
+q -f

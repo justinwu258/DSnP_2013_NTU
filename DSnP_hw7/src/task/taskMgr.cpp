@@ -13,6 +13,7 @@
 #include "rnGen.h"
 #include "util.h"
 //#define delMinDebug
+#define delDataDebug
 
 using namespace std;
 
@@ -110,6 +111,22 @@ TaskMgr::assign(size_t l)
    #ifdef delMinDebug
         delMinPrint();  
    #endif 
+   #ifdef delDataDebug
+        cout << "  --- Before delData ---" << endl;
+        printHeap();
+        int delIdx = 1;
+        for(int i = 0; i < 100 ; i++) {
+            delIdx = (i+1)*3;
+            if( delIdx > (_taskHeap.size()-1)) {
+                cout << "  --- break delData debug --- " << endl;
+                break;
+            }
+            _taskHeap.delData(delIdx);
+            //_taskHeap.delData(delIdx);
+            cout << "  --- After delData ---" << endl;
+            printHeap();
+        }
+   #endif 
 
    return true;
 }
@@ -150,14 +167,17 @@ void TaskMgr::delMinPrint()
    int count = 0;
         //cout << "heap Size = " << _taskHeap.size() << endl;
    while(_taskHeap.size() > 0) {
-        if( (count % 1) == 0){ 
-            cout << endl <<"------ now count == " << count <<  ",  heapSize = " << _taskHeap.size() <<" ------"<< endl;
-            for(int i = 0; i < _taskHeap.size() ; i++){
-                cout << "  _taskHeap[" << i << "] = " << _taskHeap[i] << endl;
-            }
-        }
+        cout << endl <<"------ now count == " << count <<  ",  heapSize = " << _taskHeap.size() <<" ------"<< endl;
+        printHeap();
         //cout << "  heap Size = " << _taskHeap.size() << endl;
         _taskHeap.delMin();
         count++;
    }
+}
+
+void TaskMgr::printHeap() const
+{
+            for(int i = 0; i < _taskHeap.size() ; i++){
+                cout << "  _taskHeap[" << i << "] = " << _taskHeap[i] << endl;
+            }
 }

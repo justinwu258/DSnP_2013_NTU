@@ -99,7 +99,7 @@ public:
    void delData(size_t i) { 
       cout << "------------- minHeap delData success ---------------" << endl; 
       cout << "  _data[" << i << "] = " << _data[i] << endl;
-      _data[i] += -9999999;
+      _data[i] += -_data[i].getLoad();
       cout << "  new balance, _data[" << i << "] = " << _data[i] << endl;
       delMin();
       cout << "  end delData debug" << endl;
