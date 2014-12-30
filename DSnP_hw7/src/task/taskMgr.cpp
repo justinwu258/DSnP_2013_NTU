@@ -13,7 +13,7 @@
 #include "rnGen.h"
 #include "util.h"
 //#define delMinDebug
-#define delDataDebug
+//#define delDataDebug
 
 using namespace std;
 

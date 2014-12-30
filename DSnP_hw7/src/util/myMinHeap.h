@@ -97,13 +97,8 @@ public:
         return ret;
    }
    void delData(size_t i) { 
-      cout << "------------- minHeap delData success ---------------" << endl; 
-      cout << "  _data[" << i << "] = " << _data[i] << endl;
-      _data[i] += -_data[i].getLoad();
-      cout << "  new balance, _data[" << i << "] = " << _data[i] << endl;
-      delMin();
-      cout << "  end delData debug" << endl;
-     //_data.erase(_data.begin()+i); 
+     //cout << "------------- minHeap delData success ---------------" << endl; 
+     _data.erase(_data.begin()+i); 
    } // remove _data[i]
 
 private:
