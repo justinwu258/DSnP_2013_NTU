@@ -1,7 +1,7 @@
-taskinit 5
+taskinit 4
 taskquery -all
 taskquery -min
-taskn -r 1
+taskn -r 3
 taskquery -all
 taskquery -min
 q -f
