@@ -1,0 +1,13 @@
+To read in an aag file and print it to a graph or pdf, you need to:
+
+1. Download and install "graphviz" from http://www.graphviz.org/
+   Please refer to the document "How to use Graphviz.pdf".
+
+2. Convert aag file to dot file by:
+   "aigtodot <aagFile> <dotFile>"
+
+3. Convert dot file to png or pdf file by:
+   "dot <dotFile> -o <outputFile> -Tpng" or
+   "dot <dotFile> -o <outputFile> -Tpdf"
+
+That's it!
