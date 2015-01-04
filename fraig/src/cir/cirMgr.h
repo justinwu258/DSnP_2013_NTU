@@ -26,14 +26,23 @@ class CirMgr
 {
 public:
    CirMgr() {}
-   ~CirMgr() {}
+   ~CirMgr() {cleanGate();}
 
    // Access functions
    // return '0' if "gid" corresponds to an undefined gate.
-   CirGate* getGate(unsigned gid) const { return 0; }
+   CirGate* getGate(unsigned gid) const { 
+        if(gid <= M+O)
+            return _totalList[gid]; 
+        else
+            return 0;
+   }
 
    // Member functions about circuit construction
    bool readCircuit(const string&);
+   // Justin add member function
+   void aagRecorder(string  , size_t , size_t, size_t );
+   void cleanGate();
+   void myDFS(CirGate*);
 
    // Member functions about circuit optimization
    void sweep();
@@ -61,6 +70,48 @@ public:
 private:
    ofstream           *_simLog;
 
+   // below all , is added by Justin
+   vector<CirPIGate*> _piList;
+   vector<CirPOGate*> _poList;
+   vector<CirAIGGate*> _aigList;
+   vector<CirUndefGate*> _undefList;
+   vector<CirGate*> _totalList;
+   vector<CirGate*> _dfsList;
+   //CirGate**        _myTotalList; 
+   size_t M, I, L, O, A;
+   vector<string> _tokenList; 
+ 
+   // ---------  member function -----------   
+   size_t newMyStrGetTok(const string& str, string& tok, size_t& beginAddr,           size_t pos = 0 ,const char del = ' ')
+   {
+      size_t begin = str.find_first_not_of(del, pos);
+      if (begin == string::npos) { tok = ""; return begin; }
+      size_t end = str.find_first_of(del, begin);
+      tok = str.substr(begin, end - begin);
+      beginAddr = begin;
+      return end;
+   }
+   
+   void aagDebugPrint(string  token, size_t countLine, size_t beginAddr, string specStr, int ID = -1) {
+       #ifdef aagDebug
+        string tmpToken = token;
+        cout << token << " - " << specStr;
+        if(ID != -1) {
+            size_t m;
+            size_t n = newMyStrGetTok(tmpToken, token, m);
+            while(token.size()){    
+                if(atoi(token.c_str())%2 == 0) {
+                    cout << " " << atoi(token.c_str())/2;
+                } else {
+                    cout << " !" << atoi(token.c_str())/2;
+                }
+                n = newMyStrGetTok(tmpToken, token, m , n);
+                
+            }
+        }
+        cout << " (" << countLine << ", " << beginAddr << ")" << endl; 
+       #endif
+   }
 };
 
 #endif // CIR_MGR_H

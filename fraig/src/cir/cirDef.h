@@ -18,6 +18,14 @@ using namespace std;
 
 class CirGate;
 class CirMgr;
+class CirPIGate;
+class CirPOGate;
+class CirAIGGate;
+class CirUndefGate;
+class CirConstGate;
+class CirGateInfo;
 class SatSolver;
 
+typedef vector<CirGate*>           GateList;
+typedef vector<unsigned>           IdList;
 #endif // CIR_DEF_H
