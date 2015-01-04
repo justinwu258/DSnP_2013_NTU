@@ -36,7 +36,20 @@ CirGate::reportGate() const
     if((*this)._name != "") oStr << "\"" << (*this)._name << "\"";
     oStr     << ", line " << (*this).getLineNo();
     remainLenth = 50 - oStr.str().length();
-    cout << oStr.str() << right << setw(remainLenth) << "=" << endl;  
+    cout << oStr.str() << right << setw(remainLenth) << "=" << endl; 
+    
+    oStr.str("");
+    oStr.clear();
+    oStr << "= FECs:" ;
+    remainLenth = 50 - oStr.str().length();  // "= FECs:" lenth is 7
+    cout << oStr.str() << right << setw(remainLenth) << "=" << endl; 
+ 
+    oStr.str("");
+    oStr.clear();
+    oStr << "= Value: " << "0000_0000_0000_0000_0000_0000_0000_0000";
+    remainLenth = 50 - oStr.str().length();
+    cout << oStr.str() << right << setw(remainLenth) << "=" << endl; 
+
     cout << "==================================================" << endl;
 
 }

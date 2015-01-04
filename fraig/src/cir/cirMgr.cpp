@@ -637,6 +637,6 @@ CirMgr::writeAag(ostream& outfile) const
             }
         }       
         outfile << "c" << endl;
-        //outfile << "AAG output by Chung-Yang (Ric) Huang" << endl;
+        outfile << "AAG output by Chung-Yang (Ric) Huang" << endl;
 }
 
