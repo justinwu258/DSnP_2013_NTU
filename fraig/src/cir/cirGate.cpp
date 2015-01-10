@@ -154,7 +154,7 @@ void CirGate::recurFanoutDFS(int level,const CirGate* gate, int N, bool inv , ve
         else if(gate->_type == "CONST")
             cout << gate->_type << " 0"  << endl;
         else if(gate->_type == "UNDEF")
-            cout << gate->_type << "UNDEF " << gate->getID() << endl;
+            cout << gate->_type << " " << gate->getID() << endl;
         else if(gate->_type == "AIG"){
             if(gate->_isRecurVisited && level != 0)
                 cout << gate->_type << " " << gate->getID() << " (*)"<< endl;
