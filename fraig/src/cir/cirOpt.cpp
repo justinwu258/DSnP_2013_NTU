@@ -54,7 +54,7 @@ CirMgr::sweep()
             it++;
         }
    }             
-   for(vector<CirGate*>::iterator it = _totalList.begin(); it != _totalList.end(); it++){
+   for(vector<CirGate*>::iterator it = _totalList.begin(); it != _totalList.end(); ){
         if(*it != 0){
   //          cout << "  (Total)ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
   //          cout << ", _isVisited = " << (*it)->_isVisited  << endl;    
@@ -69,8 +69,18 @@ CirMgr::sweep()
           //          _undefList.erase(itUndef);
           //      }
                 delete *it;
-            }
-        }   
+                it = _totalList.erase(it);
+            } else if ( ((((*it)->_type == "PI")) && !(*it)->_isVisited )) { // not visited , means fanout is no usage
+                (*it)->_fanoutList.clear();
+                it++;
+            } else {
+                it++;
+            } 
+            
+           
+        }  else {
+            it++;
+        } 
    } 
 }
 

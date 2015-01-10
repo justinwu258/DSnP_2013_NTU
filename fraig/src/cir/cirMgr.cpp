@@ -434,6 +434,14 @@ CirMgr::printNetlist() const
              //cout << " IP" << endl ;
    }
    #endif
+   #ifdef debug_DFS
+   for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
+        if(*it != 0){
+           cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+            cout << ", _isVisited = " << (*it)->_isVisited  << endl;          
+        }
+   }
+   #endif
    size_t count = 0;
    cout << endl;
    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
