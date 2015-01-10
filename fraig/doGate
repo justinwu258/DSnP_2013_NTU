@@ -1,0 +1,16 @@
+cirr justin_aag/just.aag
+cirg 25
+cirg 13
+cirg 25 -fanin 4
+cirg 25 -fanin 3
+cirg 7 -fanin 1
+cirg 6
+cirr -r justin_aag/just2.aag
+cirg 25
+cirg 13
+cirg 25 -fanin 4
+cirg 25 -fanin 3
+cirg 7 -fanin 1
+cirg 6
+q -f
+

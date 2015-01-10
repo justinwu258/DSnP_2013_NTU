@@ -1,0 +1,19 @@
+cirr justin_aag/just.aag 
+cirp -netlist
+cirp -pi 
+cirp -po
+cirp -float
+cirp
+cirg 10 -fanout 8  
+cirg 6 -fanout 8  
+cirg 0 -fanout 8  
+cirg 1 -fanout 8  
+cirg 15 -fanout 8  
+cirg 24 -fanout 8  
+cirr -r justin_aag/justFanout.aag 
+cirg 10 -fanout 8  
+cirg 6 -fanout 8  
+cirg 0 -fanout 8  
+cirg 1 -fanout 8  
+cirg 24 -fanout 8  
+q -f 

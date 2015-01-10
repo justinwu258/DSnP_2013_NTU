@@ -1,0 +1,8 @@
+cirr tests.err/flt05.aag 
+cirp -netlist
+cirp -pi 
+cirp -po
+cirp -float
+cirp  
+cirg 3 -fani 5
+q -f 

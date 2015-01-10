@@ -1,0 +1,11 @@
+./ref/fraig -f doOpt04
+./ref/fraig -f doJ
+./ref/fraig -f doStrash06
+./ref/fraig -f doJust
+./ref/fraig -f doSim13
+./ref/fraig -f doSim05
+./ref/fraig -f doFlt05
+./ref/fraig -f doTest
+./ref/fraig -f doTestIO
+./ref/fraig -f doTestNetList
+./ref/fraig -f doTestFloating

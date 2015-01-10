@@ -1,0 +1,7 @@
+cirr tests.err/flt02.aag 
+cirp -netlist
+cirp -pi 
+cirp -po
+cirp -float
+cirp  
+q -f 
