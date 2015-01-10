@@ -18,7 +18,7 @@
 #include "cirGate.h"
 #include "util.h"
 
-//#define debug_inout
+#define debug_inout
 //#define debug_DFS
 using namespace std;
 
@@ -244,6 +244,7 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                         _undefList.push_back(undef);
                         aig->_faninList.push_back(undef);
                         undef->_fanoutList.push_back(aig);
+                        undef->_type = "UNDEF";
                         if(rhs1%2 == 1) aig->_rhs1_invert = 1;
                     }
                     if(_totalList[rhs2/2] != 0) {         // this Gate is defined
@@ -255,6 +256,7 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                         _undefList.push_back(undef);
                         aig->_faninList.push_back(undef);
                         undef->_fanoutList.push_back(aig);
+                        undef->_type = "UNDEF";
                         if(rhs2%2 == 1) aig->_rhs2_invert = 1;
                     }
                     
@@ -429,7 +431,7 @@ CirMgr::printNetlist() const
    size_t count = 0;
    cout << endl;
    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-        if( (*it)->_type == "") //undef Gate
+        if( (*it)->_type == "UNDEF") //undef Gate
             continue;
         cout << "["  << count << "] ";
         cout << (*it)->_type;
@@ -452,12 +454,12 @@ CirMgr::printNetlist() const
              //cout << " IP" ;
              cout << " " << (*it)->getID();
              //rhs1 
-             if((*it)->_faninList[0]->_type == "")  { cout << " *"; }
+             if((*it)->_faninList[0]->_type == "UNDEF")  { cout << " *"; }
              else                                   { cout << " " ; }
              if(((CirAIGGate*)(*it))->_rhs1_invert) { cout << "!"  << ((CirPOGate*)(*it))->_faninList[0]->getID(); } 
              else                                   { cout << ((CirPOGate*)(*it))->_faninList[0]->getID(); }
              //rhs2
-             if((*it)->_faninList[1]->_type == "")  { cout << " *"; }
+             if((*it)->_faninList[1]->_type == "UNDEF")  { cout << " *"; }
              else                                   { cout << " " ; }
              if(((CirAIGGate*)(*it))->_rhs2_invert) { cout << "!"  << ((CirPOGate*)(*it))->_faninList[1]->getID(); } 
              else                                   { cout << ((CirPOGate*)(*it))->_faninList[1]->getID(); }
@@ -529,8 +531,8 @@ CirMgr::printFloatGates() const
                      cout << "(*it)->_faninList[0]->_type = " << (*it)->_faninList[0]->_type << endl;
                      cout << "(*it)->_faninList[1]->_type = " << (*it)->_faninList[1]->_type << endl;
                 #endif
-                if((*it)->_faninList[0]->_type == "") floatingGate.push_back((*it)->getID());
-                else if ((*it)->_faninList[1]->_type == "") floatingGate.push_back((*it)->getID());
+                if((*it)->_faninList[0]->_type == "UNDEF") floatingGate.push_back((*it)->getID());
+                else if ((*it)->_faninList[1]->_type == "UNDEF") floatingGate.push_back((*it)->getID());
           } 
           // check notUsedGate
           if((*it)->_fanoutList.size() == 0){
@@ -555,7 +557,7 @@ CirMgr::printFloatGates() const
           if((*it)->_faninList.size() ==0){
                  floatingGate.push_back((*it)->getID());
           } else {
-                 if((*it)->_faninList[0]->_type == "") floatingGate.push_back((*it)->getID());
+                 if((*it)->_faninList[0]->_type == "UNDEF") floatingGate.push_back((*it)->getID());
           } 
         } 
     }

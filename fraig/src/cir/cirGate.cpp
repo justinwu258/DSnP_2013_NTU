@@ -113,7 +113,7 @@ void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv , vec
     if(gate->_type == "CONST") {
         cout << gate->_type << " 0"  << endl;
     }
-    if(gate->_type == "") {
+    if(gate->_type == "UNDEF") {
         cout << gate->_type << "UNDEF " << gate->getID() << endl;
     }
     if(gate->_type == "AIG") { 
@@ -148,12 +148,12 @@ void CirGate::recurFanoutDFS(int level,const CirGate* gate, int N, bool inv , ve
     if(gate->_type == "PO") {
         cout << gate->_type << " " << gate->getID()<< endl;
     }
-    if(gate->_type == "PI" || gate->_type == "CONST" || gate->_type == "" || gate->_type == "AIG") {
+    if(gate->_type == "PI" || gate->_type == "CONST" || gate->_type == "UNDEF" || gate->_type == "AIG") {
         if(gate->_type == "PI")
             cout << gate->_type << " " << gate->getID() << endl;
         else if(gate->_type == "CONST")
             cout << gate->_type << " 0"  << endl;
-        else if(gate->_type == "")
+        else if(gate->_type == "UNDEF")
             cout << gate->_type << "UNDEF " << gate->getID() << endl;
         else if(gate->_type == "AIG"){
             if(gate->_isRecurVisited && level != 0)
