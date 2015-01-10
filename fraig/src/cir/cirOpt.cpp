@@ -30,6 +30,48 @@ using namespace std;
 void
 CirMgr::sweep()
 {
+   //vector<CirAIGGate*>::iterator itAig;
+   //vector<CirUndefGate*>::iterator itUndef;
+   for(vector<CirAIGGate*>::const_iterator it = _aigList.begin(); it != _aigList.end(); ) {
+        if(!(*it)->_isVisited) {
+            //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+            //cout << ", _isVisited = " << (*it)->_isVisited  << endl; 
+            it = _aigList.erase(it); 
+        }  else {
+            //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+            //cout << ", _isVisited = " << (*it)->_isVisited << ", it++" << endl; 
+            it ++;
+        }
+   }             
+   for(vector<CirUndefGate*>::iterator it = _undefList.begin(); it != _undefList.end(); ) {
+        if(!(*it)->_isVisited) {
+            //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+            //cout << ", _isVisited = " << (*it)->_isVisited  << endl;  
+            it = _undefList.erase(it); 
+        }  else {
+            //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+            //cout << ", _isVisited = " << (*it)->_isVisited << ", it++" << endl; 
+            it++;
+        }
+   }             
+   for(vector<CirGate*>::iterator it = _totalList.begin(); it != _totalList.end(); it++){
+        if(*it != 0){
+  //          cout << "  (Total)ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+  //          cout << ", _isVisited = " << (*it)->_isVisited  << endl;    
+            if( (((*it)->_type == "AIG") || ((*it)->_type == "UNDEF")) && !(*it)->_isVisited ){
+                cout << "Sweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
+          //      if( (*it)->_type == "AIG"){
+          //          *itAig = (CirAIGGate*) *it; 
+          //          _aigList.erase(itAig);
+          //      }
+          //      else if((*it)->_type == "UNDEF") {
+          //          *itUndef = (CirUndefGate*) *it;
+          //          _undefList.erase(itUndef);
+          //      }
+                delete *it;
+            }
+        }   
+   } 
 }
 
 void
