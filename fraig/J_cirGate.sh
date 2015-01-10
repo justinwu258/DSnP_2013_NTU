@@ -1,0 +1,1 @@
+./fraig -f doGate
