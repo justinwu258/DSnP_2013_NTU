@@ -18,7 +18,7 @@
 #include "cirGate.h"
 #include "util.h"
 
-#define debug_inout
+//#define debug_inout
 //#define debug_DFS
 using namespace std;
 
@@ -345,6 +345,7 @@ CirMgr::readCircuit(const string& fileName)
              delete *it;
              it = _undefList.erase(it);         
         } else {
+            _totalList[(*it)->getID()] = (*it);
             ++it;
         }
      }
