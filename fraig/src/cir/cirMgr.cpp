@@ -240,7 +240,7 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                         _totalList[rhs1/2]->_fanoutList.push_back(aig);
                         if(rhs1%2 == 1) aig->_rhs1_invert = 1;
                     } else {
-                        CirUndefGate* undef = new CirUndefGate(countLine, rhs1/2);
+                        CirUndefGate* undef = new CirUndefGate(0, rhs1/2);
                         _undefList.push_back(undef);
                         aig->_faninList.push_back(undef);
                         undef->_fanoutList.push_back(aig);
@@ -252,7 +252,7 @@ void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size
                         _totalList[rhs2/2]->_fanoutList.push_back(aig);
                         if(rhs2%2 == 1) aig->_rhs2_invert = 1;
                     } else {
-                        CirUndefGate* undef = new CirUndefGate(countLine, rhs2/2);
+                        CirUndefGate* undef = new CirUndefGate(0, rhs2/2);
                         _undefList.push_back(undef);
                         aig->_faninList.push_back(undef);
                         undef->_fanoutList.push_back(aig);
@@ -357,6 +357,10 @@ CirMgr::readCircuit(const string& fileName)
                 cout << "put ID = \"" <<  (*it)->getID() << "\"  to AIG output" << endl;
             #endif
             _totalList[(*it)->_faninID]->_fanoutList.push_back((*it));
+        } else {    // *** fraig project add from cirGate.cpp
+            CirUndefGate* undef = new CirUndefGate(0,((*it)->getFaninID())); //only for recur issue 
+            undef->_type = "UNDEF";
+            (*it)->_faninList.push_back(undef);
         }
      }
     
@@ -445,7 +449,7 @@ CirMgr::printNetlist() const
             if((*it)->_name != "")  cout << " (" << (*it)->_name << ")";
         } else if ((*it)->_type == "PO") {
             cout << "  " << (*it)->getID();
-            if((*it)->_faninList.size() == 0)  { cout << " *"; }
+            if((*it)->_faninList[0]->_type == "UNDEF" )  { cout << " *"; }
             else                               { cout << " " ; }
             if(((CirPOGate*)(*it))->_isInvert) { cout << "!"  << ((CirPOGate*)(*it))->_faninID; }
             else         { cout << ""  << ((CirPOGate*)(*it))->_faninID;}

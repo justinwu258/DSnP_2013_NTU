@@ -34,7 +34,7 @@ CirGate::reportGate() const
     int remainLenth = 0;
     oStr << "= " << (*this)._type << "(" <<  (*this).getID() << ")";
     if((*this)._name != "") oStr << "\"" << (*this)._name << "\"";
-    oStr     << ", line " << (*this).getLineNo();
+    oStr     << ", line " <<  (*this).getLineNo();
     remainLenth = 50 - oStr.str().length();
     cout << oStr.str() << right << setw(remainLenth) << "=" << endl; 
     
@@ -101,10 +101,13 @@ void CirGate::recurFaninDFS(int level,const CirGate* gate, int N, bool inv , vec
             
             if(gate->_faninList.size()==0) { 
                 CirUndefGate* undef = new CirUndefGate(0,((CirPOGate*)gate)->getFaninID()); //only for recur issue
+                undef->_type = "UNDEF";
                 recurFaninDFS(level-1,undef,N+1,inv , vPathRecord);  
                 delete undef;         //remember release it 
+                cout << "call add undef!!!!" << endl;
             }
-            else recurFaninDFS(level-1,gate->_faninList[0],N+1,inv , vPathRecord);
+            else 
+                recurFaninDFS(level-1,gate->_faninList[0],N+1,inv , vPathRecord);
         }
     }
     if(gate->_type == "PI") {
