@@ -154,7 +154,7 @@ parseError(CirParseError err)
 /**************************************************************/
 void CirMgr::cleanGate() {
    for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
-        if((*it) != 0 ) { 
+        if((*it) != 0 && ((*it)->_type != "UNDEF") ) { 
             delete *it;
         }   
    }
