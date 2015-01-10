@@ -361,6 +361,7 @@ CirMgr::readCircuit(const string& fileName)
             CirUndefGate* undef = new CirUndefGate(0,((*it)->getFaninID())); //only for recur issue 
             undef->_type = "UNDEF";
             (*it)->_faninList.push_back(undef);
+            _undefList.push_back(undef);
         }
      }
     
