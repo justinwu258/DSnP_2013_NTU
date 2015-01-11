@@ -11,6 +11,7 @@
 #include "cirGate.h"
 #include "util.h"
 
+//#define debug_opt
 using namespace std;
 
 // TODO: Please keep "CirMgr::sweep()" and "CirMgr::optimize()" for cir cmd.
@@ -55,6 +56,13 @@ CirMgr::sweep()
             it++;
         }
    }             
+   for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); ) {
+        if(!(*it)->_isVisited) {
+            it = _dfsList.erase(it); 
+        }  else {
+            it++;
+        }
+   }             
    for(vector<CirGate*>::iterator it = _totalList.begin(); it != _totalList.end(); ){
         if(*it != 0){
   //          cout << "  (Total)ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
@@ -90,18 +98,64 @@ CirMgr::optimize()
 {
     int i = 0, j = 0; 
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-        if(*it != 0){ 
+        if(*it != 0){
+            #ifdef debug_opt 
             cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
             cout << ", _isVisited = " << (*it)->_isVisited  << endl;    
+            #endif
             if( ((*it)->_type == "CONST") ) {
+                #ifdef debug_opt
                 cout << "  I'm CONST , do nothing" << endl; 
+                #endif
             } else if( ((*it)->_type == "PI") ) {
+                #ifdef debug_opt
                 cout << "  I'm PI , do nothing" << endl; 
+                #endif
             } else if( ((*it)->_type == "AIG") ) {  // check fanin & fanout
                 if((*it)->_faninList[0]->_type == "CONST") {
-                    
+                        (*it)->_isVisited = false;
+                        for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
+                            for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
+                                if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
+                                    (*it)->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
+                                    cout << "Simplifying: " << (*it)->_fanoutList[i]->_faninList[j]->getID()  << 
+                                            " merging " << (*it)->getID() << "..." << endl;
+                                    #ifdef debug_opt
+                                    cout << "=== fanin has constant 0 ===" << endl <<
+                                            " (*it)->_fanoutList[i]->_faninList[j] = " << 
+                                            (*it)->_fanoutList[i]->_faninList[j] << ",  type = " << 
+                                            (*it)->_fanoutList[i]->_faninList[j]->_type << 
+                                            ",  ID = " << (*it)->_fanoutList[i]->_faninList[j]->getID()  << endl;
+                                    cout << " (*it)->_fanoutList[i] = " << 
+                                            (*it)->_fanoutList[i] << ",  type = " << 
+                                            (*it)->_fanoutList[i]->_type << 
+                                            ",  ID = " << (*it)->_fanoutList[i]->getID()  << endl;
+                                    #endif
+                                }
+                            }
+                        }
                 } else if((*it)->_faninList[1]->_type == "CONST") {
-             
+                        (*it)->_isVisited = false;
+                        for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
+                            for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
+                                if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
+                                    (*it)->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
+                                    cout << "Simplifying: " << (*it)->_fanoutList[i]->_faninList[j]->getID()  << 
+                                            " merging " << (*it)->getID() << "..." << endl;
+                                    #ifdef debug_opt
+                                    cout << "=== fanin 2 has constant 0 ===" << endl <<
+                                            " (*it)->_fanoutList[i]->_faninList[j] = " << 
+                                            (*it)->_fanoutList[i]->_faninList[j] << ",  type = " << 
+                                            (*it)->_fanoutList[i]->_faninList[j]->_type << 
+                                            ",  ID = " << (*it)->_fanoutList[i]->_faninList[j]->getID()  << endl;
+                                    cout << " (*it)->_fanoutList[i] = " << 
+                                            (*it)->_fanoutList[i] << ",  type = " << 
+                                            (*it)->_fanoutList[i]->_type << 
+                                            ",  ID = " << (*it)->_fanoutList[i]->getID()  << endl;
+                                    #endif
+                                }
+                            }
+                        }
                 } else if((*it)->_faninList[0] == (*it)->_faninList[1]) {
                     if( ((CirAIGGate*)(*it))->_rhs1_invert && ((CirAIGGate*)(*it))->_rhs2_invert ) {   // both are inverted
                         (*it)->_isVisited = false;
@@ -113,6 +167,7 @@ CirMgr::optimize()
                                     else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert = 1;
                                     cout << "Simplifying: " << (*it)->_fanoutList[i]->_faninList[j]->getID()  << 
                                             " merging !" << (*it)->getID() << "..." << endl;
+                                    #ifdef debug_opt
                                     cout << "  i = " << i << ", j = " << j << ", (*it)->_fanoutList.size() = " << 
                                             (*it)->_fanoutList.size() << endl;
                                     cout << "(CirAIGGate*)(*it))->_rhs1_invert = " << ((CirAIGGate*)(*it))->_rhs1_invert 
@@ -127,6 +182,7 @@ CirMgr::optimize()
                                             (*it)->_fanoutList[i] << ",  type = " << 
                                             (*it)->_fanoutList[i]->_type << 
                                             ",  ID = " << (*it)->_fanoutList[i]->getID()  << endl;
+                                    #endif
                                 }
                             }
                         }
@@ -140,6 +196,7 @@ CirMgr::optimize()
                                     else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert = 0;
                                     cout << "Simplifying: " << (*it)->_fanoutList[i]->_faninList[j]->getID()  << 
                                             " merging " << (*it)->getID() << "..." << endl;
+                                    #ifdef debug_opt
                                     cout << "  i = " << i << ", j = " << j << ", (*it)->_fanoutList.size() = "  <<
                                             (*it)->_fanoutList.size() << endl;
                                     cout << "(CirAIGGate*)(*it))->_rhs1_invert = " << ((CirAIGGate*)(*it))->_rhs1_invert 
@@ -154,6 +211,7 @@ CirMgr::optimize()
                                             (*it)->_fanoutList[i] << ",  type = " << 
                                             (*it)->_fanoutList[i]->_type << 
                                             ",  ID = " << (*it)->_fanoutList[i]->getID()  << endl;
+                                    #endif
                                 }
                             }
                         }
@@ -165,6 +223,7 @@ CirMgr::optimize()
                                     (*it)->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
                                     cout << "Simplifying: " << (*it)->_fanoutList[i]->_faninList[j]->getID()  << 
                                             " merging " << (*it)->getID() << "..." << endl;
+                                    #ifdef debug_opt
                                     cout << "=== two fanin is same gate, but phase different ===" << endl <<
                                             " (*it)->_fanoutList[i]->_faninList[j] = " << 
                                             (*it)->_fanoutList[i]->_faninList[j] << ",  type = " << 
@@ -174,6 +233,7 @@ CirMgr::optimize()
                                             (*it)->_fanoutList[i] << ",  type = " << 
                                             (*it)->_fanoutList[i]->_type << 
                                             ",  ID = " << (*it)->_fanoutList[i]->getID()  << endl;
+                                    #endif
                                 }
                             }
                         }
@@ -182,13 +242,18 @@ CirMgr::optimize()
 
                 }
             } else if( ((*it)->_type == "PO") ) {
+                #ifdef debug_opt
                 cout << "  I'm PO , do nothing" << endl; 
+                #endif
             } else if ( ((*it)->_type == "UNDEF")) {
+                #ifdef debug_opt
                 cout << "  I'm UNDEF , do nothing" << endl; 
+                #endif
             }
         }   
     }
-    //CirMgr::sweep();
+    CirMgr::sweep();
+    #ifdef debug_opt
     cout << " ===== merging done ===== " << endl;
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){ 
@@ -196,6 +261,7 @@ CirMgr::optimize()
             cout << ", _isVisited = " << (*it)->_isVisited  << endl;   
         } 
     }
+    #endif
 }
 
 /***************************************************/
