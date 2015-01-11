@@ -70,7 +70,7 @@ CirMgr::sweep()
   //          cout << "  (Total)ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
   //          cout << ", _isVisited = " << (*it)->_isVisited  << endl;    
             if( (((*it)->_type == "AIG") || ((*it)->_type == "UNDEF")) && !(*it)->_isVisited ){
-                cout << "Sweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
+                if(!_isOptSweep)      cout << "Sweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
           //      if( (*it)->_type == "AIG"){
           //          *itAig = (CirAIGGate*) *it; 
           //          _aigList.erase(itAig);
@@ -96,12 +96,76 @@ CirMgr::sweep()
 }
 
 void
+CirMgr::optSweep()
+{
+   #ifdef debug_opt 
+   cout << "call sweep" << endl;
+   #endif
+   for(vector<CirAIGGate*>::const_iterator it = _aigList.begin(); it != _aigList.end(); ) {
+        if((*it)->_optVisited && ((*it)->_isVisited)) {
+            it = _aigList.erase(it); 
+        }  else {
+            it ++;
+        }
+   }             
+   for(vector<CirUndefGate*>::iterator it = _undefList.begin(); it != _undefList.end(); ) {
+        if((*it)->_optVisited && ((*it)->_isVisited)) {
+            it = _undefList.erase(it); 
+        }  else {
+            it++;
+        }
+   }             
+   for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); ) {
+        if((*it)->_optVisited && ((*it)->_isVisited)) {
+            it = _dfsList.erase(it); 
+        }  else {
+            it++;
+        }
+   }             
+   for(vector<CirGate*>::iterator it = _totalList.begin(); it != _totalList.end(); ){
+        if(*it != 0){
+            if( (((*it)->_type == "AIG") || ((*it)->_type == "UNDEF")) && (*it)->_optVisited  && ((*it)->_isVisited) ){
+                #ifdef debug_opt
+                cout << "optSweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
+                #endif
+                delete *it;
+                it = _totalList.erase(it);
+            } else if ( ((((*it)->_type == "PI")) && (*it)->_optVisited )  && ((*it)->_isVisited) ) { // not visited , means fanout is no usage
+                (*it)->_fanoutList.clear();
+                it++;
+            } else {
+                it++;
+            } 
+        }  else {
+            it++;
+        } 
+   } 
+}
+void CirMgr::optDFS(CirGate* gate){
+
+    gate->_optVisited = false;
+    //reverse(gate->_faninList.begin(), gate->_faninList.end());
+    for(vector<CirGate*>::const_iterator it = gate->_faninList.begin(); it != gate->_faninList.end(); it++)
+    {
+        if((*it)->_isVisited == true)  // this gate(node) , was not be visted
+        {
+            optDFS((*it));
+        }
+    }
+    _optList.push_back(gate);
+    #ifdef debug_DFS
+    cout << "DFS search now is in this gate :   " << gate << " , gate ID = " << gate->getID() << " , type = " << gate->_type << endl;
+    #endif
+    //reverse(gate->_faninList.begin(), gate->_faninList.end());
+}
+void
 CirMgr::optimize()
 {
     int i = 0, j = 0; 
     int poInv,aigInv;
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
+                        (*it)->_optVisited = true;
             #ifdef debug_opt 
             cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
             cout << ", _isVisited = " << (*it)->_isVisited;   
@@ -134,7 +198,7 @@ CirMgr::optimize()
                 #endif
             } else if( ((*it)->_type == "AIG") ) {  // check fanin & fanout
                 if((*it)->_faninList[0]->_type == "CONST") {
-                        (*it)->_isVisited = false;
+                        (*it)->_optVisited = true;
                         if(((CirAIGGate*)(*it))->_rhs1_invert == 0) {
                             cout << "Simplifying: " << _totalList[0]->getID()  << 
                                     " merging " << (*it)->getID() << "..." << endl;
@@ -186,7 +250,7 @@ CirMgr::optimize()
                             }
                         }
                 } else if((*it)->_faninList[1]->_type == "CONST") {
-                        (*it)->_isVisited = false;
+                        (*it)->_optVisited = true;
                         if(((CirAIGGate*)(*it))->_rhs2_invert == 0) {
                             cout << "Simplifying: " << _totalList[0]->getID()  << 
                                     " merging " << (*it)->getID() << "..." << endl;
@@ -240,7 +304,7 @@ CirMgr::optimize()
                         }
                 } else if((*it)->_faninList[0] == (*it)->_faninList[1]) {
                     if( ((CirAIGGate*)(*it))->_rhs1_invert && ((CirAIGGate*)(*it))->_rhs2_invert ) {   // both are inverted
-                        (*it)->_isVisited = false;
+                        (*it)->_optVisited = true;
                         cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
                                 " merging !" << (*it)->getID() << "..." << endl;
                         for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
@@ -274,7 +338,7 @@ CirMgr::optimize()
                             }
                         }
                     } else if( !((CirAIGGate*)(*it))->_rhs1_invert && !((CirAIGGate*)(*it))->_rhs2_invert ) { //both are same
-                        (*it)->_isVisited = false;
+                        (*it)->_optVisited = true;
                         cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
                                 " merging " << (*it)->getID() << "..." << endl;
                         for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
@@ -308,7 +372,7 @@ CirMgr::optimize()
                             }
                         }
                     } else {    // one is inverted , one is origin
-                        (*it)->_isVisited = false;
+                        (*it)->_optVisited = true;
                         cout << "Simplifying: " << _totalList[0]->getID()  << 
                                 " merging " << (*it)->getID() << "..." << endl;
                         for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
@@ -336,24 +400,24 @@ CirMgr::optimize()
             } else if( ((*it)->_type == "PO") ) {
                 ((CirPOGate*)(*it))->setFaninID((*it)->_faninList[0]->getID());
                 #ifdef debug_opt
-                cout << "PO fanin ID = " << ((CirPOGate*)(*it))->_faninList[0]->getID() << endl;
-                cout << "PO fanin's fanin1 type = " << ((CirAIGGate*)(*it)->_faninList[0])->_faninList[0]->_type << endl;
-                cout << "PO fanin's fanin2 type = " << ((CirAIGGate*)(*it)->_faninList[0])->_faninList[1]->_type << endl;
-                cout << "PO fanin's fanin1 invert = " << ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert << endl;
-                cout << "PO fanin's fanin2 invert = " << ((CirAIGGate*)(*it)->_faninList[0])->_rhs2_invert << endl;
-                if(((CirAIGGate*)(*it)->_faninList[0])->_faninList[0]->_type != "CONST" ){//&& 
-                  // ((CirAIGGate*)(*it)->_faninList[0])->_faninList[1]->_type =="CONST" && ((CirAIGGate*)(*it)->_faninList[0])->_rhs2_invert==1 ) {
-                    //if( ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert  )   ((CirPOGate*)(*it))->setInvert(1);                    
-                    //else                                                       ((CirPOGate*)(*it))->setInvert(0);
-                    cout << "Invert Check = " << ((CirPOGate*)(*it))->_faninList[0]->getID() << endl;
-                    //poInv = ((CirPOGate*)(*it))->getIsInv() ^ ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert;
-                    //((CirPOGate*)(*it))->setInvert(poInv);
-                }
-                if(((CirAIGGate*)(*it)->_faninList[0])->_faninList[1]->_type != "CONST" ) {
-                //    if( ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert  )   ((CirPOGate*)(*it))->setInvert(1);
-                //    else                                                       ((CirPOGate*)(*it))->setInvert(0);
-                }
-                cout << "  I'm PO , do nothing" << endl; 
+       //         cout << "PO fanin ID = " << ((CirPOGate*)(*it))->_faninList[0]->getID() << endl;
+       //         cout << "PO fanin's fanin1 type = " << ((CirAIGGate*)(*it)->_faninList[0])->_faninList[0]->_type << endl;
+       //         cout << "PO fanin's fanin2 type = " << ((CirAIGGate*)(*it)->_faninList[0])->_faninList[1]->_type << endl;
+       //         cout << "PO fanin's fanin1 invert = " << ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert << endl;
+       //         cout << "PO fanin's fanin2 invert = " << ((CirAIGGate*)(*it)->_faninList[0])->_rhs2_invert << endl;
+       //         if(((CirAIGGate*)(*it)->_faninList[0])->_faninList[0]->_type != "CONST" ){//&& 
+       //           // ((CirAIGGate*)(*it)->_faninList[0])->_faninList[1]->_type =="CONST" && ((CirAIGGate*)(*it)->_faninList[0])->_rhs2_invert==1 ) {
+       //             //if( ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert  )   ((CirPOGate*)(*it))->setInvert(1);                    
+       //             //else                                                       ((CirPOGate*)(*it))->setInvert(0);
+       //             cout << "Invert Check = " << ((CirPOGate*)(*it))->_faninList[0]->getID() << endl;
+       //             //poInv = ((CirPOGate*)(*it))->getIsInv() ^ ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert;
+       //             //((CirPOGate*)(*it))->setInvert(poInv);
+       //         }
+       //         if(((CirAIGGate*)(*it)->_faninList[0])->_faninList[1]->_type != "CONST" ) {
+       //         //    if( ((CirAIGGate*)(*it)->_faninList[0])->_rhs1_invert  )   ((CirPOGate*)(*it))->setInvert(1);
+       //         //    else                                                       ((CirPOGate*)(*it))->setInvert(0);
+       //         }
+       //         cout << "  I'm PO , do nothing" << endl; 
                 #endif
             } else if ( ((*it)->_type == "UNDEF")) {
                 #ifdef debug_opt
@@ -362,16 +426,18 @@ CirMgr::optimize()
             }
         }   
     }
-    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-        if(*it != 0){
-            (*it)->_isVisited = false;
-        }
-    }
-    _dfsList.clear(); 
+   // for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+   //     if(*it != 0){
+   //         (*it)->_isVisited = false;
+   //     }
+   // }
+    //_dfsList.clear(); 
     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
-         myDFS(*it);
-     } 
-    CirMgr::sweep();
+         optDFS(*it);
+     }
+    _isOptSweep = 1; 
+    CirMgr::optSweep();
+    _isOptSweep = 0; 
     #ifdef debug_opt
     cout << " ===== merging done ===== " << endl;
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
@@ -386,6 +452,16 @@ CirMgr::optimize()
                         cout << ", _isInvert = " << ((CirPOGate*)(*it))->_isInvert;
                 }
             cout << endl;
+           cout << "    ---- fanout ----" << endl;
+           for(vector<CirGate*>::const_iterator itG = (*it)->_fanoutList.begin(); itG != (*it)->_fanoutList.end(); itG++) {
+               cout << "    *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
+           }
+           cout << "    ---- fanin ----" << endl;
+           for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
+               cout << "    *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID();
+                cout << endl;
+           }
+            cout << endl; 
         } 
     }
     #endif
