@@ -36,7 +36,7 @@ CirMgr::sweep()
    #ifdef debug_opt 
    cout << "call sweep" << endl;
    #endif
-   for(vector<CirAIGGate*>::const_iterator it = _aigList.begin(); it != _aigList.end(); ) {
+   for(vector<CirAIGGate*>::iterator it = _aigList.begin(); it != _aigList.end(); ) {
         if(!(*it)->_isVisited) {
             //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
             //cout << ", _isVisited = " << (*it)->_isVisited  << endl; 
@@ -101,7 +101,7 @@ CirMgr::optSweep()
    #ifdef debug_opt 
    cout << "call sweep" << endl;
    #endif
-   for(vector<CirAIGGate*>::const_iterator it = _aigList.begin(); it != _aigList.end(); ) {
+   for(vector<CirAIGGate*>::iterator it = _aigList.begin(); it != _aigList.end(); ) {
         if((*it)->_optVisited && ((*it)->_isVisited)) {
             it = _aigList.erase(it); 
         }  else {
