@@ -150,8 +150,8 @@ CirMgr::optimize()
                                 if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
                                     if(((CirAIGGate*)(*it))->_rhs1_invert == 0) //rhs1 is const , and not invert ===> means const 0 
                                         (*it)->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
-                                    else {
-                                        (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[1]; // use rhs2 replace fanout's fanin
+                                    else {                                      // use rhs2 replace fanout's fanin
+                                        (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[1]; 
                                         if( (*it)->_faninList[1]->_type != "CONST" && (*it)->_fanoutList[i]->_type =="AIG") {
                                             if(j == 0) {
                                                 aigInv = ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert ^ ((CirAIGGate*)(*it))->_rhs2_invert;
@@ -202,11 +202,19 @@ CirMgr::optimize()
                                 if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
                                     if(((CirAIGGate*)(*it))->_rhs2_invert == 0) //rhs2 is const , and not invert ===> means const 0 
                                         (*it)->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
-                                    else {
-                                        (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[0]; // use rhs1 replace fanout's fanin
+                                    else {                                      // use rhs1 replace fanout's fanin
+                                        (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[0]; 
                                         if( (*it)->_faninList[0]->_type != "CONST" && (*it)->_fanoutList[i]->_type =="AIG") {
-                                            if(j == 0) ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert = ((CirAIGGate*)(*it))->_rhs1_invert;
-                                            else ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert = ((CirAIGGate*)(*it))->_rhs1_invert;
+                                            if(j == 0) {
+                                                aigInv = ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert  ^ ((CirAIGGate*)(*it))->_rhs1_invert;    
+                                                ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert = aigInv;
+                                                //((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert = ((CirAIGGate*)(*it))->_rhs1_invert;
+                                            }
+                                            else {
+                                                aigInv = ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert ^ ((CirAIGGate*)(*it))->_rhs1_invert;
+                                                ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert = aigInv;
+                                                //((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert = ((CirAIGGate*)(*it))->_rhs1_invert;
+                                            }
                                             //cout << "ans invert = " << ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert << endl;;
                                         } else if( (*it)->_faninList[0]->_type != "CONST" && (*it)->_fanoutList[i]->_type =="PO") {
                                             poInv = ((CirPOGate*)(*it)->_fanoutList[i])->getIsInv() ^ ((CirAIGGate*)(*it))->_rhs1_invert;
@@ -237,8 +245,13 @@ CirMgr::optimize()
                             for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
                                 if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
                                     (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[0];    // put gate , replace origin it
-                                    if(j == 0) ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert = 1;
-                                    else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert = 1;
+                                    if((*it)->_fanoutList[i]->_type == "AIG"){
+                                        if(j == 0) ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert ^= 1;
+                                        else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert ^= 1;
+                                    }   else if((*it)->_fanoutList[i]->_type == "PO") {
+                                        poInv = ((CirPOGate*)(*it)->_fanoutList[i])->getIsInv() ^ 1;
+                                        ((CirPOGate*)(*it)->_fanoutList[i])->setInvert(poInv);
+                                    }
                                     #ifdef debug_opt
                                     cout << "  i = " << i << ", j = " << j << ", (*it)->_fanoutList.size() = " << 
                                             (*it)->_fanoutList.size() << endl;
@@ -266,8 +279,13 @@ CirMgr::optimize()
                             for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
                                 if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
                                     (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[0];    // put gate , replace origin it
-                                    if(j == 0) ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert = 0;
-                                    else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert = 0;
+                                    if((*it)->_fanoutList[i]->_type == "AIG"){
+                                        if(j == 0) ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert ^= 0;
+                                        else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert ^= 0;
+                                    } else if((*it)->_fanoutList[i]->_type == "PO"){
+                                        poInv = ((CirPOGate*)(*it)->_fanoutList[i])->getIsInv() ^ 0;
+                                        ((CirPOGate*)(*it)->_fanoutList[i])->setInvert(poInv);
+                                    }
                                     #ifdef debug_opt
                                     cout << "  i = " << i << ", j = " << j << ", (*it)->_fanoutList.size() = "  <<
                                             (*it)->_fanoutList.size() << endl;
