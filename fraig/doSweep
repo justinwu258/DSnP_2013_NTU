@@ -1,0 +1,50 @@
+cirr -r tests.fraig/opt07.aag
+cirp
+cirp -n
+cirp -fl
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash06.aag
+cirp
+cirp -n
+cirp -fl
+cirsw
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash07.aag
+cirp
+cirp -n
+cirp -fl
+cirsw
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.err/flt01.aag
+cirp
+cirp -n
+cirp -fl
+cirsw
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.err/flt05.aag
+cirp
+cirp -n
+cirp -fl
+cirsw
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.err/flt07.aag
+cirp
+cirp -n
+cirp -fl
+cirsw
+cirp
+cirp -n
+cirp -fl
+q -f

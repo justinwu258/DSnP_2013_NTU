@@ -1,0 +1,26 @@
+cirr tests.fraig/sim05.aag 
+cirp
+cirp -n
+cirp -fl 
+ciropt
+cirp
+cirp -n
+cirp -fl 
+#cirr -r tests.fraig/sim13.aag 
+#cirp
+#cirp -n
+#cirp -fl 
+#ciropt
+#cirp
+#cirp -n
+#cirp -fl 
+#usage
+#cirr -r tests.fraig/ISCAS85/C6288.aag 
+#cirp
+#cirp -n
+#cirp -fl 
+#ciropt
+#cirp
+#cirp -n
+#cirp -fl 
+q -f 
