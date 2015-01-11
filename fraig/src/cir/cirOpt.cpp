@@ -33,7 +33,9 @@ CirMgr::sweep()
 {
    //vector<CirAIGGate*>::iterator itAig;
    //vector<CirUndefGate*>::iterator itUndef;
+   #ifdef debug_opt 
    cout << "call sweep" << endl;
+   #endif
    for(vector<CirAIGGate*>::const_iterator it = _aigList.begin(); it != _aigList.end(); ) {
         if(!(*it)->_isVisited) {
             //cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
@@ -360,6 +362,15 @@ CirMgr::optimize()
             }
         }   
     }
+    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        if(*it != 0){
+            (*it)->_isVisited = false;
+        }
+    }
+    _dfsList.clear(); 
+    for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
+         myDFS(*it);
+     } 
     CirMgr::sweep();
     #ifdef debug_opt
     cout << " ===== merging done ===== " << endl;

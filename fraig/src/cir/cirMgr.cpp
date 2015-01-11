@@ -19,7 +19,7 @@
 #include "util.h"
 
 //#define debug_inout
-#define debug_DFS
+//#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -412,7 +412,15 @@ CirMgr::printNetlist() const
    #ifdef debug_inout
    int bugCount = 0;
    for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
-      cout << "bug count = " << bugCount << ",  *it = " <<(*it) << endl;
+      cout << "bug count = " << bugCount << ",  *it = " <<(*it);
+      if((*it)->_type == "AIG") {
+                        cout << ", _rhs1_inv = " << ((CirAIGGate*)(*it))->_rhs1_invert;
+                        cout << ", _rhs2_inv = " << ((CirAIGGate*)(*it))->_rhs2_invert;
+      } 
+      if((*it)->_type == "PO") {
+                        cout << ", _isInvert = " << ((CirPOGate*)(*it))->_isInvert;
+      }  
+      cout << endl;
       ++bugCount;
       if(*it != 0){
            // #ifdef debug_inout
