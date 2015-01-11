@@ -25,7 +25,7 @@ extern CirMgr *cirMgr;
 class CirMgr
 {
 public:
-   CirMgr() {}
+   CirMgr() :_isOptSweep(0){}
    ~CirMgr() {cleanGate();}
 
    // Access functions
@@ -43,9 +43,11 @@ public:
    void aagRecorder(string  , size_t , size_t, size_t );
    void cleanGate();
    void myDFS(CirGate*);
+   void optDFS(CirGate*);
 
    // Member functions about circuit optimization
    void sweep();
+   void optSweep();
    void optimize();
 
    // Member functions about simulation
@@ -80,7 +82,8 @@ private:
    //CirGate**        _myTotalList; 
    size_t M, I, L, O, A;
    vector<string> _tokenList; 
- 
+   int _isOptSweep;
+   //vector<CirGate*> _optList;
    // ---------  member function -----------   
    size_t newMyStrGetTok(const string& str, string& tok, size_t& beginAddr,           size_t pos = 0 ,const char del = ' ')
    {

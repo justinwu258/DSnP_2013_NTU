@@ -141,23 +141,23 @@ CirMgr::optSweep()
         } 
    } 
 }
-void CirMgr::optDFS(CirGate* gate){
-
-    gate->_optVisited = false;
-    //reverse(gate->_faninList.begin(), gate->_faninList.end());
-    for(vector<CirGate*>::const_iterator it = gate->_faninList.begin(); it != gate->_faninList.end(); it++)
-    {
-        if((*it)->_isVisited == true)  // this gate(node) , was not be visted
-        {
-            optDFS((*it));
-        }
-    }
-    //_optList.push_back(gate);
-    #ifdef debug_DFS
-    cout << "DFS search now is in this gate :   " << gate << " , gate ID = " << gate->getID() << " , type = " << gate->_type << endl;
-    #endif
-    //reverse(gate->_faninList.begin(), gate->_faninList.end());
-}
+//void CirMgr::optDFS(CirGate* gate){
+//
+//    gate->_optVisited = false;
+//    //reverse(gate->_faninList.begin(), gate->_faninList.end());
+//    for(vector<CirGate*>::const_iterator it = gate->_faninList.begin(); it != gate->_faninList.end(); it++)
+//    {
+//        if((*it)->_isVisited == true)  // this gate(node) , was not be visted
+//        {
+//            optDFS((*it));
+//        }
+//    }
+//    //_optList.push_back(gate);
+//    #ifdef debug_DFS
+//    cout << "DFS search now is in this gate :   " << gate << " , gate ID = " << gate->getID() << " , type = " << gate->_type << endl;
+//    #endif
+//    //reverse(gate->_faninList.begin(), gate->_faninList.end());
+//}
 void
 CirMgr::optimize()
 {
@@ -439,11 +439,11 @@ CirMgr::optimize()
             }
         }   
     }
-    cout << "Opt OK " << endl;
-    for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
-    //     optDFS(*it);
-         cout << "OptDFS OK " << endl;
-     }
+//    cout << "Opt OK " << endl;
+//    for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
+//    //     optDFS(*it);
+//         cout << "OptDFS OK " << endl;
+//     }
 
     _isOptSweep = 1; 
     CirMgr::optSweep();
