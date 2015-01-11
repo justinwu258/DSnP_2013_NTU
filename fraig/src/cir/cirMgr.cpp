@@ -19,7 +19,7 @@
 #include "util.h"
 
 //#define debug_inout
-//#define debug_DFS
+#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
@@ -435,7 +435,15 @@ CirMgr::printNetlist() const
    }
    #endif
    #ifdef debug_DFS
+   cout << "=========   print all _totalList   ========= "  << endl;
    for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
+        if(*it != 0){
+           cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+            cout << ", _isVisited = " << (*it)->_isVisited  << endl;          
+        }
+   }
+   cout << "=========   print all _dfsList   ========= "  << endl;
+   for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
            cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
             cout << ", _isVisited = " << (*it)->_isVisited  << endl;          

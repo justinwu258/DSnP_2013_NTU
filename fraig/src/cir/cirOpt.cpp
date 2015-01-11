@@ -87,6 +87,37 @@ CirMgr::sweep()
 void
 CirMgr::optimize()
 {
+    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        if(*it != 0){ 
+            cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+            cout << ", _isVisited = " << (*it)->_isVisited  << endl;    
+            if( ((*it)->_type == "CONST") ) {
+                cout << "  I'm CONST , do nothing" << endl; 
+            } else if( ((*it)->_type == "PI") ) {
+                cout << "  I'm PI , do nothing" << endl; 
+            } else if( ((*it)->_type == "AIG") ) {  // check fanin & fanout
+                if((*it)->_faninList[0]->_type == "CONST") {
+                    
+                } else if((*it)->_faninList[1]->_type == "CONST") {
+             
+                } else if((*it)->_faninList[0] == (*it)->_faninList[1]) {
+                    if( ((CirAIGGate*)(*it))->_rhs1_invert && ((CirAIGGate*)(*it))->_rhs2_invert ) {   // both are inverted
+                       
+                    } else if( !((CirAIGGate*)(*it))->_rhs1_invert && !((CirAIGGate*)(*it))->_rhs2_invert ) {
+
+                    } else {    // one is inverted , one is origin
+
+                    }
+                } else if(1) {
+
+                }
+            } else if( ((*it)->_type == "PO") ) {
+                cout << "  I'm PO , do nothing" << endl; 
+            } else if ( ((*it)->_type == "UNDEF")) {
+                cout << "  I'm UNDEF , do nothing" << endl; 
+            }
+        }   
+    }
 }
 
 /***************************************************/
