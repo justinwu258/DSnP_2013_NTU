@@ -152,7 +152,7 @@ void CirMgr::optDFS(CirGate* gate){
             optDFS((*it));
         }
     }
-    _optList.push_back(gate);
+    //_optList.push_back(gate);
     #ifdef debug_DFS
     cout << "DFS search now is in this gate :   " << gate << " , gate ID = " << gate->getID() << " , type = " << gate->_type << endl;
     #endif
@@ -165,7 +165,8 @@ CirMgr::optimize()
     int poInv,aigInv;
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
-                        (*it)->_optVisited = true;
+            //if( ((*it)->_type != "AIG") ) 
+            //    (*it)->_optVisited = true;
             #ifdef debug_opt 
             cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
             cout << ", _isVisited = " << (*it)->_isVisited;   
@@ -189,6 +190,7 @@ CirMgr::optimize()
             cout << endl; 
             #endif
             if( ((*it)->_type == "CONST") ) {
+                //(*it)->_optVisited = true;
                 #ifdef debug_opt
                 cout << "  I'm CONST , do nothing" << endl; 
                 #endif
@@ -204,8 +206,14 @@ CirMgr::optimize()
                                     " merging " << (*it)->getID() << "..." << endl;
                         } else  { // const 1 , use other fanin as new fanin
                             if((*it)->_faninList[1]->_type != "CONST") {
-                                cout << "Simplifying: " << (*it)->_faninList[1]->getID()  << 
-                                    " merging !" << (*it)->getID() << "..." << endl;
+                                if(((CirAIGGate*)(*it))->_rhs2_invert) {
+                                    cout << "Simplifying: " << (*it)->_faninList[1]->getID()  << 
+                                        " merging !" << (*it)->getID() << "..." << endl;
+                                } else {
+                                    cout << "Simplifying: " << (*it)->_faninList[1]->getID()  << 
+                                        " merging " << (*it)->getID() << "..." << endl;
+                                }
+                                    //cout << "A" << endl;
                             } else { 
                                 cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
                                     " merging " << (*it)->getID() << "..." << endl;
@@ -256,8 +264,13 @@ CirMgr::optimize()
                                     " merging " << (*it)->getID() << "..." << endl;
                         } else { // const 1 , use other fanin as new fanin
                             if( (*it)->_faninList[0]->_type != "CONST") {
-                                cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
-                                    " merging !" << (*it)->getID() << "..." << endl;
+                                if(((CirAIGGate*)(*it))->_rhs1_invert) {
+                                    cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
+                                        " merging !" << (*it)->getID() << "..." << endl;
+                                } else {
+                                    cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
+                                        " merging " << (*it)->getID() << "..." << endl;
+                                }
                             } else { 
                                 cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
                                     " merging " << (*it)->getID() << "..." << endl;
@@ -426,18 +439,24 @@ CirMgr::optimize()
             }
         }   
     }
-   // for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-   //     if(*it != 0){
-   //         (*it)->_isVisited = false;
-   //     }
-   // }
-    //_dfsList.clear(); 
+    cout << "Opt OK " << endl;
     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
-         optDFS(*it);
+    //     optDFS(*it);
+         cout << "OptDFS OK " << endl;
      }
+
     _isOptSweep = 1; 
     CirMgr::optSweep();
     _isOptSweep = 0; 
+    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        if(*it != 0){
+            (*it)->_isVisited = false;
+        }
+    }
+    _dfsList.clear(); 
+    for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
+         myDFS(*it);
+     }
     #ifdef debug_opt
     cout << " ===== merging done ===== " << endl;
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
