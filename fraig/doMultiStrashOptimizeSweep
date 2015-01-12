@@ -1,16 +1,25 @@
-cirr -r tests.fraig/ISCAS85/C7552.aag
-cirp
-cirp -n
-cirp -fl 
-cirstr
-ciropt
-cirsw
-cirstr
-ciropt
-cirsw
-cirp
-cirp -n
-cirp -fl 
+#cirr -r tests.fraig/ISCAS85/C7552.aag
+#cirp
+#cirp -n
+#cirp -fl 
+#ciropt
+#ciropt
+#ciropt
+#ciropt
+#ciropt
+#ciropt
+#ciropt
+#cirw
+#cirstr
+#ciropt
+#cirw 
+#cirsw
+#cirstr
+#ciropt
+#cirsw
+#cirp
+#cirp -n
+#cirp -fl 
 cirr -r tests.fraig/ISCAS85/C1355.aag
 cirp
 cirp -n

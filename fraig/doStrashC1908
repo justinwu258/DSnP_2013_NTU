@@ -1,0 +1,15 @@
+cirr -r tests.fraig/ISCAS85/C1908.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl
+usage
+q -f

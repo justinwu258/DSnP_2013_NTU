@@ -2,8 +2,11 @@ cirr -r tests.fraig/ISCAS85/C432_r.aag
 cirp
 cirp -n
 cirp -fl 
+#ciropt
+#cirp -n
 cirstr
 cirw
+cirp -n
 ciropt
 cirw
 #cirsw
