@@ -1,0 +1,17 @@
+cirr -r tests.fraig/ISCAS85/C432_r.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirw
+ciropt
+cirw
+#cirsw
+#cirstr
+#ciropt
+#cirsw
+cirp
+cirp -n
+cirp -fl 
+usage
+q -f
