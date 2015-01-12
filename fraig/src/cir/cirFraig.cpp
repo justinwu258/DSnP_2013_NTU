@@ -15,6 +15,8 @@
 
 using namespace std;
 
+
+#define debug_strash
 // TODO: Please keep "CirMgr::strash()" and "CirMgr::fraig()" for cir cmd.
 //       Feel free to define your own variables or functions
 
@@ -32,6 +34,31 @@ using namespace std;
 void
 CirMgr::strash()
 {
+    cout << "_dfsList size = " << _dfsList.size() << endl;
+    cout << "getHashSize(_dfsList.size()) = " << getHashSize(_dfsList.size()) << endl;
+    HashMap<HashKey,CirGate*> myHash(getHashSize(_dfsList.size()));
+    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        if(*it != 0){ 
+            if((*it)->_type == "AIG"){
+                HashKey* myKey = new HashKey((*it)->_faninList[0]->getID(),(*it)->_faninList[1]->getID(),(*it)->_type, 
+                                          ((CirAIGGate*)(*it))->_rhs1_invert,((CirAIGGate*)(*it))->_rhs2_invert);
+                CirGate* d = (*it);
+                if(myHash.check((*myKey),d)) {
+                    #ifdef debug_strash
+                    cout << "structure similar exist" << endl;
+                    cout << "  current gateID = " << (*it)->getID() << ",  exist gateID = " << d->getID() << endl;
+                    #endif
+                    (*it)->_mergeVisited = true;
+
+                } else {
+                    #ifdef debug_strash
+                    cout << "insert gate to hash" << endl;
+                    #endif
+                    myHash.insert((*myKey),(*it));
+                }
+            }
+        }
+    }
 }
 
 void

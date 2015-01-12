@@ -36,23 +36,26 @@ using namespace std;
  class HashKey
  {
  public:
-    HashKey() {}
+    HashKey(size_t inID1,size_t inID2,string type,int rhs1, int rhs2):
+        _fanin1(inID1),_fanin2(inID2), _type(type), _rhs1(rhs1) ,_rhs2(rhs2)  {}
  
     size_t operator() () const {
-         
-        return 0; 
+        return (_rhs1 ^ _fanin1) + (_rhs2 ^ _fanin2) ; 
     }
  
     bool operator == (const HashKey& k) const {
         bool isTypeEqual = (_type == k._type)? true:false;
-        bool isFaninsEqual = ((_fanin1 == k._fanin1) && (_fanin2 == k._fanin2)) || 
-                             ((_fanin2 == k._fanin1) && (_fanin1 == k._fanin2));
+        bool isFaninsEqual = 
+            ((_fanin1 == k._fanin1) && (_fanin2 == k._fanin2) && (_rhs1 == k._rhs1) && (_rhs2 == k._rhs2)) || 
+            ((_fanin2 == k._fanin1) && (_fanin1 == k._fanin2) && (_rhs2 == k._rhs1) && (_rhs1 == k._rhs2));
         return  isTypeEqual && isFaninsEqual; 
     }
  
  private:
     size_t _fanin1;
     size_t _fanin2;
+    int _rhs1;
+    int _rhs2;
     string _type;
  };
 
@@ -122,7 +125,7 @@ public:
         }   
         return s;  
    }
-   bool check(const HashKey& k, HashData& d) const {
+   bool check(const HashKey& k,HashData& d) const {
         size_t bucketIdx = bucketNum(k);
         size_t bucketSize = _buckets[bucketIdx].size();
             if(!_buckets[bucketIdx].empty()){
@@ -136,7 +139,7 @@ public:
         //}
         return false;
    } 
-   bool insert(const HashKey& k, const HashData& d) {
+   bool insert(const HashKey& k, HashData& d) {
         size_t bucketIdx = bucketNum(k);
         //size_t bucketSize = _buckets[bucketIdx].size();
          if(check(k,d)) {
