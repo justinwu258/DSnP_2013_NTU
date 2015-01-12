@@ -15,8 +15,8 @@
 
 using namespace std;
 
+//#define debug_strash
 
-#define debug_strash
 // TODO: Please keep "CirMgr::strash()" and "CirMgr::fraig()" for cir cmd.
 //       Feel free to define your own variables or functions
 
@@ -33,9 +33,13 @@ using namespace std;
 /*******************************************/
 void
 CirMgr::strash()
-{
-    cout << "_dfsList size = " << _dfsList.size() << endl;
-    cout << "getHashSize(_dfsList.size()) = " << getHashSize(_dfsList.size()) << endl;
+{   
+    int i,j;
+    int poInv, aigInv;
+    #ifdef debug_strash
+        cout << "_dfsList size = " << _dfsList.size() << endl;
+        cout << "getHashSize(_dfsList.size()) = " << getHashSize(_dfsList.size()) << endl;
+    #endif
     HashMap<HashKey,CirGate*> myHash(getHashSize(_dfsList.size()));
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){ 
@@ -49,16 +53,35 @@ CirMgr::strash()
                     cout << "  current gateID = " << (*it)->getID() << ",  exist gateID = " << d->getID() << endl;
                     #endif
                     (*it)->_mergeVisited = true;
-
+                    cout << "Strashing: " << d->getID()  << " merging " << (*it)->getID() << "..." << endl;
+                    for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
+                        for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
+                            if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
+                                (*it)->_fanoutList[i]->_faninList[j] = d;    // use d replace similar exist gate(*it)
+                            }
+                        }
+                    }
                 } else {
                     #ifdef debug_strash
                     cout << "insert gate to hash" << endl;
                     #endif
                     myHash.insert((*myKey),(*it));
                 }
+            } else if( ((*it)->_type == "PO") ) {
+                ((CirPOGate*)(*it))->setFaninID((*it)->_faninList[0]->getID());
             }
         }
     }
+    CirMgr::mergeSweep();
+    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        if(*it != 0){
+            (*it)->_isVisited = false;
+        }
+    }
+    _dfsList.clear();
+    for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
+         myDFS(*it);
+     }
 }
 
 void

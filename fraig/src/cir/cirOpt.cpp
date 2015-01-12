@@ -70,7 +70,7 @@ CirMgr::sweep()
   //          cout << "  (Total)ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
   //          cout << ", _isVisited = " << (*it)->_isVisited  << endl;    
             if( (((*it)->_type == "AIG") || ((*it)->_type == "UNDEF")) && !(*it)->_isVisited ){
-                if(!_isOptSweep)      cout << "Sweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
+                cout << "Sweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
           //      if( (*it)->_type == "AIG"){
           //          *itAig = (CirAIGGate*) *it; 
           //          _aigList.erase(itAig);
@@ -96,27 +96,27 @@ CirMgr::sweep()
 }
 
 void
-CirMgr::optSweep()
+CirMgr::mergeSweep()
 {
    #ifdef debug_opt 
    cout << "call sweep" << endl;
    #endif
    for(vector<CirAIGGate*>::iterator it = _aigList.begin(); it != _aigList.end(); ) {
-        if((*it)->_optVisited && ((*it)->_isVisited)) {
+        if((*it)->_mergeVisited && ((*it)->_isVisited)) {
             it = _aigList.erase(it); 
         }  else {
             it ++;
         }
    }             
    for(vector<CirUndefGate*>::iterator it = _undefList.begin(); it != _undefList.end(); ) {
-        if((*it)->_optVisited && ((*it)->_isVisited)) {
+        if((*it)->_mergeVisited && ((*it)->_isVisited)) {
             it = _undefList.erase(it); 
         }  else {
             it++;
         }
    }             
    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); ) {
-        if((*it)->_optVisited && ((*it)->_isVisited)) {
+        if((*it)->_mergeVisited && ((*it)->_isVisited)) {
             it = _dfsList.erase(it); 
         }  else {
             it++;
@@ -124,13 +124,13 @@ CirMgr::optSweep()
    }             
    for(vector<CirGate*>::iterator it = _totalList.begin(); it != _totalList.end(); ){
         if(*it != 0){
-            if( (((*it)->_type == "AIG") || ((*it)->_type == "UNDEF")) && (*it)->_optVisited  && ((*it)->_isVisited) ){
+            if( (((*it)->_type == "AIG") || ((*it)->_type == "UNDEF")) && (*it)->_mergeVisited  && ((*it)->_isVisited) ){
                 #ifdef debug_opt
-                cout << "optSweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
+                cout << "mergeSweeping: " << (*it)->_type << "(" << (*it)->getID() << ") removed..." << endl;
                 #endif
                 delete *it;
                 it = _totalList.erase(it);
-            } else if ( ((((*it)->_type == "PI")) && (*it)->_optVisited )  && ((*it)->_isVisited) ) { // not visited , means fanout is no usage
+            } else if ( ((((*it)->_type == "PI")) && (*it)->_mergeVisited )  && ((*it)->_isVisited) ) { // not visited , means fanout is no usage
                 (*it)->_fanoutList.clear();
                 it++;
             } else {
@@ -141,23 +141,6 @@ CirMgr::optSweep()
         } 
    } 
 }
-//void CirMgr::optDFS(CirGate* gate){
-//
-//    gate->_optVisited = false;
-//    //reverse(gate->_faninList.begin(), gate->_faninList.end());
-//    for(vector<CirGate*>::const_iterator it = gate->_faninList.begin(); it != gate->_faninList.end(); it++)
-//    {
-//        if((*it)->_isVisited == true)  // this gate(node) , was not be visted
-//        {
-//            optDFS((*it));
-//        }
-//    }
-//    //_optList.push_back(gate);
-//    #ifdef debug_DFS
-//    cout << "DFS search now is in this gate :   " << gate << " , gate ID = " << gate->getID() << " , type = " << gate->_type << endl;
-//    #endif
-//    //reverse(gate->_faninList.begin(), gate->_faninList.end());
-//}
 void
 CirMgr::optimize()
 {
@@ -166,7 +149,7 @@ CirMgr::optimize()
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
             //if( ((*it)->_type != "AIG") ) 
-            //    (*it)->_optVisited = true;
+            //    (*it)->_mergeVisited = true;
             #ifdef debug_opt 
             cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
             cout << ", _isVisited = " << (*it)->_isVisited;   
@@ -190,7 +173,7 @@ CirMgr::optimize()
             cout << endl; 
             #endif
             if( ((*it)->_type == "CONST") ) {
-                //(*it)->_optVisited = true;
+                //(*it)->_mergeVisited = true;
                 #ifdef debug_opt
                 cout << "  I'm CONST , do nothing" << endl; 
                 #endif
@@ -200,7 +183,7 @@ CirMgr::optimize()
                 #endif
             } else if( ((*it)->_type == "AIG") ) {  // check fanin & fanout
                 if((*it)->_faninList[0]->_type == "CONST") {
-                        (*it)->_optVisited = true;
+                        (*it)->_mergeVisited = true;
                         if(((CirAIGGate*)(*it))->_rhs1_invert == 0) {
                             cout << "Simplifying: " << _totalList[0]->getID()  << 
                                     " merging " << (*it)->getID() << "..." << endl;
@@ -258,7 +241,7 @@ CirMgr::optimize()
                             }
                         }
                 } else if((*it)->_faninList[1]->_type == "CONST") {
-                        (*it)->_optVisited = true;
+                        (*it)->_mergeVisited = true;
                         if(((CirAIGGate*)(*it))->_rhs2_invert == 0) {
                             cout << "Simplifying: " << _totalList[0]->getID()  << 
                                     " merging " << (*it)->getID() << "..." << endl;
@@ -317,7 +300,7 @@ CirMgr::optimize()
                         }
                 } else if((*it)->_faninList[0] == (*it)->_faninList[1]) {
                     if( ((CirAIGGate*)(*it))->_rhs1_invert && ((CirAIGGate*)(*it))->_rhs2_invert ) {   // both are inverted
-                        (*it)->_optVisited = true;
+                        (*it)->_mergeVisited = true;
                         cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
                                 " merging !" << (*it)->getID() << "..." << endl;
                         for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
@@ -351,7 +334,7 @@ CirMgr::optimize()
                             }
                         }
                     } else if( !((CirAIGGate*)(*it))->_rhs1_invert && !((CirAIGGate*)(*it))->_rhs2_invert ) { //both are same
-                        (*it)->_optVisited = true;
+                        (*it)->_mergeVisited = true;
                         cout << "Simplifying: " << (*it)->_faninList[0]->getID()  << 
                                 " merging " << (*it)->getID() << "..." << endl;
                         for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
@@ -385,7 +368,7 @@ CirMgr::optimize()
                             }
                         }
                     } else {    // one is inverted , one is origin
-                        (*it)->_optVisited = true;
+                        (*it)->_mergeVisited = true;
                         cout << "Simplifying: " << _totalList[0]->getID()  << 
                                 " merging " << (*it)->getID() << "..." << endl;
                         for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
@@ -445,9 +428,7 @@ CirMgr::optimize()
 //         cout << "OptDFS OK " << endl;
 //     }
 
-    _isOptSweep = 1; 
-    CirMgr::optSweep();
-    _isOptSweep = 0; 
+    CirMgr::mergeSweep();
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
             (*it)->_isVisited = false;
@@ -486,8 +467,206 @@ CirMgr::optimize()
     #endif
 }
 
+//use gateA replace gateB
+void CirMgr::merge(CirGate* gate, int mergeMethod){
+    
+    int poInv,aigInv;
+    int i,j;
+    gate->_mergeVisited = true;
+    
+    for(i = 0; i < gate->_fanoutList.size(); ++i) {
+         for(j = 0; j < gate->_fanoutList[i]->_faninList.size(); ++j) {
+             if (gate->_fanoutList[i]->_faninList[j] == gate) {
+                if(mergeMethod == 1) // Const zero
+                    gate->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
+                else if (mergeMethod == 2) { // use rhs2 replace fanout's fanin
+                    gate->_fanoutList[i]->_faninList[j] = gate->_faninList[1]; 
+                    if( gate->_faninList[1]->_type != "CONST" && gate->_fanoutList[i]->_type =="AIG") {
+                        if(j == 0) {
+                            aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert ^ ((CirAIGGate*)gate)->_rhs2_invert;
+                            ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert = aigInv;
+                        }
+                        else {
+                            aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert ^ ((CirAIGGate*)gate)->_rhs2_invert;
+                            ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert = aigInv;
+                        }
+                    }  else if( gate->_faninList[1]->_type != "CONST" && gate->_fanoutList[i]->_type =="PO") {
+                        poInv = ((CirPOGate*)gate->_fanoutList[i])->getIsInv() ^ ((CirAIGGate*)gate)->_rhs2_invert;
+                        ((CirPOGate*)gate->_fanoutList[i])->setInvert(poInv);
+                    }
+                }
+                else if (mergeMethod == 3) { // use rhs1 replace fanout's fanin
+                    gate->_fanoutList[i]->_faninList[j] = gate->_faninList[0]; 
+                    if( gate->_faninList[0]->_type != "CONST" && gate->_fanoutList[i]->_type =="AIG") {
+                        if(j == 0) {
+                            aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert  ^ ((CirAIGGate*)gate)->_rhs1_invert;    
+                            ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert = aigInv;
+                        }
+                        else {
+                            aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert ^ ((CirAIGGate*)gate)->_rhs1_invert;
+                            ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert = aigInv;
+                        }
+                    } else if( gate->_faninList[0]->_type != "CONST" && gate->_fanoutList[i]->_type =="PO") {
+                        poInv = ((CirPOGate*)gate->_fanoutList[i])->getIsInv() ^ ((CirAIGGate*)gate)->_rhs1_invert;
+                        ((CirPOGate*)gate->_fanoutList[i])->setInvert(poInv);
+                    }
+                }
+                else if (mergeMethod == 4) {  // handle two input is inverted
+                    gate->_fanoutList[i]->_faninList[j] = gate->_faninList[0];    // put gate , replace origin it
+                    if(gate->_fanoutList[i]->_type == "AIG"){
+                        if(j == 0) ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert ^= 1;
+                        else       ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert ^= 1;
+                    }   else if(gate->_fanoutList[i]->_type == "PO") {
+                        poInv = ((CirPOGate*)gate->_fanoutList[i])->getIsInv() ^ 1;
+                        ((CirPOGate*)gate->_fanoutList[i])->setInvert(poInv);
+                    }
+                }
+            }
+        }
+    }
+    if( gate->_type == "AIG") {  // check fanin & fanout
+        if(gate->_faninList[0]->_type == "CONST") {
+           gate->_mergeVisited = true;
+           if(((CirAIGGate*)gate)->_rhs1_invert == 0) {
+               cout << "Simplifying: " << _totalList[0]->getID()  << " merging " << gate->getID() << "..." << endl;
+           } else  { // const 1 , use other fanin as new fanin
+               if(gate->_faninList[1]->_type != "CONST") {
+                   if(((CirAIGGate*)gate)->_rhs2_invert) {
+                       cout << "Simplifying: " << gate->_faninList[1]->getID()  << " merging !" << gate->getID() << "..." << endl;
+                   } else {
+                       cout << "Simplifying: " << gate->_faninList[1]->getID()  << " merging " << gate->getID() << "..." << endl;
+                   }
+               } else { 
+                   cout << "Simplifying: " << gate->_faninList[0]->getID()  << " merging " << gate->getID() << "..." << endl;
+               }
+           }
+           for(i = 0; i < gate->_fanoutList.size(); ++i) {
+               for(j = 0; j < gate->_fanoutList[i]->_faninList.size(); ++j) {
+                   if (gate->_fanoutList[i]->_faninList[j] == gate) {
+                       if(((CirAIGGate*)gate)->_rhs1_invert == 0) //rhs1 is const , and not invert ===> means const 0 
+                           gate->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
+                       else {                                      // use rhs2 replace fanout's fanin
+                           gate->_fanoutList[i]->_faninList[j] = gate->_faninList[1]; 
+                           if( gate->_faninList[1]->_type != "CONST" && gate->_fanoutList[i]->_type =="AIG") {
+                               if(j == 0) {
+                                   aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert ^ ((CirAIGGate*)gate)->_rhs2_invert;
+                                   ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert = aigInv;
+                               }
+                               else {
+                                   aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert ^ ((CirAIGGate*)gate)->_rhs2_invert;
+                                   ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert = aigInv;
+                               }
+                           }  else if( gate->_faninList[1]->_type != "CONST" && gate->_fanoutList[i]->_type =="PO") {
+                               poInv = ((CirPOGate*)gate->_fanoutList[i])->getIsInv() ^ ((CirAIGGate*)gate)->_rhs2_invert;
+                               ((CirPOGate*)gate->_fanoutList[i])->setInvert(poInv);
+                           }
+                       }
+                   }
+               }
+           }
+        } else if(gate->_faninList[1]->_type == "CONST") {
+                gate->_mergeVisited = true;
+                if(((CirAIGGate*)gate)->_rhs2_invert == 0) {
+                    cout << "Simplifying: " << _totalList[0]->getID()  << 
+                            " merging " << gate->getID() << "..." << endl;
+                } else { // const 1 , use other fanin as new fanin
+                    if( gate->_faninList[0]->_type != "CONST") {
+                        if(((CirAIGGate*)gate)->_rhs1_invert) {
+                            cout << "Simplifying: " << gate->_faninList[0]->getID()  << 
+                                " merging !" << gate->getID() << "..." << endl;
+                        } else {
+                            cout << "Simplifying: " << gate->_faninList[0]->getID()  << 
+                                " merging " << gate->getID() << "..." << endl;
+                        }
+                    } else { 
+                        cout << "Simplifying: " << gate->_faninList[0]->getID()  << 
+                            " merging " << gate->getID() << "..." << endl;
+                    }
+                }
+                for(i = 0; i < gate->_fanoutList.size(); ++i) {
+                    for(j = 0; j < gate->_fanoutList[i]->_faninList.size(); ++j) {
+                        if (gate->_fanoutList[i]->_faninList[j] == gate) {
+                            if(((CirAIGGate*)gate)->_rhs2_invert == 0) //rhs2 is const , and not invert ===> means const 0 
+                                gate->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
+                            else {                                      // use rhs1 replace fanout's fanin
+                                gate->_fanoutList[i]->_faninList[j] = gate->_faninList[0]; 
+                                if( gate->_faninList[0]->_type != "CONST" && gate->_fanoutList[i]->_type =="AIG") {
+                                    if(j == 0) {
+                                        aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert  ^ ((CirAIGGate*)gate)->_rhs1_invert;    
+                                        ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert = aigInv;
+                                    }
+                                    else {
+                                        aigInv = ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert ^ ((CirAIGGate*)gate)->_rhs1_invert;
+                                        ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert = aigInv;
+                                    }
+                                } else if( gate->_faninList[0]->_type != "CONST" && gate->_fanoutList[i]->_type =="PO") {
+                                    poInv = ((CirPOGate*)gate->_fanoutList[i])->getIsInv() ^ ((CirAIGGate*)gate)->_rhs1_invert;
+                                    ((CirPOGate*)gate->_fanoutList[i])->setInvert(poInv);
+                                }
+                            }
+                        }
+                    }
+                }
+        } else if(gate->_faninList[0] == gate->_faninList[1]) {
+            if( ((CirAIGGate*)gate)->_rhs1_invert && ((CirAIGGate*)gate)->_rhs2_invert ) {   // both are inverted
+                gate->_mergeVisited = true;
+                cout << "Simplifying: " << gate->_faninList[0]->getID()  << 
+                        " merging !" << gate->getID() << "..." << endl;
+                for(i = 0; i < gate->_fanoutList.size(); ++i) {
+                    for(j = 0; j < gate->_fanoutList[i]->_faninList.size(); ++j) {
+                        if (gate->_fanoutList[i]->_faninList[j] == gate) {
+                            gate->_fanoutList[i]->_faninList[j] = gate->_faninList[0];    // put gate , replace origin it
+                            if(gate->_fanoutList[i]->_type == "AIG"){
+                                if(j == 0) ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert ^= 1;
+                                else       ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert ^= 1;
+                            }   else if(gate->_fanoutList[i]->_type == "PO") {
+                                poInv = ((CirPOGate*)gate->_fanoutList[i])->getIsInv() ^ 1;
+                                ((CirPOGate*)gate->_fanoutList[i])->setInvert(poInv);
+                            }
+                        }
+                    }
+                }
+            } else if( !((CirAIGGate*)gate)->_rhs1_invert && !((CirAIGGate*)gate)->_rhs2_invert ) { //both are same
+                gate->_mergeVisited = true;
+                cout << "Simplifying: " << gate->_faninList[0]->getID()  << 
+                        " merging " << gate->getID() << "..." << endl;
+                for(i = 0; i < gate->_fanoutList.size(); ++i) {
+                    for(j = 0; j < gate->_fanoutList[i]->_faninList.size(); ++j) {
+                        if (gate->_fanoutList[i]->_faninList[j] == gate) {
+                            gate->_fanoutList[i]->_faninList[j] = gate->_faninList[0];    // put gate , replace origin it
+                            if(gate->_fanoutList[i]->_type == "AIG"){
+                                if(j == 0) ((CirAIGGate*)gate->_fanoutList[i])->_rhs1_invert ^= 0;
+                                else       ((CirAIGGate*)gate->_fanoutList[i])->_rhs2_invert ^= 0;
+                            } else if(gate->_fanoutList[i]->_type == "PO"){
+                                poInv = ((CirPOGate*)gate->_fanoutList[i])->getIsInv() ^ 0;
+                                ((CirPOGate*)gate->_fanoutList[i])->setInvert(poInv);
+                            }
+                        }
+                    }
+                }
+            } else {    // one is inverted , one is origin
+                gate->_mergeVisited = true;
+                cout << "Simplifying: " << _totalList[0]->getID()  << 
+                        " merging " << gate->getID() << "..." << endl;
+                for(i = 0; i < gate->_fanoutList.size(); ++i) {
+                    for(j = 0; j < gate->_fanoutList[i]->_faninList.size(); ++j) {
+                        if (gate->_fanoutList[i]->_faninList[j] == gate) {
+                            gate->_fanoutList[i]->_faninList[j] = _totalList[0];    // put const 0 , replace it
+                        }
+                    }
+                }
+            }
+        } else if(1) {
+
+        }
+    }
+}
 void
-CirMgr::merge(){
+CirMgr::mergeMsg(string mergeType,int mergeID,bool mergeIsInv,int removeID){
+    string invSymbol;
+    if(mergeIsInv) invSymbol = "!";
+    else           invSymbol = "";
+    cout << mergeType << mergeID  << " merging "<< invSymbol << removeID<< "..." << endl;
 
 }
 /***************************************************/
