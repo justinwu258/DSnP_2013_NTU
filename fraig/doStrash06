@@ -1,7 +1,9 @@
-cirr tests.fraig/strash06.aag 
-cirp -netlist
-cirp -pi 
-cirp -po
-cirp -float
-cirp  
+cirr -r tests.fraig/strash06.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirp
+cirp -n
+cirp -fl
 q -f 

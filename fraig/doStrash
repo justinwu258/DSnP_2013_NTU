@@ -1,0 +1,10 @@
+cirr -r tests.fraig/strash01.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirp
+cirp -n
+cirp -fl 
+usage
+q -f 

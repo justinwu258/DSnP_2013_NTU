@@ -1,4 +1,4 @@
-cirr -r tests.fraig/strash05.aag 
+cirr -r tests.fraig/strash04.aag 
 cirp
 cirp -n
 cirp -fl 

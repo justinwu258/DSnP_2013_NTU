@@ -1,0 +1,25 @@
+cirr -r tests.fraig/strash07.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash07.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirp
+cirp -n
+cirp -fl 
+q -f 

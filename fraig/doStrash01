@@ -1,9 +1,9 @@
-cirr -r tests.fraig/strash05.aag 
+cirr -r tests.fraig/strash01.aag 
 cirp
 cirp -n
 cirp -fl 
 cirstr
 cirp
 cirp -n
-cirp -fl
+cirp -fl 
 q -f 

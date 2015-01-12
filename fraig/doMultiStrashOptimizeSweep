@@ -1,0 +1,158 @@
+cirr -r tests.fraig/ISCAS85/C7552.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C1355.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C17.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C1908.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C3540.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C432.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C432_r.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C499.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C499_r.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C5315.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/ISCAS85/C6288.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/test1.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+ciropt
+cirsw
+cirstr
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+usage
+q -f 

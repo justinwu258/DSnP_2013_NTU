@@ -1,0 +1,83 @@
+cirr -r tests.fraig/opt01.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/opt02.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/opt03.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/opt04.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/opt05.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/opt06.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/opt07.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+cirr -r tests.fraig/sim09.aag 
+cirp
+cirp -n
+cirp -fl 
+cirsw
+ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl
+cirw  -o HcirSim09-opt.aag
+usage
+q -f
