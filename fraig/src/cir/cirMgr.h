@@ -25,7 +25,7 @@ extern CirMgr *cirMgr;
 class CirMgr
 {
 public:
-   CirMgr(){}
+   CirMgr(): _isStrashed(false){}
    ~CirMgr() {cleanGate();}
 
    // Access functions
@@ -83,7 +83,8 @@ private:
    vector<CirGate*> _dfsList;
    //CirGate**        _myTotalList; 
    size_t M, I, L, O, A;
-   vector<string> _tokenList; 
+   vector<string> _tokenList;
+   bool _isStrashed;
    //vector<CirGate*> _optList;
    // ---------  member function -----------   
    size_t newMyStrGetTok(const string& str, string& tok, size_t& beginAddr,           size_t pos = 0 ,const char del = ' ')

@@ -35,7 +35,11 @@ void
 CirMgr::strash()
 {   
     int i,j;
-    int poInv, aigInv;
+    int poInv, aigInv; 
+  if(_isStrashed) {
+        cout << "Error: circuit has been strashed!!" << endl;
+  } else {
+    _isStrashed = true;
     #ifdef debug_strash
         cout << "_dfsList size = " << _dfsList.size() << endl;
         cout << "getHashSize(_dfsList.size()) = " << getHashSize(_dfsList.size()) << endl;
@@ -82,6 +86,7 @@ CirMgr::strash()
     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
          myDFS(*it);
      }
+  }
 }
 
 void

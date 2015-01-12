@@ -437,7 +437,8 @@ CirMgr::optimize()
     _dfsList.clear(); 
     for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
          myDFS(*it);
-     }
+    }
+    _isStrashed = false;
     #ifdef debug_opt
     cout << " ===== merging done ===== " << endl;
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
