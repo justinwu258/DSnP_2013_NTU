@@ -146,6 +146,13 @@ CirMgr::optimize()
 {
     int i = 0, j = 0; 
     int poInv,aigInv;
+    if(_isStrashed) {
+        for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+            if(*it != 0){
+                (*it)->_mergeVisited = false;
+            }
+        }
+    }
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
             //if( ((*it)->_type != "AIG") ) 
@@ -307,6 +314,10 @@ CirMgr::optimize()
                             for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
                                 if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
                                     (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[0];    // put gate , replace origin it
+                                    #ifdef debug_opt
+                                        cout << "  (*it)->_faninList[0]->ID = " << (*it)->_faninList[0]->getID() <<
+                                                ", (*it)->_faninList[1]->ID = " << (*it)->_faninList[1]->getID() << endl;
+                                    #endif
                                     if((*it)->_fanoutList[i]->_type == "AIG"){
                                         if(j == 0) ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert ^= 1;
                                         else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert ^= 1;
@@ -341,6 +352,10 @@ CirMgr::optimize()
                             for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
                                 if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
                                     (*it)->_fanoutList[i]->_faninList[j] = (*it)->_faninList[0];    // put gate , replace origin it
+                                    #ifdef debug_opt
+                                        cout << "  (*it)->_faninList[0]->ID = " << (*it)->_faninList[0]->getID() <<
+                                                ", (*it)->_faninList[1]->ID = " << (*it)->_faninList[1]->getID() << endl;
+                                    #endif
                                     if((*it)->_fanoutList[i]->_type == "AIG"){
                                         if(j == 0) ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs1_invert ^= 0;
                                         else       ((CirAIGGate*)(*it)->_fanoutList[i])->_rhs2_invert ^= 0;
@@ -432,6 +447,7 @@ CirMgr::optimize()
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
             (*it)->_isVisited = false;
+            (*it)->_mergeVisited = false;
         }
     }
     _dfsList.clear(); 

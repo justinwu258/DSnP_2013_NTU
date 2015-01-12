@@ -487,13 +487,13 @@ CirMgr::printNetlist() const
              //rhs1 
              if((*it)->_faninList[0]->_type == "UNDEF")  { cout << " *"; }
              else                                   { cout << " " ; }
-             if(((CirAIGGate*)(*it))->_rhs1_invert) { cout << "!"  << ((CirPOGate*)(*it))->_faninList[0]->getID(); } 
-             else                                   { cout << ((CirPOGate*)(*it))->_faninList[0]->getID(); }
+             if(((CirAIGGate*)(*it))->_rhs1_invert) { cout << "!"  << ((CirAIGGate*)(*it))->_faninList[0]->getID(); } 
+             else                                   { cout << ((CirAIGGate*)(*it))->_faninList[0]->getID(); }
              //rhs2
              if((*it)->_faninList[1]->_type == "UNDEF")  { cout << " *"; }
              else                                   { cout << " " ; }
-             if(((CirAIGGate*)(*it))->_rhs2_invert) { cout << "!"  << ((CirPOGate*)(*it))->_faninList[1]->getID(); } 
-             else                                   { cout << ((CirPOGate*)(*it))->_faninList[1]->getID(); }
+             if(((CirAIGGate*)(*it))->_rhs2_invert) { cout << "!"  << ((CirAIGGate*)(*it))->_faninList[1]->getID(); } 
+             else                                   { cout << ((CirAIGGate*)(*it))->_faninList[1]->getID(); }
         }
         cout << endl;
         ++count;

@@ -61,6 +61,7 @@ CirMgr::strash()
                     for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
                         for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
                             if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
+                                d->_fanoutList.push_back((*it)->_fanoutList[i]);
                                 (*it)->_fanoutList[i]->_faninList[j] = d;    // use d replace similar exist gate(*it)
                             }
                         }
