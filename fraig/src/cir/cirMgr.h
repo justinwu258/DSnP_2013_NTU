@@ -49,6 +49,7 @@ public:
    void sweep();
    void optSweep();
    void optimize();
+   void merge();
 
    // Member functions about simulation
    void randomSim();

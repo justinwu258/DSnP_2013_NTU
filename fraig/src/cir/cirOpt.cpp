@@ -486,6 +486,10 @@ CirMgr::optimize()
     #endif
 }
 
+void
+CirMgr::merge(){
+
+}
 /***************************************************/
 /*   Private member functions about optimization   */
 /***************************************************/

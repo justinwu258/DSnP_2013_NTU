@@ -44,7 +44,7 @@ using namespace std;
     }
  
     bool operator == (const HashKey& k) const {
-        bool isTypeEqual = _type && k._type;
+        bool isTypeEqual = (_type == k._type)? true:false;
         bool isFaninsEqual = ((_fanin1 == k._fanin1) && (_fanin2 == k._fanin2)) || 
                              ((_fanin2 == k._fanin1) && (_fanin1 == k._fanin2));
         return  isTypeEqual && isFaninsEqual; 
