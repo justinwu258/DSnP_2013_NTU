@@ -79,7 +79,9 @@ CirMgr::sweep()
           //          *itUndef = (CirUndefGate*) *it;
           //          _undefList.erase(itUndef);
           //      }
-                for(int i = 0; i < 2; i++){
+                //cout << "  (*it)->_faninList.size() = " << (*it)->_faninList.size() << 
+                //        "  (*it)->ID = " << (*it)->getID() << endl;
+                for(int i = 0; i < (*it)->_faninList.size(); i++){ // Note: AIG fanin = 2 , ** UNDEF maybe = 0
                     for(int j = 0; j < (*it)->_faninList[i]->_fanoutList.size(); j++) {
                         if( (*it)->_faninList[i]->_fanoutList[j] == (*it) ) {
                             (*it)->_faninList[i]->_fanoutList.erase((*it)->_faninList[i]->_fanoutList.begin()+j);
