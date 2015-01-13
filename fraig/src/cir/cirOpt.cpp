@@ -79,6 +79,13 @@ CirMgr::sweep()
           //          *itUndef = (CirUndefGate*) *it;
           //          _undefList.erase(itUndef);
           //      }
+                for(int i = 0; i < 2; i++){
+                    for(int j = 0; j < (*it)->_faninList[i]->_fanoutList.size(); j++) {
+                        if( (*it)->_faninList[i]->_fanoutList[j] == (*it) ) {
+                            (*it)->_faninList[i]->_fanoutList.erase((*it)->_faninList[i]->_fanoutList.begin()+j);
+                        }
+                    }
+                }
                 delete *it;
                 it = _totalList.erase(it);
             } else if ( ((((*it)->_type == "PI")) && !(*it)->_isVisited )) { // not visited , means fanout is no usage
