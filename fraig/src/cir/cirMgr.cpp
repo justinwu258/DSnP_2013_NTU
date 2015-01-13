@@ -18,7 +18,7 @@
 #include "cirGate.h"
 #include "util.h"
 
-#define debug_inout
+//#define debug_inout
 //#define debug_DFS
 using namespace std;
 
