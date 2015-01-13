@@ -18,7 +18,7 @@
 #include "cirGate.h"
 #include "util.h"
 
-//#define debug_inout
+#define debug_inout
 //#define debug_DFS
 using namespace std;
 
@@ -411,6 +411,8 @@ CirMgr::printNetlist() const
 {
    #ifdef debug_inout
    int bugCount = 0;
+   int totalFanin = 0;
+   int totalFanout = 0;
    for(vector<CirGate*>::const_iterator it = _totalList.begin(); it != _totalList.end(); it++){
       cout << "bug count = " << bugCount << ",  *it = " <<(*it);
       cout << ", _isVisited = " << (*it)->_isVisited;
@@ -424,6 +426,8 @@ CirMgr::printNetlist() const
       cout << endl;
       ++bugCount;
       if(*it != 0){
+           totalFanin += (*it)->_faninList.size();
+           totalFanout += (*it)->_fanoutList.size();
            // #ifdef debug_inout
            cout << "ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it)<< endl;
            cout << "  ---- fanout ----" << endl;
@@ -442,6 +446,7 @@ CirMgr::printNetlist() const
       }
              //cout << " IP" << endl ;
    }
+   cout << "*********  totalFanin = " << totalFanin << " ,  totalFanout = " <<  totalFanout << "  ***********" << endl;
    #endif
    #ifdef debug_DFS
    cout << "=========   print all _totalList   ========= "  << endl;
