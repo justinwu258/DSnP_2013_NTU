@@ -1,25 +1,28 @@
-#cirr -r tests.fraig/ISCAS85/C7552.aag
-#cirp
-#cirp -n
-#cirp -fl 
-#ciropt
-#ciropt
-#ciropt
-#ciropt
-#ciropt
-#ciropt
-#ciropt
-#cirw
-#cirstr
-#ciropt
-#cirw 
-#cirsw
-#cirstr
-#ciropt
-#cirsw
-#cirp
-#cirp -n
-#cirp -fl 
+cirr -r tests.fraig/ISCAS85/C7552.aag
+cirp
+cirp -n
+cirp -fl 
+ciropt
+ciropt
+ciropt
+ciropt
+ciropt
+ciropt
+ciropt
+cirp -n
+cirw
+cirstr
+ciropt
+cirp -n
+cirw 
+cirsw
+cirstr
+ciropt
+cirsw
+cirp -n
+cirp
+cirp -n
+cirp -fl 
 cirr -r tests.fraig/ISCAS85/C1355.aag
 cirp
 cirp -n
@@ -28,6 +31,10 @@ cirstr
 ciropt
 cirsw
 cirstr
+cirp -n
+cirp
+cirp -n
+cirp
 ciropt
 cirsw
 cirp
@@ -53,9 +60,13 @@ cirp -fl
 cirstr
 ciropt
 cirsw
+cirp -n
+cirp
 cirstr
 ciropt
 cirsw
+cirp
+cirp -n
 cirp
 cirp -n
 cirp -fl 
@@ -64,13 +75,16 @@ cirp
 cirp -n
 cirp -fl 
 cirstr
+cirp -n
 ciropt
 cirsw
+cirp -n
 cirstr
 ciropt
 cirsw
 cirp
 cirp -n
+cirw
 cirp -fl 
 cirr -r tests.fraig/ISCAS85/C432.aag
 cirp
@@ -104,6 +118,7 @@ cirp -n
 cirp -fl 
 cirstr
 ciropt
+cirp -n
 cirsw
 cirstr
 ciropt
@@ -119,6 +134,7 @@ cirstr
 ciropt
 cirsw
 cirstr
+cirp -n
 ciropt
 cirsw
 cirp
@@ -130,6 +146,7 @@ cirp -n
 cirp -fl 
 cirstr
 ciropt
+cirp -n
 cirsw
 cirstr
 ciropt
@@ -141,6 +158,7 @@ cirr -r tests.fraig/ISCAS85/C6288.aag
 cirp
 cirp -n
 cirp -fl 
+cirp -n
 cirstr
 ciropt
 cirsw
@@ -156,6 +174,7 @@ cirp -n
 cirp -fl 
 cirstr
 ciropt
+cirp -n
 cirsw
 cirstr
 ciropt

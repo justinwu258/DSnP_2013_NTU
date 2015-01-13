@@ -5,11 +5,12 @@ cirp -fl
 cirstr
 cirw
 cirp -n
-#ciropt
+ciropt
 cirsw
 cirp -n
 cirstr
-#ciropt
+cirp -n
+ciropt
 cirsw
 cirp
 cirp -n

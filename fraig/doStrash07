@@ -22,4 +22,148 @@ cirstr
 cirp
 cirp -n
 cirp -fl 
+cirr -r tests.fraig/strash01.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash02.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash03.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash04.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash05.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash06.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash08.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash09.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
+cirr -r tests.fraig/strash10.aag 
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirstr
+cirsw
+ciropt
+cirstr
+cirstr
+cirstr
+ciropt
+cirstr
+cirp
+cirp -n
+cirp -fl
 q -f 

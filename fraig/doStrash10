@@ -3,7 +3,24 @@ cirp
 cirp -n
 cirp -fl 
 cirstr
+cirp -n
+cirw
+cirp -n
+cirstr
+cirp -n
+cirsw
+cirp -n
+ciropt
+cirw
+cirstr
+cirstr
+cirstr
+cirp -n
+ciropt
+cirw
+cirstr
+cirw
 cirp
 cirp -n
-cirp -fl
+cirp -fl 
 q -f 
