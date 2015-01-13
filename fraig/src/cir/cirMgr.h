@@ -48,7 +48,7 @@ public:
    void sweep();
    void mergeSweep();
    void optimize();
-   void merge(CirGate* gate,int mergeMethod);
+   void merge(CirGate* gateA, CirGate* gateB,int mergeMethod, bool mergeInv,int cmdType = 0 );
    void mergeMsg(string mergeType,int mergeID,bool mergeIsInv,int removeID);
    
 

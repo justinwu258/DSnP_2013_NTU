@@ -111,8 +111,8 @@ class CirAIGGate: public CirGate{
         int getRhs1Inv()   { return _rhs1_invert; }
         int getRhs2Inv()   { return _rhs2_invert; }
     protected:
-        int _rhs1_invert;
-        int _rhs2_invert;
+        bool _rhs1_invert;
+        bool _rhs2_invert;
 };
 class CirUndefGate: public CirGate{
         friend class CirMgr;
