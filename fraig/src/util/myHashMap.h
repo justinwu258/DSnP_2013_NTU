@@ -38,7 +38,7 @@ using namespace std;
  public:
     HashKey(size_t inID1,size_t inID2,string type,int rhs1, int rhs2):
         _fanin1(inID1),_fanin2(inID2), _type(type), _rhs1(rhs1) ,_rhs2(rhs2)  {}
- 
+    ~HashKey() {} 
     size_t operator() () const {
         return (_rhs1 ^ _fanin1) + (_rhs2 ^ _fanin2) ; 
     }

@@ -48,10 +48,12 @@ CirMgr::strash()
     for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){ 
             if((*it)->_type == "AIG"){
-                HashKey* myKey = new HashKey((*it)->_faninList[0]->getID(),(*it)->_faninList[1]->getID(),(*it)->_type, 
+                HashKey myKey((*it)->_faninList[0]->getID(),(*it)->_faninList[1]->getID(),(*it)->_type, 
                                           ((CirAIGGate*)(*it))->_rhs1_invert,((CirAIGGate*)(*it))->_rhs2_invert);
+                //HashKey* myKey = new HashKey((*it)->_faninList[0]->getID(),(*it)->_faninList[1]->getID(),(*it)->_type, 
+                //                          ((CirAIGGate*)(*it))->_rhs1_invert,((CirAIGGate*)(*it))->_rhs2_invert);
                 CirGate* d = (*it);
-                if(myHash.check((*myKey),d)) {
+                if(myHash.check((myKey),d)) {
                     #ifdef debug_strash
                     cout << "structure similar exist" << endl;
                     cout << "  current gateID = " << (*it)->getID() << ",  exist gateID = " << d->getID() << endl;
@@ -96,7 +98,7 @@ CirMgr::strash()
                     #ifdef debug_strash
                     cout << "insert gate to hash" << endl;
                     #endif
-                    myHash.insert((*myKey),(*it));
+                    myHash.insert((myKey),(*it));
                 }
             } else if( ((*it)->_type == "PO") ) {
                 ((CirPOGate*)(*it))->setFaninID((*it)->_faninList[0]->getID());
