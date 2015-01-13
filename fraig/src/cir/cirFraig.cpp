@@ -61,6 +61,18 @@ CirMgr::strash()
                     for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
                         for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
                             if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
+                                for(int k = 0 ; k < (*it)->_faninList[0]->_fanoutList.size(); k++) {
+                                   if( (*it)->_faninList[0]->_fanoutList[k] == (*it) ) {
+                                        (*it)->_faninList[0]->_fanoutList.erase((*it)->_faninList[0]->_fanoutList.begin()+k);
+                                        //(*it)->_faninList[0]->_fanoutList[k] = (*it)->_fanoutList[i];
+                                    }
+                                }
+                                for(int k = 0 ; k < (*it)->_faninList[1]->_fanoutList.size(); k++) {
+                                   if( (*it)->_faninList[1]->_fanoutList[k] == (*it) ) {
+                                        (*it)->_faninList[1]->_fanoutList.erase((*it)->_faninList[1]->_fanoutList.begin()+k);
+                                        //(*it)->_faninList[1]->_fanoutList[k] = (*it)->_fanoutList[i];
+                                    }
+                                }
                                 d->_fanoutList.push_back((*it)->_fanoutList[i]);
                                 (*it)->_fanoutList[i]->_faninList[j] = d;    // use d replace similar exist gate(*it)
                             }

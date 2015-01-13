@@ -63,11 +63,11 @@ echo "diff doStrashC7552 done"
 #diff H_Strash05.log H_DiffStrash05.log &> diffDiffStrash05L.log
 #vi diffDiffStrash05L.log
 #echo "diff doDiffStrash05 done"
-./fraig -f doMultiStrashOptimizeSweep &> J_doMultiStrashOptimizeSweep.log
-./ref/fraig -f doMultiStrashOptimizeSweep &> H_doMultiStrashOptimizeSweep.log
-diff J_doMultiStrashOptimizeSweep.log H_doMultiStrashOptimizeSweep.log &> diffdoMultiStrashOptimizeSweep.log
-vi diffdoMultiStrashOptimizeSweep.log
-echo "diff doMultiStrashOptimizeSweep done"
+###./fraig -f doMultiStrashOptimizeSweep &> J_doMultiStrashOptimizeSweep.log
+###./ref/fraig -f doMultiStrashOptimizeSweep &> H_doMultiStrashOptimizeSweep.log
+###diff J_doMultiStrashOptimizeSweep.log H_doMultiStrashOptimizeSweep.log &> diffdoMultiStrashOptimizeSweep.log
+###vi diffdoMultiStrashOptimizeSweep.log
+###echo "diff doMultiStrashOptimizeSweep done"
 #./fraig -f doStrashC432_r &> J_StrashC432_r.log
 #./ref/fraig -f doStrashC432_r &> H_StrashC432_r.log
 #diff J_StrashC432_r.log H_StrashC432_r.log &> diffStrashC432_rL.log
@@ -83,6 +83,12 @@ echo "diff doMultiStrashOptimizeSweep done"
 ./fraig -f doStrashC1355 &> J_StrashC1355.log
 ./ref/fraig -f doStrashC1355 &> H_StrashC1355.log
 diff J_StrashC1355.log H_StrashC1355.log &> diffStrashC1355L.log
-vi J_StrashC1355.log
-vi diffStrashC1355L.log
+#vi J_StrashC1355.log
+#vi diffStrashC1355L.log
 echo "diff doStrashC1355 done"
+./fraig -f doStrashC3540 &> J_StrashC3540.log
+./ref/fraig -f doStrashC3540 &> H_StrashC3540.log
+diff J_StrashC3540.log H_StrashC3540.log &> diffStrashC3540L.log
+vi J_StrashC3540.log
+#vi diffStrashC3540L.log
+echo "diff doStrashC3540 done"

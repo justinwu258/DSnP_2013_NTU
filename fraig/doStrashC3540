@@ -1,0 +1,18 @@
+cirr -r tests.fraig/ISCAS85/C3540.aag
+cirp
+cirp -n
+cirp -fl 
+cirstr
+cirw
+cirp -n
+#ciropt
+cirsw
+cirp -n
+cirstr
+#ciropt
+cirsw
+cirp
+cirp -n
+cirp -fl 
+usage
+q -f
