@@ -1,0 +1,15 @@
+cirr -r tests.fraig/sim10.aag
+cirp
+ciropt
+cirsw
+cirstra
+cirsw
+cirp
+ciropt
+ciropt
+cirsw
+cirstra
+cirp
+cirp -n
+usage
+q -f

@@ -1,0 +1,10 @@
+cirr -r tests.fraig/sim04.aag
+cirp
+cirg 1
+cirg 2
+cirsim -f tests.fraig/pattern.04j
+cirp
+cirg 1
+cirg 2
+usage 
+q -f
