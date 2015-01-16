@@ -46,7 +46,13 @@ CirGate::reportGate() const
  
     oStr.str("");
     oStr.clear();
-    oStr << "= Value: " << "0000_0000_0000_0000_0000_0000_0000_0000";
+    oStr << "= Value: ";// << "0000_0000_0000_0000_0000_0000_0000_0000";
+    bitset<sizeof((*this)._patternValue) * 8> s((*this)._patternValue); // bitset for debug use
+    for(int i = 31; i >= 0; --i){
+        oStr << s[i];
+        if(i%4==0 && i!=0)
+            oStr << "_"; 
+    }
     remainLenth = 50 - oStr.str().length();
     cout << oStr.str() << right << setw(remainLenth) << "=" << endl; 
 

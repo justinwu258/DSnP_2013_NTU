@@ -56,6 +56,8 @@ public:
    void randomSim();
    void fileSim(ifstream&);
    void setSimLog(ofstream *logFile) { _simLog = logFile; }
+   void initFEC();
+   void checkFEC();
 
    // Member functions about fraig
    void strash();
@@ -70,7 +72,8 @@ public:
    void printFloatGates() const;
    void printFECPairs() const;
    void writeAag(ostream&) const;
-   void printSimArray(int aa[][32]);
+   void printSimArray(int**);
+   void setPatternValue(int **);
 private:
    ofstream           *_simLog;
 
@@ -85,6 +88,8 @@ private:
    size_t M, I, L, O, A;
    vector<string> _tokenList;
    bool _isStrashed;
+   vector<IdList*> _fecGrps;
+   typedef vector<unsigned> IdList;
    //vector<CirGate*> _optList;
    // ---------  member function -----------   
    size_t newMyStrGetTok(const string& str, string& tok, size_t& beginAddr,           size_t pos = 0 ,const char del = ' ')

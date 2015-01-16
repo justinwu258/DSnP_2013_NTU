@@ -50,6 +50,7 @@ CirMgr::fileSim(ifstream& patternFile){
     bool isReadError = false;
     unsigned patternValue = 0; 
     
+    //initialize array
     simArray = new int *[32];
     for (j = 0; j < parallelizeBits; j++){
         simArray[j] = new int[I];
@@ -71,6 +72,7 @@ CirMgr::fileSim(ifstream& patternFile){
             }
             simArray[simArrayTail-lineCount%parallelizeBits][i] = line[i] - '0';
         }
+        if(isReadError) break;
         lineCount++;
         if(lineCount%parallelizeBits == 0) {
             //setPattern(simArray);
@@ -85,7 +87,7 @@ CirMgr::fileSim(ifstream& patternFile){
         if(lineCount%parallelizeBits != 0 ){ // last bitwise , maybe not have parallelizeBits bit unsigned value
             for(i = 0; i < I; ++i ){  // not assigned postion , put 0 
                 tmpLineCount = lineCount;
-                for(j = 0; j < parallelizeBits - lineCount%32; ++j) {
+                for(j = 0; j < parallelizeBits - lineCount%parallelizeBits; ++j) {
                     simArray[simArrayTail-tmpLineCount%parallelizeBits][i] = 0;
                     ++tmpLineCount;
                 }
@@ -222,7 +224,7 @@ void
 CirMgr::setPatternValue(int **simArray)
 {
     int i, j;
-    unsigned patternValue = 0; 
+    unsigned patternValue = 0, rhs1_value , rhs2_value,poIn_value; 
     for(i = 0; i < I; ++i) {
         patternValue = 0;
         for(j = 0; j < parallelizeBits; ++j){
@@ -231,10 +233,41 @@ CirMgr::setPatternValue(int **simArray)
                 patternValue = patternValue << 1;
             
         }
-        bitset<sizeof(patternValue) * 8> s(patternValue);
-        cout << "i = " << i << ",  patternValue = " << s << endl;      
+        _totalList[i+1]->_patternValue = patternValue;
+        #ifdef debug_fileSim
+            bitset<sizeof(patternValue) * 8> s(patternValue); // bitset for debug use
+            //cout << "i = " << i << ",  patternValue = " << s << endl;     
+        #endif 
     }
     cout << endl;
+
+    //set _dfsList patternValue
+   for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        if(*it != 0){
+            if((*it)->_type == "AIG"){
+           
+                cout << "debug ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+                cout << ", _isVisited = " << (*it)->_isVisited << endl;          
+                cout << "  ---- fanin ----" << endl;
+                for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
+                   cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
+                }
+                if(((CirAIGGate*)(*it))->_rhs1_invert) rhs1_value = ~(*it)->_faninList[0]->_patternValue;
+                else                                   rhs1_value = (*it)->_faninList[0]->_patternValue;
+                if(((CirAIGGate*)(*it))->_rhs2_invert) rhs2_value = ~(*it)->_faninList[1]->_patternValue;
+                else                                   rhs2_value = (*it)->_faninList[1]->_patternValue;
+                (*it)->_patternValue = rhs1_value & rhs2_value;
+                    //((*it)->_faninList[0]->_patternValue ^ ((CirAIGGate*)(*it))->_rhs1_invert) & 
+                    //((*it)->_faninList[1]->_patternValue ^ ((CirAIGGate*)(*it))->_rhs2_invert) ;
+           // cout << ", (*it)->_patternValue = " << (*it)->_patternValue << endl ;
+            } else if((*it)->_type == "PO"){
+                if(((CirPOGate*)(*it))->_isInvert) poIn_value = ~(*it)->_faninList[0]->_patternValue;
+                else                               poIn_value = (*it)->_faninList[0]->_patternValue;
+                (*it)->_patternValue = poIn_value;
+                    //((*it)->_faninList[0]->_patternValue ^ ((CirPOGate*)(*it))->_isInvert);
+            }
+        }
+   } 
 
 }
 
