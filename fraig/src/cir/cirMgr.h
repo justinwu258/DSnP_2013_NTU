@@ -70,7 +70,7 @@ public:
    void printFloatGates() const;
    void printFECPairs() const;
    void writeAag(ostream&) const;
-
+   void printSimArray(int aa[][32]);
 private:
    ofstream           *_simLog;
 

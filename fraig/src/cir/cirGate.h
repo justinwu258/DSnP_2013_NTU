@@ -63,6 +63,7 @@ protected:
     bool _isVisited;
     mutable bool _isRecurVisited; //store AIG visited or not , when recur search
     bool _mergeVisited;
+    unsigned _patternValue;
 };
 
 
