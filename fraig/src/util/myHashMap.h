@@ -155,7 +155,10 @@ public:
          //cout << " check  bucketIdx =  " <<  bucketIdx <<", sizeof(k()) = " << sizeof(k()) << ", patternValue = " << k()  << endl; 
             if(!_buckets[bucketIdx].empty()){
                 for(int i = 0; i < bucketSize ; i++) {
+               //         bitset<sizeof(k()) * 4> s(k()); // bitset for debug use 
+               //         cout << "  bucketIdx =  " <<  bucketIdx << ", i = " << i << ", sizeof(k()) = " << sizeof(k()) << ", patternValue = " << s  << endl; 
                     #ifdef debug_hash
+                        bitset<sizeof(k()) * 4> s(k()); // bitset for debug use 
                         cout << "  bucketIdx =  " <<  bucketIdx << ", i = " << i << ", sizeof(k()) = " << sizeof(k()) << ", patternValue = " << s  << endl; 
                         _buckets[bucketIdx][i].first() << ", k = " << k()  << endl; 
                     #endif

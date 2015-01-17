@@ -179,6 +179,11 @@ CirMgr::initFEC()
 {
     //HashMap<PatternKey,CirGate*> fecHash(getHashSize(_dfsList.size()));
     HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+    IdList* constIdList = new IdList();
+    PatternKey pConstKey(0);
+    constIdList->push_back(_totalList[0]->getID());
+    fecHash.insert((pConstKey),constIdList);
+    
     int dfs_i = 0;
     for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
          if(*it != 0){
@@ -191,10 +196,10 @@ CirMgr::initFEC()
                  #endif
                  if(fecHash.check((*it)->_patternValue,tmpIdList)){
                      tmpIdList->push_back(_dfsList[dfs_i]->getID()); 
-                  //       cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
-                  //       bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
-                  //       cout <<  ", pKey = " << s << endl;
-                  //       cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
+            //             cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
+            //             bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+            //             cout <<  ", pKey = " << s << endl;
+            //             cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
                      #ifdef debug_FEC
                          cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
                          bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
