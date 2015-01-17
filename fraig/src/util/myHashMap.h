@@ -10,6 +10,7 @@
 #define MY_HASH_MAP_H
 
 #include <vector>
+#include <bitset> 
 //#define debug_hash
 using namespace std;
 

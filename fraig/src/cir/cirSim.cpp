@@ -14,7 +14,7 @@
 #include "cirMgr.h"
 #include "cirGate.h"
 #include "util.h"
-
+#include <bitset>
 using namespace std;
 #define myI  10000
 #define parallelizeBits 32

@@ -14,7 +14,7 @@
 #include "cirGate.h"
 #include "cirMgr.h"
 #include "util.h"
-
+#include <bitset>
 using namespace std;
 
 // TODO: Keep "CirGate::reportGate()", "CirGate::reportFanin()" and
