@@ -191,10 +191,10 @@ CirMgr::initFEC()
                  #endif
                  if(fecHash.check((*it)->_patternValue,tmpIdList)){
                      tmpIdList->push_back(_dfsList[dfs_i]->getID()); 
-                         cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
-                         bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
-                         cout <<  ", pKey = " << s << endl;
-                         cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
+                  //       cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
+                  //       bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+                  //       cout <<  ", pKey = " << s << endl;
+                  //       cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
                      #ifdef debug_FEC
                          cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
                          bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
@@ -207,9 +207,9 @@ CirMgr::initFEC()
                  }
                  else {
                      IdList* myIdList = new IdList();
-                         bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
-                         cout << "insert gate to fecHash, insert ID = " << _dfsList[dfs_i]->getID() << ", pKey = " << s
-                              << endl;
+                   //      bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+                   //      cout << "insert gate to fecHash, insert ID = " << _dfsList[dfs_i]->getID() << ", pKey = " << s
+                   //           << endl;
                         
                      #ifdef debug_FEC
                          bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
@@ -227,7 +227,8 @@ CirMgr::initFEC()
     #ifdef debug_FEC
         //fecHash.myPrintAll();  
     #endif
- 
+
+    //add IdList to _fecGrps 
     for(int i = 0; i < fecHash.numBuckets(); ++i){
         if( !fecHash[i].empty()){
             #ifdef debug_FEC
@@ -253,6 +254,30 @@ CirMgr::checkFEC()
     for(int i = 0; i < _fecGrps.size(); ++i) {
         if(_fecGrps[i] != 0) {
             HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+            for(int j = 0; j < _fecGrps[i]->size(); ++j) {  // go through IdList in _fecGrps
+                CirGate* d = _totalList[(*_fecGrps[i])[j]];
+                PatternKey pKey(d->_patternValue);
+                IdList* tmpIdList;
+                //_totalList[(*_fecGrps[i])[j]];
+                if(fecHash.check(d->_patternValue,tmpIdList)){
+                    tmpIdList->push_back(d->getID()); 
+                } else {
+                    IdList* myIdList = new IdList();
+                    myIdList->push_back(d->getID());
+                    fecHash.insert((pKey),myIdList);
+                }
+            }
+            for(int i = 0; i < fecHash.numBuckets(); ++i){
+                if( !fecHash[i].empty()){
+                    for(int j = 0; j < fecHash[i].size(); ++j) {
+                        if(fecHash[i][j].second->size() > 1) {
+                            newGrps.push_back(fecHash[i][j].second);
+                        }
+                        //cout << fecHash[i][j]; 
+                    }
+                    
+                }
+            }
             #ifdef debug_FEC
                 cout << " Group " << i << ", Grp size = " << _fecGrps[i]->size() <<", ID List is : ";
                 for(int j = 0; j < _fecGrps[i]->size(); ++j) {
@@ -261,6 +286,16 @@ CirMgr::checkFEC()
                 cout << endl;
             #endif
         }
+    }
+    _fecGrps.swap(newGrps);
+    for(int i = 0; i < _fecGrps.size(); ++i) {
+        //cout << " Group " << i << ", Grp size = " << _fecGrps[i]->size() <<", ID List is : ";
+        sort( (*_fecGrps[i]).begin(),(*_fecGrps[i]).end());
+        for(int j = 0; j < _fecGrps[i]->size(); ++j) {
+            //cout << (*_fecGrps[i])[j] << ", " ;
+            _totalList[(*_fecGrps[i])[j]]->_fecGrpsIdx = i;
+        }
+        //cout << endl;
     }
 }
 

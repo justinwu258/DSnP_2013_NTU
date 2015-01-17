@@ -41,7 +41,23 @@ CirGate::reportGate() const
     oStr.str("");
     oStr.clear();
     oStr << "= FECs:" ;
-    remainLenth = 50 - oStr.str().length();  // "= FECs:" lenth is 7
+    if((*this)._fecGrpsIdx != -1){
+        cirMgr->printGateFEC(oStr, (this));
+        //for(int i = 0; i < cirMgr->_fecGrps[_fecGrpsIdx]->size(); ++i){
+        //    CirGate* d = (*(cirMgr->_fecGrps[_fecGrpsIdx]))[i];
+        //    //if( cirMgr->_totalList[d->getID()] != (*this)) {  // if this is self , no print it
+        //    if( d->getID() != (*this).getID()) {  // if this is self , no print it
+        //        if(cirMgr->_totalList[d->getID()]->_patternValue == (*this)._patternValue) 
+        //            oStr << " " << d->getID();
+        //        else
+        //            oStr << " !" << d->getID();
+        //    }
+        //}
+    }
+    if(oStr.str().length() <=50)
+        remainLenth = 50 - oStr.str().length();  // "= FECs:" lenth is 7
+    else
+        remainLenth = 0;
     cout << oStr.str() << right << setw(remainLenth) << "=" << endl; 
  
     oStr.str("");

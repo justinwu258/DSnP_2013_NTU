@@ -58,7 +58,7 @@ public:
    void setSimLog(ofstream *logFile) { _simLog = logFile; }
    void initFEC();
    void checkFEC();
-
+   
    // Member functions about fraig
    void strash();
    void printFEC() const;
@@ -74,6 +74,13 @@ public:
    void writeAag(ostream&) const;
    void printSimArray(int**);
    void setPatternValue(int **);
+   void printGateFEC(ostream& , const CirGate*);
+  // _fecGrps operator [] (size_t i) { return _fecGrps[i]; }
+  // _fecGrps operator [] (size_t i) const { return _fecGrps[i]; }
+  // IdList* operator [] (size_t i) { return _fecGrps[i]; }
+  // IdList* operator [](size_t i) const { return _fecGrps[i]; }
+   //vector<unsigned> operator [] (size_t i) { return *_fecGrps[i]; }
+   //const vector<unsigned> operator [](size_t i) const { return *_fecGrps[i]; }
 private:
    ofstream           *_simLog;
 

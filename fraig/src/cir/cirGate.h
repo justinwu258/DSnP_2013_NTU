@@ -28,7 +28,7 @@ class CirGate
 {
     friend class CirMgr; // that's , CirMgr can access Protected member
 public:
-   CirGate(int l, int I): _lineNo(l), _ID(I), _isVisited(false), _isRecurVisited(false),_mergeVisited(false), _patternValue(0){};
+   CirGate(int l, int I): _lineNo(l), _ID(I), _isVisited(false), _isRecurVisited(false),_mergeVisited(false), _patternValue(0), _fecGrpsIdx(-1){};
    virtual ~CirGate() {}
 
    // Basic access methods
@@ -64,6 +64,7 @@ protected:
     mutable bool _isRecurVisited; //store AIG visited or not , when recur search
     bool _mergeVisited;
     unsigned _patternValue;
+    int _fecGrpsIdx;
 };
 
 

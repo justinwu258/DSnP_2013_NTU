@@ -680,3 +680,19 @@ CirMgr::writeAag(ostream& outfile) const
         outfile << "AAG output by Chung-Yang (Ric) Huang" << endl;
 }
 
+void 
+CirMgr::printGateFEC(ostream& oStr,const CirGate* repoGate){
+    int fecIdx = repoGate->_fecGrpsIdx;
+
+    for(int j = 0; j < _fecGrps[fecIdx]->size(); ++j){
+        unsigned id = (*(_fecGrps[fecIdx]))[j]; // in IdList's id
+        //if( cirMgr->_totalList[d->getID()] != (*this)) {  // if this is self , no print it
+        if( id != repoGate->getID()) {  // if this is self , no print it
+            if(_totalList[id]->_patternValue == repoGate->_patternValue) 
+                oStr << " " << id;
+            else
+                oStr << " !" << id;
+        }
+    }
+    oStr << " ";
+}
