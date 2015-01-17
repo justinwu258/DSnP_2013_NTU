@@ -89,7 +89,7 @@ private:
    vector<string> _tokenList;
    bool _isStrashed;
    vector<IdList*> _fecGrps;
-   typedef vector<unsigned> IdList;
+   //vector<unsigned> FecIdList;
    //vector<CirGate*> _optList;
    // ---------  member function -----------   
    size_t newMyStrGetTok(const string& str, string& tok, size_t& beginAddr,           size_t pos = 0 ,const char del = ' ')
