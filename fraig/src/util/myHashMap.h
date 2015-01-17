@@ -155,7 +155,7 @@ public:
             if(!_buckets[bucketIdx].empty()){
                 for(int i = 0; i < bucketSize ; i++) {
                     #ifdef debug_hash
-                        cout << " check  bucketIdx =  " <<  bucketIdx << ", _buckets[bucketIdx][i].first = " << 
+                        cout << "  bucketIdx =  " <<  bucketIdx << ", i = " << i << ", sizeof(k()) = " << sizeof(k()) << ", patternValue = " << s  << endl; 
                         _buckets[bucketIdx][i].first() << ", k = " << k()  << endl; 
                     #endif
                     if(_buckets[bucketIdx][i].first == k){

@@ -1,0 +1,67 @@
+cirr -r tests.fraig/sim09.aag
+cirp
+cirg 1
+cirg 2
+cirg 3
+cirg 4
+cirg 5
+cirg 6
+cirg 7
+cirg 8
+cirg 9
+cirg 10
+cirg 11
+cirg 12
+cirg 13
+cirg 14
+cirg 15
+cirg 16
+cirg 17
+cirg 18
+cirg 19
+cirg 20
+cirg 21
+cirg 22
+cirg 23
+cirg 24
+cirg 25
+cirg 26
+cirg 27
+cirg 28
+cirg 29
+cirg 30
+cirsim -f tests.fraig/pattern.09 -o outSim09.log
+#cirsim -r -o outSim03.log
+cirp
+cirg 1
+cirg 2
+cirg 3
+cirg 4
+cirg 5
+cirg 6
+cirg 7
+cirg 8
+cirg 9
+cirg 10
+cirg 11
+cirg 12
+cirg 13
+cirg 14
+cirg 15
+cirg 16
+cirg 17
+cirg 18
+cirg 19
+cirg 20
+cirg 21
+cirg 22
+cirg 23
+cirg 24
+cirg 25
+cirg 26
+cirg 27
+cirg 28
+cirg 29
+cirg 30
+usage 
+q -f

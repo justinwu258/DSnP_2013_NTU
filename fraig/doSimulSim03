@@ -10,9 +10,13 @@ cirg 7
 cirg 8
 cirg 9
 cirg 10
-#cirsim -f tests.fraig/pattern.03
-cirsim -r
+cirsim -f tests.fraig/pattern.03 -o outSim03.log
+#cirsim -r -o outSim03.log
+#cirfraig
+cirstra
+cirstra
 cirp
+cirp -n
 cirg 1
 cirg 2
 cirg 3

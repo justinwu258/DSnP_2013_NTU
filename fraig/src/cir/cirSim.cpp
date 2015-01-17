@@ -48,7 +48,7 @@ CirMgr::fileSim(ifstream& patternFile){
     int lineCount = 0, tmpLineCount, i,j,k;
     int **simArray; // create array to store PIs , I: PI's nums
     int simArrayTail = parallelizeBits - 1;
-    bool isReadError = false;
+    bool isReadError = false, doInitFEC = false;
     unsigned patternValue = 0; 
     
     //initialize array
@@ -81,7 +81,8 @@ CirMgr::fileSim(ifstream& patternFile){
                 CirMgr::printSimArray(simArray);
             #endif
             CirMgr::setPatternValue(simArray);
-            CirMgr::initFEC();
+            if(!doInitFEC) { CirMgr::initFEC();  doInitFEC = true; }
+            CirMgr::checkFEC();
         }
     }
     #ifdef debug_fileSim
@@ -100,127 +101,13 @@ CirMgr::fileSim(ifstream& patternFile){
                CirMgr::printSimArray(simArray);
             #endif
             CirMgr::setPatternValue(simArray);
-            CirMgr::initFEC();
+            if(!doInitFEC) { CirMgr::initFEC();  doInitFEC = true; }
+            CirMgr::checkFEC();
         }
     } else {
         cout << "Something error when get input" << endl;
     }
 }
-//
-//void
-//CirMgr::fileSim(ifstream& patternFile)
-//{
-//    //in CirCmd , file open check is done
-//    //Direct read patternFile 
-//    string line;
-//    int lineCount = 0, tmpLineCount, i,j,k;
-//    int simArray[parallelizeBits][I]; // create array to store PIs , I: PI's nums
-//    int simArrayTail = parallelizeBits - 1;
-//    bool isReadError = false;
-//    unsigned patternValue = 0; 
-//    //initial simArray
-//    for (j = 0; j < parallelizeBits; ++j){  
-//        for(i = 0; i < I; ++i){
-//            simArray[j][i] = 0;
-//        }    
-//    }    
-//
-//    while(getline(patternFile,line)){  // read all data to 2D array
-//        //cout << "line length = " << line.length() << endl;
-//        for(i = 0; i < I; ++i) {
-//            if( (line[i] != '0') && (line[i] != '1')  )
-//            {
-//                isReadError = true;
-//                cout << "Line = "<< lineCount << ", line[" << i  << "] = "<< line[i] << endl;
-//                break;
-//            }
-//            simArray[simArrayTail-lineCount%parallelizeBits][i] = line[i] - '0';
-//            #ifdef debug_fileSim
-//                cout << "line[" << i << "] = " << line[i];
-//                cout << "simArray[" << lineCount%parallelizeBits << "][" << i << "] = " << line[i] << ",   ";
-//            #endif
-//        }
-//        #ifdef debug_fileSim
-//            cout << endl <<"I = " << I << endl;
-//        #endif
-//        lineCount++;
-//        if(lineCount%parallelizeBits == 0) {
-//            //setPattern(simArray);
-//            //CirMgr::printSimArray(simArray);
-//            for(i = 0; i < I; ++i) {
-//                #ifdef debug_fileSim
-//                    cout << "Hi, PI" << i << " = " << i+1 << ",  pattern = ";  
-//                #endif
-//                patternValue = 0;
-//                for(j = 0; j < parallelizeBits; ++j){
-//                    #ifdef debug_fileSim
-//                        cout << "simArray[" << j <<"][" << i <<"] = " <<  simArray[j][i] << ", "; 
-//                        cout << simArray[j][i];
-//                        cout << endl;
-//                    #endif
-//                    //bitset<sizeof(patternValue) * 8> s(patternValue);
-//                    patternValue += simArray[j][i];
-//                    //cout << "(1) i = " << i << "j = " << j << ",  patternValue = " << s << endl;  
-//                    if(j != parallelizeBits - 1)
-//                        patternValue = patternValue << 1;
-//                    //cout << "  i = " << i << "j = " << j << ",  patternValue = " << s << endl;  
-//                    
-//                }
-//                    bitset<sizeof(patternValue) * 8> s(patternValue);
-//                    cout << "i = " << i << ",  patternValue = " << s << endl;  
-//                    #ifdef debug_fileSim
-//                        cout << "simArray[" << j <<"][" << i <<"] = " <<  simArray[j][i] << ", "; 
-//                        cout << endl; 
-//                    #endif
-//            }
-//        }
-//        
-//    }
-//    cout << endl << endl;
-//    if(!isReadError){
-//        if(lineCount%parallelizeBits != 0 ){ // last bitwise , maybe not have parallelizeBits bit unsigned value
-//            #ifdef debug_fileSim
-//                cout << endl <<"tmp I = " << I << endl;
-//                cout << endl <<"I = " << I << endl;
-//            #endif
-//        
-//            for(i = 0; i < I; ++i ){  // not assigned postion , put 0 
-//                tmpLineCount = lineCount;
-//                    #ifdef debug_fileSim
-//                    cout << "put zero , parallelizeBits = " << parallelizeBits <<", lineCount%32 = " << lineCount%32  << endl;
-//                    #endif
-//                for(j = 0; j < parallelizeBits - lineCount%32; ++j) {
-//                    simArray[simArrayTail-tmpLineCount%parallelizeBits][i] = 0;
-//                    ++tmpLineCount;
-//                    //cout << "put zero " << endl;
-//                }
-//            }
-//            for(i = 0; i < I; ++i) {
-//                    #ifdef debug_fileSim
-//                        cout << ", PI" << i << " = " << i+1 << ",  pattern = ";  
-//                    #endif
-//                patternValue = 0;
-//                for(j = 0; j < parallelizeBits; ++j){
-//                    #ifdef debug_fileSim
-//                        cout << "i = " << i << ", j = " << j << ", "; 
-//                        cout << simArray[j][i];
-//                        cout << endl;
-//                    #endif
-//                    patternValue += simArray[j][i];
-//                    if(j != parallelizeBits - 1)
-//                        patternValue = patternValue << 1;
-//                }
-//                    bitset<sizeof(patternValue) * 8> s(patternValue);
-//                    cout << "i = " << i << ",  patternValue = " << s << endl;  
-//                #ifdef debug_fileSim
-//                    cout << "   , notFinish" << endl; 
-//                #endif
-//            }
-//        }
-//    } else {
-//        cout << "Something error when get input" << endl;
-//    }
-//}
 
 /*************************************************/
 /*   Private member functions about Simulation   */
@@ -290,46 +177,91 @@ CirMgr::setPatternValue(int **simArray)
 void
 CirMgr::initFEC()
 {
-   //HashMap<PatternKey,CirGate*> fecHash(getHashSize(_dfsList.size()));
-   HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
-   int dfs_i = 0;
-   for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-        if(*it != 0){
-            if((*it)->_type == "AIG"){
-                PatternKey pKey((*it)->_patternValue);
-                //CirGate* d = (*it);
-                IdList* tmpIdList;
-                #ifdef debug_FEC
-                    cout << "checks gate ID = " << (*it)->getID() << endl;
-                #endif
-                if(fecHash.check((*it)->_patternValue,tmpIdList)){
-                    tmpIdList->push_back(_dfsList[dfs_i]->getID()); 
-                    #ifdef debug_FEC
-                        cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID() << endl;
-                        cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
-                    #endif
+    //HashMap<PatternKey,CirGate*> fecHash(getHashSize(_dfsList.size()));
+    HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+    int dfs_i = 0;
+    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+         if(*it != 0){
+             if((*it)->_type == "AIG"){
+                 PatternKey pKey((*it)->_patternValue);
+                 //CirGate* d = (*it);
+                 IdList* tmpIdList;
+                 #ifdef debug_FEC
+                     cout << "checks gate ID = " << (*it)->getID() << endl;
+                 #endif
+                 if(fecHash.check((*it)->_patternValue,tmpIdList)){
+                     tmpIdList->push_back(_dfsList[dfs_i]->getID()); 
+                         cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
+                         bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+                         cout <<  ", pKey = " << s << endl;
+                         cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
+                     #ifdef debug_FEC
+                         cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID();
+                         bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+                         cout <<  ", pKey = " << s << endl;
+                         cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
+                     #endif
+                   //  if(tmpIdList >=2){   //same ID add to _fecGrps
+                   //     _fecGrps.push_back(tmpIdList);
+                   //  }
+                 }
+                 else {
+                     IdList* myIdList = new IdList();
+                         bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+                         cout << "insert gate to fecHash, insert ID = " << _dfsList[dfs_i]->getID() << ", pKey = " << s
+                              << endl;
+                        
+                     #ifdef debug_FEC
+                         bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+                         cout << "insert gate to fecHash, insert ID = " << _dfsList[dfs_i]->getID() << ", pKey = " << s
+                              << endl;
+                     #endif
+                     myIdList->push_back(_dfsList[dfs_i]->getID());
+                     fecHash.insert((pKey),myIdList);
+                 }
+                 //cout << " 2. IdList.size() = " << (*tmpIdList).size() << endl; 
+             }   
+         }
+         ++dfs_i;
+    }
+    #ifdef debug_FEC
+        //fecHash.myPrintAll();  
+    #endif
+ 
+    for(int i = 0; i < fecHash.numBuckets(); ++i){
+        if( !fecHash[i].empty()){
+            #ifdef debug_FEC
+            cout << "  i = " << i <<  ", fecHash[i].size() = " <<  fecHash[i].size() << endl;
+            #endif 
+            for(int j = 0; j < fecHash[i].size(); ++j) {
+            #ifdef debug_FEC
+                cout << "  j = " << i <<  ", fecHash[i][j].second->size() = " <<  fecHash[i][j].second->size() << endl;
+            #endif
+                if(fecHash[i][j].second->size() > 1) {
+                    _fecGrps.push_back(fecHash[i][j].second);
                 }
-                else {
-                    IdList* myIdList = new IdList();
-                    #ifdef debug_FEC
-                        cout << "insert gate to fecHash" << endl;
-                    #endif
-                    fecHash.insert((pKey),myIdList);
-                }
-                //cout << " 2. IdList.size() = " << (*tmpIdList).size() << endl; 
-            }   
-        }
-        ++dfs_i;
-   }
-   #ifdef debug_FEC
-       //fecHash.myPrintAll();  
-   #endif
+                //cout << fecHash[i][j]; 
+            }
+        } 
+    }
 }
 
 void
 CirMgr::checkFEC()
 {
-
+    vector<IdList*> newGrps;
+    for(int i = 0; i < _fecGrps.size(); ++i) {
+        if(_fecGrps[i] != 0) {
+            HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+            #ifdef debug_FEC
+                cout << " Group " << i << ", Grp size = " << _fecGrps[i]->size() <<", ID List is : ";
+                for(int j = 0; j < _fecGrps[i]->size(); ++j) {
+                    cout << (*_fecGrps[i])[j] << ", " ;
+                }
+                cout << endl;
+            #endif
+        }
+    }
 }
 
 void
