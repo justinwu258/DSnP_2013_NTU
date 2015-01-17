@@ -19,6 +19,7 @@ using namespace std;
 #define myI  10000
 #define parallelizeBits 32
 //#define debug_fileSim
+#define debug_FEC
 
 // TODO: Keep "CirMgr::randimSim()" and "CirMgr::fileSim()" for cir cmd.
 //       Feel free to define your own variables or functions
@@ -80,6 +81,7 @@ CirMgr::fileSim(ifstream& patternFile){
                 CirMgr::printSimArray(simArray);
             #endif
             CirMgr::setPatternValue(simArray);
+            CirMgr::initFEC();
         }
     }
     cout << endl << endl;
@@ -96,6 +98,7 @@ CirMgr::fileSim(ifstream& patternFile){
                CirMgr::printSimArray(simArray);
             #endif
             CirMgr::setPatternValue(simArray);
+            CirMgr::initFEC();
         }
     } else {
         cout << "Something error when get input" << endl;
@@ -236,6 +239,7 @@ CirMgr::setPatternValue(int **simArray)
         _totalList[i+1]->_patternValue = patternValue;
         #ifdef debug_fileSim
             bitset<sizeof(patternValue) * 8> s(patternValue); // bitset for debug use
+            //cout << "   sizeof(patternValue) = " << sizeof(patternValue);
             //cout << "i = " << i << ",  patternValue = " << s << endl;     
         #endif 
     }
@@ -245,13 +249,6 @@ CirMgr::setPatternValue(int **simArray)
    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
         if(*it != 0){
             if((*it)->_type == "AIG"){
-           
-                cout << "debug ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
-                cout << ", _isVisited = " << (*it)->_isVisited << endl;          
-                cout << "  ---- fanin ----" << endl;
-                for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
-                   cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
-                }
                 if(((CirAIGGate*)(*it))->_rhs1_invert) rhs1_value = ~(*it)->_faninList[0]->_patternValue;
                 else                                   rhs1_value = (*it)->_faninList[0]->_patternValue;
                 if(((CirAIGGate*)(*it))->_rhs2_invert) rhs2_value = ~(*it)->_faninList[1]->_patternValue;
@@ -260,6 +257,16 @@ CirMgr::setPatternValue(int **simArray)
                     //((*it)->_faninList[0]->_patternValue ^ ((CirAIGGate*)(*it))->_rhs1_invert) & 
                     //((*it)->_faninList[1]->_patternValue ^ ((CirAIGGate*)(*it))->_rhs2_invert) ;
            // cout << ", (*it)->_patternValue = " << (*it)->_patternValue << endl ;
+            #ifdef debug_fileSim
+                bitset<sizeof((*it)->_patternValue) * 8> s((*it)->_patternValue); // bitset for debug use
+                cout << "   sizeof(patternValue) = " << sizeof((*it)->_patternValue);
+                cout << "debug ID = "<< (*it)->getID() << " , gateType = "  <<  (*it)->_type <<  ", *it= "<< (*it);
+                cout << ", _isVisited = " << (*it)->_isVisited << ", _pValue = " << s  <<endl;          
+                cout << "  ---- fanin ----" << endl;
+                for(vector<CirGate*>::const_iterator itG = (*it)->_faninList.begin(); itG != (*it)->_faninList.end(); itG++) {
+                   cout << "  *itG = " <<  (*itG) << ",  *itG->ID = " <<  (*itG)->getID() << endl;
+                }
+            #endif
             } else if((*it)->_type == "PO"){
                 if(((CirPOGate*)(*it))->_isInvert) poIn_value = ~(*it)->_faninList[0]->_patternValue;
                 else                               poIn_value = (*it)->_faninList[0]->_patternValue;
@@ -271,6 +278,49 @@ CirMgr::setPatternValue(int **simArray)
 
 }
 
+void
+CirMgr::initFEC()
+{
+   //HashMap<PatternKey,CirGate*> fecHash(getHashSize(_dfsList.size()));
+   HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+   for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+        int dfs_i = 0;
+        if(*it != 0){
+            if((*it)->_type == "AIG"){
+                PatternKey pKey((*it)->_patternValue);
+                //CirGate* d = (*it);
+                IdList* tmpIdList;
+                //cout << " 1. IdList.size() = " << (*tmpIdList).size() << endl; 
+                cout << "checks gate ID = " << (*it)->getID() << endl;
+                if(fecHash.check((*it)->_patternValue,tmpIdList)){
+                    #ifdef debug_FEC
+                        cout << "fecHash patternValue exist" << endl;
+                    #endif
+                    tmpIdList->push_back(_dfsList[dfs_i]->getID()); 
+                    cout << " 1. IdList.size() = " << (*tmpIdList).size() << endl; 
+                }
+                else {
+                    IdList* myIdList = new IdList();
+                    #ifdef debug_FEC
+                        cout << "insert gate to fecHash" << endl;
+                    #endif
+                    fecHash.insert((pKey),myIdList);
+                }
+                //cout << " 2. IdList.size() = " << (*tmpIdList).size() << endl; 
+            }   
+        }
+        ++dfs_i;
+   }
+   #ifdef debug_FEC
+       //fecHash.myPrintAll();  
+   #endif
+}
+
+void
+CirMgr::checkFEC()
+{
+
+}
 
 void
 CirMgr::printSimArray(int **simArray)

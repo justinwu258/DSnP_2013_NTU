@@ -18,8 +18,8 @@
 #include "cirGate.h"
 #include "util.h"
 
-#define debug_inout
-#define debug_DFS
+//#define debug_inout
+//#define debug_DFS
 using namespace std;
 
 // TODO: Implement memeber functions for class CirMgr
