@@ -162,7 +162,12 @@ void CirMgr::cleanGate() {
       if((*it) != 0 ) { 
           delete *it;
       }   
-   }      
+   }     
+   
+   for(int i = 0; i < _fecGrps.size(); ++i) {
+        delete [] _fecGrps[i];
+   }
+   
 }
 void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size_t order = -1)
 {
