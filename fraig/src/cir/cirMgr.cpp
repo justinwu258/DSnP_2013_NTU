@@ -164,11 +164,11 @@ void CirMgr::cleanGate() {
       }   
    }     
    
-       // cout << "CirMgr delete fecGrps" << endl;
-   //for(int i = 0; i < _fecGrps.size(); ++i) {
-   //    // cout << "CirMgr delete fecGrps" << endl;
-   //     delete _fecGrps[i];
-   //}
+        //cout << "111 CirMgr delete fecGrps" << endl;
+   for(int i = 0; i < _fecGrps.size(); ++i) {
+        //cout << "   CirMgr delete fecGrps" << endl;
+        delete _fecGrps[i];
+   }
    
 }
 void CirMgr::aagRecorder(string  token, size_t countLine, size_t beginAddr, size_t order = -1)

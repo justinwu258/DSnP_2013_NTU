@@ -1,7 +1,7 @@
 ./fraig -f doSimulSim03 &> J_SimulSim03.log
 ./ref/fraig -f doSimulSim03 &> H_SimulSim03.log
 diff J_SimulSim03.log H_SimulSim03.log &> myDiffSimulSim03.log
-vi mydiffSimulSim03.log
+vi myDiffSimulSim03.log
 echo "diff doSimulSim03 done"
 ./fraig -f doSimulSim10 &> J_SimulSim10.log
 ./ref/fraig -f doSimulSim10 &> H_SimulSim10.log
