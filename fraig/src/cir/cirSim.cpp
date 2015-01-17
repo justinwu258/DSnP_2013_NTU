@@ -82,6 +82,7 @@ CirMgr::fileSim(ifstream& patternFile){
                 CirMgr::printSimArray(simArray);
             #endif
             CirMgr::setPatternValue(simArray);
+            CirMgr::outputToSimLog(simArray,simArrayTail, simArrayTail);
             if(!doInitFEC) { CirMgr::initFEC();  doInitFEC = true; }
             CirMgr::checkFEC();
         }
@@ -102,6 +103,7 @@ CirMgr::fileSim(ifstream& patternFile){
                CirMgr::printSimArray(simArray);
             #endif
             CirMgr::setPatternValue(simArray);
+            CirMgr::outputToSimLog(simArray,simArrayTail, lineCount%parallelizeBits-1); //actual read's lineNum
             if(!doInitFEC) { CirMgr::initFEC();  doInitFEC = true; }
             CirMgr::checkFEC();
         }
@@ -317,22 +319,27 @@ CirMgr::checkFEC()
     }
 }
 
-void
-CirMgr::initSimArray(int **simArray) {
-    int i, j;
-    simArray = new int *[32];
-    for (j = 0; j < parallelizeBits; j++){
-        simArray[j] = new int[I];
-    }
-    for (j = 0; j < parallelizeBits; ++j){  
-        for(i = 0; i < I; ++i){
-            *(*(simArray+j)+i) = 0;
-        }    
-    }    
-}
-void
-CirMgr::freeSimArray(int **simArray) {
 
+void
+CirMgr::outputToSimLog(int **simArray, int simArrayTail, int bound){
+    int i,j;
+    unsigned pValue, tailSize = simArrayTail;
+    if(_simLog != 0) {
+        for(j = simArrayTail; j >= simArrayTail-bound; --j){
+            for(i = 0; i < I; ++i) {
+                *_simLog << simArray[j][i];
+            }
+            *_simLog << " ";
+            for(i = 0; i < O; ++i) {
+                pValue = _totalList[_poList[i]->getID()]->_patternValue;
+                bitset<sizeof(pValue) * 8> s(pValue);
+                *_simLog << s[tailSize - j];
+                //*_simLog << " PO  sizeof(pValue) = " << sizeof(pValue) << ", pValue = " << s ;
+                
+            }
+            *_simLog << endl;
+        }
+    }
 }
 void
 CirMgr::printSimArray(int **simArray)
