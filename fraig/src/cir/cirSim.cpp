@@ -52,6 +52,7 @@ CirMgr::fileSim(ifstream& patternFile){
     unsigned patternValue = 0; 
     
     //initialize array
+//    initSimArray(simArray);
     simArray = new int *[32];
     for (j = 0; j < parallelizeBits; j++){
         simArray[j] = new int[I];
@@ -107,6 +108,11 @@ CirMgr::fileSim(ifstream& patternFile){
     } else {
         cout << "Something error when get input" << endl;
     }
+    
+    for (j = 0; j < parallelizeBits; j++){
+        delete simArray[j];
+    }
+    delete simArray;
 }
 
 /*************************************************/
@@ -302,8 +308,28 @@ CirMgr::checkFEC()
         }
         //cout << endl;
     }
+    for(int i = 0; i < newGrps.size(); ++i) {
+        delete newGrps[i];
+    }
 }
 
+void
+CirMgr::initSimArray(int **simArray) {
+    int i, j;
+    simArray = new int *[32];
+    for (j = 0; j < parallelizeBits; j++){
+        simArray[j] = new int[I];
+    }
+    for (j = 0; j < parallelizeBits; ++j){  
+        for(i = 0; i < I; ++i){
+            *(*(simArray+j)+i) = 0;
+        }    
+    }    
+}
+void
+CirMgr::freeSimArray(int **simArray) {
+
+}
 void
 CirMgr::printSimArray(int **simArray)
 {

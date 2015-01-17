@@ -58,6 +58,8 @@ public:
    void setSimLog(ofstream *logFile) { _simLog = logFile; }
    void initFEC();
    void checkFEC();
+   void initSimArray(int **);
+   void freeSimArray(int **);
    
    // Member functions about fraig
    void strash();
