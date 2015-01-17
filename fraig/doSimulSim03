@@ -17,6 +17,7 @@ cirstra
 cirstra
 cirp
 cirp -n
+cirp -fec
 cirg 1
 cirg 2
 cirg 3

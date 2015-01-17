@@ -5,8 +5,9 @@ vi mydiffSimulSim03.log
 echo "diff doSimulSim03 done"
 ./fraig -f doSimulSim10 &> J_SimulSim10.log
 ./ref/fraig -f doSimulSim10 &> H_SimulSim10.log
-diff J_SimulSim10.log H_SimulSim10.log &> myDiffSimulSim10.log
-vi mydiffSimulSim10.log
+#diff J_SimulSim10.log H_SimulSim10.log &> myDiffSimulSim10.log
+#vi mydiffSimulSim10.log
+vimdiff J_SimulSim10.log H_SimulSim10.log #&> myDiffSimulSim10.log
 echo "diff doSimulSim10 done"
 #./fraig -f doSimulSim09 &> J_SimulSim09.log
 #./ref/fraig -f doSimulSim09 &> H_SimulSim09.log

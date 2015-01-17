@@ -1,5 +1,6 @@
 cirr -r tests.fraig/sim10.aag
 cirp
+cirg 0
 cirg 1
 cirg 2
 cirg 3
@@ -46,10 +47,14 @@ cirg 277
 cirg 332
 cirg 604
 cirg 720
+cirg 229
+cirg 230
 cirsim -f tests.fraig/pattern.10 -o outSim10.log
 #cirsim -r -o outSim10.log
 cirp
-cirp -n
+cirp -fec
+cirp -netlist
+cirg 0
 cirg 1
 cirg 2
 cirg 3
@@ -96,5 +101,7 @@ cirg 277
 cirg 332
 cirg 604
 cirg 720
+cirg 229
+cirg 230
 usage 
 q -f
