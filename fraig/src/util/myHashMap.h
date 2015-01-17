@@ -10,7 +10,7 @@
 #define MY_HASH_MAP_H
 
 #include <vector>
-
+//#define debug_hash
 using namespace std;
 
 // TODO: Implement your own HashMap and Cache classes.
@@ -33,31 +33,53 @@ using namespace std;
 // private:
 // };
 //
- class HashKey
- {
- public:
-    HashKey(size_t inID1,size_t inID2,string type,int rhs1, int rhs2):
-        _fanin1(inID1),_fanin2(inID2), _type(type), _rhs1(rhs1) ,_rhs2(rhs2)  {}
-    ~HashKey() {} 
+class PatternKey
+{
+public:
+    PatternKey(unsigned patternValue): _pKeyValue(patternValue) {}
     size_t operator() () const {
-        return (_rhs1 ^ _fanin1) + (_rhs2 ^ _fanin2) ; 
+       if(_pKeyValue < ~_pKeyValue)
+            return _pKeyValue; 
+       else
+            return ~_pKeyValue;
     }
- 
-    bool operator == (const HashKey& k) const {
-        bool isTypeEqual = (_type == k._type)? true:false;
-        bool isFaninsEqual = 
-            ((_fanin1 == k._fanin1) && (_fanin2 == k._fanin2) && (_rhs1 == k._rhs1) && (_rhs2 == k._rhs2)) || 
-            ((_fanin2 == k._fanin1) && (_fanin1 == k._fanin2) && (_rhs2 == k._rhs1) && (_rhs1 == k._rhs2));
-        return  isTypeEqual && isFaninsEqual; 
+    bool operator == (const PatternKey& k) const {
+       #ifdef hash_debug 
+           cout << "   _pKeyValue =  " << _pKeyValue << ", k._pKeyValue = " << k._pKeyValue << endl;
+       #endif
+       return (_pKeyValue == k._pKeyValue ) || (~_pKeyValue == k._pKeyValue);
     }
- 
- private:
-    size_t _fanin1;
-    size_t _fanin2;
-    int _rhs1;
-    int _rhs2;
-    string _type;
- };
+
+private:
+    unsigned _pKeyValue;
+  
+};
+
+class HashKey
+{
+public:
+   HashKey(size_t inID1,size_t inID2,string type,int rhs1, int rhs2):
+       _fanin1(inID1),_fanin2(inID2), _type(type), _rhs1(rhs1) ,_rhs2(rhs2)  {}
+   ~HashKey() {} 
+   size_t operator() () const {
+       return (_rhs1 ^ _fanin1) + (_rhs2 ^ _fanin2) ; 
+   }
+
+   bool operator == (const HashKey& k) const {
+       bool isTypeEqual = (_type == k._type)? true:false;
+       bool isFaninsEqual = 
+           ((_fanin1 == k._fanin1) && (_fanin2 == k._fanin2) && (_rhs1 == k._rhs1) && (_rhs2 == k._rhs2)) || 
+           ((_fanin2 == k._fanin1) && (_fanin1 == k._fanin2) && (_rhs2 == k._rhs1) && (_rhs1 == k._rhs2));
+       return  isTypeEqual && isFaninsEqual; 
+   }
+
+private:
+   size_t _fanin1;
+   size_t _fanin2;
+   int _rhs1;
+   int _rhs2;
+   string _type;
+};
 
 template <class HashKey, class HashData>
 class HashMap
@@ -128,8 +150,14 @@ public:
    bool check(const HashKey& k,HashData& d) const {
         size_t bucketIdx = bucketNum(k);
         size_t bucketSize = _buckets[bucketIdx].size();
+         //bitset<sizeof(k()) * 4> s(k()); // bitset for debug use 
+         //cout << " check  bucketIdx =  " <<  bucketIdx <<", sizeof(k()) = " << sizeof(k()) << ", patternValue = " << k()  << endl; 
             if(!_buckets[bucketIdx].empty()){
                 for(int i = 0; i < bucketSize ; i++) {
+                    #ifdef debug_hash
+                        cout << " check  bucketIdx =  " <<  bucketIdx << ", _buckets[bucketIdx][i].first = " << 
+                        _buckets[bucketIdx][i].first() << ", k = " << k()  << endl; 
+                    #endif
                     if(_buckets[bucketIdx][i].first == k){
                         d = _buckets[bucketIdx][i].second;
                         return true;
@@ -144,7 +172,12 @@ public:
         //size_t bucketSize = _buckets[bucketIdx].size();
          if(check(k,d)) {
                     return false;
-         }  
+         }
+         #ifdef debug_hash
+           bitset<sizeof(k()) * 4> s(k()); // bitset for debug use 
+           cout << "  bucketIdx =  " <<  bucketIdx <<", sizeof(k()) = " << sizeof(k()) << ", patternValue = " << s  << endl; 
+           //cout << "  bucketIdx =  " <<  bucketIdx <<", sizeof(k()) = " << sizeof(k()) << ", patternValue = " << k()  << endl; 
+         #endif
          HashNode myNode(k,d); 
          _buckets[bucketIdx].push_back(myNode);
          //++bucketSize;
@@ -156,7 +189,8 @@ public:
              if( !_buckets[i].empty()){
                  for(typename vector<HashNode>::iterator it =  _buckets[i].begin(); it !=  _buckets[i].end() ; it++ ) {
 //                     cout << "Just print" << endl;
-                     cout << (*it) << endl;
+                     //cout << (*it) << endl;
+                     cout << "buckets["<< i << "] , have Gate ID = " <<  (*it).second->getID() << endl;
                  }
              }
 

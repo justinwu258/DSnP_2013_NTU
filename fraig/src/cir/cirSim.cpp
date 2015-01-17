@@ -19,7 +19,7 @@ using namespace std;
 #define myI  10000
 #define parallelizeBits 32
 //#define debug_fileSim
-#define debug_FEC
+//#define debug_FEC
 
 // TODO: Keep "CirMgr::randimSim()" and "CirMgr::fileSim()" for cir cmd.
 //       Feel free to define your own variables or functions
@@ -84,7 +84,9 @@ CirMgr::fileSim(ifstream& patternFile){
             CirMgr::initFEC();
         }
     }
-    cout << endl << endl;
+    #ifdef debug_fileSim
+        cout << endl << endl;
+    #endif 
     if(!isReadError){
         if(lineCount%parallelizeBits != 0 ){ // last bitwise , maybe not have parallelizeBits bit unsigned value
             for(i = 0; i < I; ++i ){  // not assigned postion , put 0 
@@ -228,6 +230,11 @@ CirMgr::setPatternValue(int **simArray)
 {
     int i, j;
     unsigned patternValue = 0, rhs1_value , rhs2_value,poIn_value; 
+    #ifdef debug_fileSim
+       for(vector<CirPIGate*>::const_iterator it = _piList.begin(); it != _piList.end(); it++){
+           cout << " PI = " <<  (*it)->getID() << endl;
+       }
+    #endif
     for(i = 0; i < I; ++i) {
         patternValue = 0;
         for(j = 0; j < parallelizeBits; ++j){
@@ -236,14 +243,16 @@ CirMgr::setPatternValue(int **simArray)
                 patternValue = patternValue << 1;
             
         }
-        _totalList[i+1]->_patternValue = patternValue;
+        _totalList[_piList[i]->getID()]->_patternValue = patternValue;
         #ifdef debug_fileSim
             bitset<sizeof(patternValue) * 8> s(patternValue); // bitset for debug use
             //cout << "   sizeof(patternValue) = " << sizeof(patternValue);
             //cout << "i = " << i << ",  patternValue = " << s << endl;     
         #endif 
     }
-    cout << endl;
+    #ifdef debug_fileSim
+        cout << endl;
+    #endif 
 
     //set _dfsList patternValue
    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
@@ -283,21 +292,22 @@ CirMgr::initFEC()
 {
    //HashMap<PatternKey,CirGate*> fecHash(getHashSize(_dfsList.size()));
    HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+   int dfs_i = 0;
    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-        int dfs_i = 0;
         if(*it != 0){
             if((*it)->_type == "AIG"){
                 PatternKey pKey((*it)->_patternValue);
                 //CirGate* d = (*it);
                 IdList* tmpIdList;
-                //cout << " 1. IdList.size() = " << (*tmpIdList).size() << endl; 
-                cout << "checks gate ID = " << (*it)->getID() << endl;
+                #ifdef debug_FEC
+                    cout << "checks gate ID = " << (*it)->getID() << endl;
+                #endif
                 if(fecHash.check((*it)->_patternValue,tmpIdList)){
-                    #ifdef debug_FEC
-                        cout << "fecHash patternValue exist" << endl;
-                    #endif
                     tmpIdList->push_back(_dfsList[dfs_i]->getID()); 
-                    cout << " 1. IdList.size() = " << (*tmpIdList).size() << endl; 
+                    #ifdef debug_FEC
+                        cout << "fecHash patternValue exist , same gate ID = " << _dfsList[dfs_i]->getID() << endl;
+                        cout << "IdList.size() = " << (*tmpIdList).size() << endl; 
+                    #endif
                 }
                 else {
                     IdList* myIdList = new IdList();
