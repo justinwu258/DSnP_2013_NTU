@@ -251,6 +251,8 @@ CirMgr::initFEC()
             #endif
                 if(fecHash[i][j].second->size() > 1) {
                     _fecGrps.push_back(fecHash[i][j].second);
+                } else {
+                    delete fecHash[i][j].second;
                 }
                 //cout << fecHash[i][j]; 
             }
@@ -283,6 +285,8 @@ CirMgr::checkFEC()
                     for(int j = 0; j < fecHash[i].size(); ++j) {
                         if(fecHash[i][j].second->size() > 1) {
                             newGrps.push_back(fecHash[i][j].second);
+                        } else {
+                            delete fecHash[i][j].second;
                         }
                         //cout << fecHash[i][j]; 
                     }
