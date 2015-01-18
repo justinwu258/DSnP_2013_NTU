@@ -85,6 +85,7 @@ CirMgr::fileSim(ifstream& patternFile){
             CirMgr::outputToSimLog(simArray,simArrayTail, simArrayTail);
             if(!doInitFEC) { CirMgr::initFEC();  doInitFEC = true; }
             CirMgr::checkFEC();
+            cout << "\r" << "Total #FEC Group = " << _fecGrps.size();
         }
     }
     #ifdef debug_fileSim
@@ -106,11 +107,14 @@ CirMgr::fileSim(ifstream& patternFile){
             CirMgr::outputToSimLog(simArray,simArrayTail, lineCount%parallelizeBits-1); //actual read's lineNum
             if(!doInitFEC) { CirMgr::initFEC();  doInitFEC = true; }
             CirMgr::checkFEC();
+            cout << "\r" << "Total #FEC Group = " << _fecGrps.size();
         }
     } else {
         cout << "Something error when get input" << endl;
     }
     
+    //cout << "\r" << "Total #FEC Group = " << _fecGrps.size();
+    cout << "\r" << lineCount << "  patterns simulated." << endl;
     for (j = 0; j < parallelizeBits; j++){
         delete simArray[j];
     }
