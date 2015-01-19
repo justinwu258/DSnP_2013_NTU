@@ -19,6 +19,8 @@ using namespace std;
 #define myI  10000
 #define parallelizeBits 32
 #define hashBucketSize 32
+#define mySeed INT_MAX
+#define maxTry 100
 //#define debug_fileSim
 //#define debug_FEC
 
@@ -40,6 +42,49 @@ int gSimArray[parallelizeBits][myI]; // create array to store PIs
 void
 CirMgr::randomSim()
 {
+    int i, j,patternCount = 0 , sameGrpNumCount = 0, failCount = 0 , maxFails = (M+O+1)/8 ;
+    int fecGrpNums = 0;
+    bool doInitFEC = false;
+    int **simArray; // create array to store PIs , I: PI's nums
+    int simArrayTail = parallelizeBits - 1;
+    unsigned patternValue = 0, tmpPatternValue; 
+   
+    simArray = new int *[parallelizeBits];
+    for (j = 0; j < parallelizeBits; j++){
+        simArray[j] = new int[I];
+    }
+    for (j = 0; j < parallelizeBits; ++j){  
+        for(i = 0; i < I; ++i){
+            *(*(simArray+j)+i) = 0;
+        }    
+    }    
+    while(1){
+        // random set patternValue for PI
+        CirMgr::setRandomPatternValue();
+        CirMgr::outputRandomToSimLog();
+        if(!doInitFEC) { CirMgr::initFEC();  doInitFEC = true; fecGrpNums = _fecGrps.size(); }
+        CirMgr::checkFEC();
+        if(_fecGrps.size() == fecGrpNums){ ++sameGrpNumCount; } 
+        else                             { fecGrpNums = _fecGrps.size(); }
+       
+        if(sameGrpNumCount == maxTry) { 
+            cout << "grp no change "<< maxTry <<" times" << endl; 
+            break; 
+        }
+        else if(failCount >= maxFails) { 
+            cout << "MAX_FAILS = " << maxFails<<endl; 
+            break; 
+        }
+        cout << endl << endl;
+        cout << "\r" << "Total #FEC Group = " << _fecGrps.size();
+        
+        ++failCount;
+        ++patternCount;
+    }
+    cout << "\r" << patternCount*parallelizeBits << "  patterns simulated." << endl;
+    for (j = 0; j < parallelizeBits; j++){
+        delete simArray[j];
+    }
 }
 
 void
@@ -125,6 +170,39 @@ CirMgr::fileSim(ifstream& patternFile){
 /*************************************************/
 /*   Private member functions about Simulation   */
 /*************************************************/
+void
+CirMgr::setRandomPatternValue(){
+    int i, j, tmpPatternValue = 0;
+    unsigned patternValue = 0, rhs1_value , rhs2_value,poIn_value; 
+    for(i = 0; i < I; ++i) {
+        patternValue = (unsigned) rnGen(mySeed);
+        if(patternValue%7 == 0)
+            _totalList[_piList[i]->getID()]->_patternValue = patternValue;
+        else
+            _totalList[_piList[i]->getID()]->_patternValue = patternValue << 1;
+        tmpPatternValue = _totalList[_piList[i]->getID()]->_patternValue;
+        #ifdef debug_fileSim
+            bitset<sizeof(tmpPatternValue) * 8> s(tmpPatternValue); // bitset for debug use
+            cout << "   sizeof(patternValue) = " << sizeof(tmpPatternValue);
+            cout << "i = " << i << ",  patternValue = " << s << endl;     
+        #endif 
+    }
+    for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+         if(*it != 0){
+             if((*it)->_type == "AIG"){
+                 if(((CirAIGGate*)(*it))->_rhs1_invert) rhs1_value = ~(*it)->_faninList[0]->_patternValue;
+                 else                                   rhs1_value = (*it)->_faninList[0]->_patternValue;
+                 if(((CirAIGGate*)(*it))->_rhs2_invert) rhs2_value = ~(*it)->_faninList[1]->_patternValue;
+                 else                                   rhs2_value = (*it)->_faninList[1]->_patternValue;
+                 (*it)->_patternValue = rhs1_value & rhs2_value;
+             } else if((*it)->_type == "PO"){
+                 if(((CirPOGate*)(*it))->_isInvert) poIn_value = ~(*it)->_faninList[0]->_patternValue;
+                 else                               poIn_value = (*it)->_faninList[0]->_patternValue;
+                 (*it)->_patternValue = poIn_value;
+             }
+         }
+    } 
+}
 void
 CirMgr::setPatternValue(int **simArray)
 {
@@ -328,7 +406,9 @@ CirMgr::checkFEC()
     }
 }
 
-
+void
+CirMgr::outputRandomToSimLog(){
+}
 void
 CirMgr::outputToSimLog(int **simArray, int simArrayTail, int bound){
     int i,j;

@@ -59,6 +59,7 @@ public:
    void initFEC();
    void checkFEC();
    void outputToSimLog(int **, int, int);
+   void outputRandomToSimLog();
    
    // Member functions about fraig
    void strash();
@@ -75,6 +76,7 @@ public:
    void writeAag(ostream&) const;
    void printSimArray(int**);
    void setPatternValue(int **);
+   void setRandomPatternValue();
    void printGateFEC(ostream& , const CirGate*);
   // _fecGrps operator [] (size_t i) { return _fecGrps[i]; }
   // _fecGrps operator [] (size_t i) const { return _fecGrps[i]; }
