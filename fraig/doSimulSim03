@@ -11,7 +11,7 @@ cirg 8
 cirg 9
 cirg 10
 cirsim -f tests.fraig/pattern.03 -o outSim03.log
-#cirsim -r -o outSim03.log
+#cirsim -r -o outSim03_r.log
 #cirfraig
 cirstra
 cirstra

@@ -51,8 +51,8 @@ cirg 229
 cirg 230
 cirg 1122
 cirg 2500
-cirsim -f tests.fraig/pattern.13 -o outSim13.log
-#cirsim -r -o outSim13.log
+#cirsim -f tests.fraig/pattern.13 -o outSim13.log
+cirsim -r -o outSim13_r.log
 cirp
 cirp -fec
 cirp -netlist

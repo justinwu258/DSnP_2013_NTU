@@ -31,7 +31,8 @@ cirg 28
 cirg 29
 cirg 30
 cirsim -f tests.fraig/pattern.09 -o outSim09.log
-#cirsim -r -o outSim03.log
+#cirsim -r -o outSim09_r.log
+#cirsim -f pattern_Just.09 -o outSim09.log
 cirp
 cirg 1
 cirg 2

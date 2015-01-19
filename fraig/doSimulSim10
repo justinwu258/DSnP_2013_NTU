@@ -50,7 +50,7 @@ cirg 720
 cirg 229
 cirg 230
 cirsim -f tests.fraig/pattern.10 -o outSim10.log
-#cirsim -r -o outSim10.log
+#cirsim -r -o outSim10_r.log
 cirp
 cirp -fec
 cirp -netlist

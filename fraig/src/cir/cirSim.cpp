@@ -20,7 +20,7 @@ using namespace std;
 #define parallelizeBits 32
 #define hashBucketSize 32
 #define mySeed INT_MAX
-#define maxTry 100
+#define maxTry 50
 //#define debug_fileSim
 //#define debug_FEC
 
@@ -45,19 +45,8 @@ CirMgr::randomSim()
     int i, j,patternCount = 0 , sameGrpNumCount = 0, failCount = 0 , maxFails = (M+O+1)/8 ;
     int fecGrpNums = 0;
     bool doInitFEC = false;
-    int **simArray; // create array to store PIs , I: PI's nums
-    int simArrayTail = parallelizeBits - 1;
     unsigned patternValue = 0, tmpPatternValue; 
    
-    simArray = new int *[parallelizeBits];
-    for (j = 0; j < parallelizeBits; j++){
-        simArray[j] = new int[I];
-    }
-    for (j = 0; j < parallelizeBits; ++j){  
-        for(i = 0; i < I; ++i){
-            *(*(simArray+j)+i) = 0;
-        }    
-    }    
     while(1){
         // random set patternValue for PI
         CirMgr::setRandomPatternValue();
@@ -82,9 +71,6 @@ CirMgr::randomSim()
         ++patternCount;
     }
     cout << "\r" << patternCount*parallelizeBits << "  patterns simulated." << endl;
-    for (j = 0; j < parallelizeBits; j++){
-        delete simArray[j];
-    }
 }
 
 void
@@ -184,7 +170,7 @@ CirMgr::setRandomPatternValue(){
         #ifdef debug_fileSim
             bitset<sizeof(tmpPatternValue) * 8> s(tmpPatternValue); // bitset for debug use
             cout << "   sizeof(patternValue) = " << sizeof(tmpPatternValue);
-            cout << "i = " << i << ",  patternValue = " << s << endl;     
+            cout << ", i = " << i << ",  patternValue = " << s << endl;     
         #endif 
     }
     for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
@@ -408,6 +394,26 @@ CirMgr::checkFEC()
 
 void
 CirMgr::outputRandomToSimLog(){
+    int i,j;
+    unsigned pValue;
+    
+    if(_simLog != 0) {
+        for(j = 0; j < parallelizeBits; ++j){
+            for(i = 0; i < I; ++i) {
+                pValue = _totalList[_piList[i]->getID()]->_patternValue;
+                bitset<sizeof(pValue) * 8> s(pValue); // bitset for debug use
+                *_simLog << s[j];
+            }
+            *_simLog << " ";
+            for(i = 0; i < O; ++i) {
+                pValue = _totalList[_poList[i]->getID()]->_patternValue;
+                bitset<sizeof(pValue) * 8> s(pValue);
+                *_simLog << s[j];
+                //*_simLog << " PO  sizeof(pValue) = " << sizeof(pValue) << ", pValue = " << s ;    
+            }
+            *_simLog << endl;
+        }
+    }
 }
 void
 CirMgr::outputToSimLog(int **simArray, int simArrayTail, int bound){
