@@ -16,7 +16,8 @@ int main(){
     myFile << "cirp -n" << endl;
     myFile << "cirsim -f tests.fraig/pattern.13 -o outSim13.log" << endl;
     for(int i = 1; i < gateNum; ++i){
-        myFile << "cirg " << i << endl;
+        if(i%150 == 0 || i%605 == 0)
+            myFile << "cirg " << i << endl;
     }
     myFile << "usage" << endl;
     myFile << "q -f" << endl;
