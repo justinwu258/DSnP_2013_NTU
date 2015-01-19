@@ -259,6 +259,8 @@ CirMgr::initFEC()
                 if(fecHash[i][j].second->size() > 1) {
                     _fecGrps.push_back(fecHash[i][j].second);
                 } else {
+                    _totalList[(*fecHash[i][j].second)[0]]->_fecGrpsIdx = -1;
+                    //cout << "reset grp for gateID = " <<  (*fecHash[i][j].second)[0] << endl;
                     delete fecHash[i][j].second;
                 }
                 //cout << fecHash[i][j]; 
@@ -293,6 +295,8 @@ CirMgr::checkFEC()
                         if(fecHash[i][j].second->size() > 1) {
                             newGrps.push_back(fecHash[i][j].second);
                         } else {
+                            _totalList[(*fecHash[i][j].second)[0]]->_fecGrpsIdx = -1;
+                            //cout << "reset grp for gateID = " <<  (*fecHash[i][j].second)[0] << endl;
                             delete fecHash[i][j].second;
                         }
                         //cout << fecHash[i][j]; 
