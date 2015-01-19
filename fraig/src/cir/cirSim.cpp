@@ -18,6 +18,7 @@
 using namespace std;
 #define myI  10000
 #define parallelizeBits 32
+#define hashBucketSize 32
 //#define debug_fileSim
 //#define debug_FEC
 
@@ -53,7 +54,7 @@ CirMgr::fileSim(ifstream& patternFile){
     
     //initialize array
 //    initSimArray(simArray);
-    simArray = new int *[32];
+    simArray = new int *[parallelizeBits];
     for (j = 0; j < parallelizeBits; j++){
         simArray[j] = new int[I];
     }
@@ -190,7 +191,7 @@ void
 CirMgr::initFEC()
 {
     //HashMap<PatternKey,CirGate*> fecHash(getHashSize(_dfsList.size()));
-    HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+    HashMap<PatternKey,IdList*> fecHash(getHashSize(hashBucketSize));
     IdList* constIdList = new IdList();
     PatternKey pConstKey(0);
     constIdList->push_back(_totalList[0]->getID());
@@ -272,7 +273,7 @@ CirMgr::checkFEC()
     vector<IdList*> newGrps;
     for(int i = 0; i < _fecGrps.size(); ++i) {
         if(_fecGrps[i] != 0) {
-            HashMap<PatternKey,IdList*> fecHash(getHashSize(_dfsList.size()));
+            HashMap<PatternKey,IdList*> fecHash(getHashSize(hashBucketSize));
             for(int j = 0; j < _fecGrps[i]->size(); ++j) {  // go through IdList in _fecGrps
                 CirGate* d = _totalList[(*_fecGrps[i])[j]];
                 PatternKey pKey(d->_patternValue);
