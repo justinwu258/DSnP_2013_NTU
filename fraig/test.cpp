@@ -52,19 +52,19 @@ int main(){
     myFile << "cirp" << endl;
     myFile << "cirp -fec" << endl;
     myFile << "cirp -n" << endl;
-    myFile << "cirsim -r -o outSim13_random.log" << endl;
+    myFile << "cirsim -f tests.fraig/pattern.13 -o outSim13.log" << endl;
     myFile << "cirp -fec" << endl;
     myFile << "ciropt" << endl;
     myFile << "cirsweep" << endl;
     myFile << "cirstrash" << endl;
     myFile << "ciropt" << endl;
-    myFile << "cirsim -r -o outSim13_random.log" << endl;
+    myFile << "cirsim -f tests.fraig/pattern.13 -o outSim13.log" << endl;
     myFile << "cirp -fec" << endl;
     myFile << "ciropt" << endl;
     myFile << "cirsweep" << endl;
     myFile << "cirstrash" << endl;
     myFile << "ciropt" << endl;
-    myFile << "cirsim -r -o outSim13_random.log" << endl;
+    myFile << "cirsim -f tests.fraig/pattern.13 -o outSim13.log" << endl;
     myFile << "cirp -fec" << endl;
     for(int i = 1; i < gateNum; ++i){
         if(i%150 == 0 || i%605 == 0)

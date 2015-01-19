@@ -713,19 +713,19 @@ cirg 85950
 cirp
 cirp -fec
 cirp -n
-cirsim -r -o outSim13_random.log
+cirsim -f tests.fraig/pattern.13 -o outSim13.log
 cirp -fec
 ciropt
 cirsweep
 cirstrash
 ciropt
-cirsim -r -o outSim13_random.log
+cirsim -f tests.fraig/pattern.13 -o outSim13.log
 cirp -fec
 ciropt
 cirsweep
 cirstrash
 ciropt
-cirsim -r -o outSim13_random.log
+cirsim -f tests.fraig/pattern.13 -o outSim13.log
 cirp -fec
 cirg 150
 cirg 300
