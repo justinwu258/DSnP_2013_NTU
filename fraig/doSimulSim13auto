@@ -714,6 +714,7 @@ cirp
 cirp -fec
 cirp -n
 cirsim -f tests.fraig/pattern.13 -o outSim13.log
+cirp -fec
 cirg 150
 cirg 300
 cirg 450
