@@ -50,8 +50,6 @@ CirMgr::strash()
             if((*it)->_type == "AIG"){
                 HashKey myKey((*it)->_faninList[0]->getID(),(*it)->_faninList[1]->getID(),(*it)->_type, 
                                           ((CirAIGGate*)(*it))->_rhs1_invert,((CirAIGGate*)(*it))->_rhs2_invert);
-                //HashKey* myKey = new HashKey((*it)->_faninList[0]->getID(),(*it)->_faninList[1]->getID(),(*it)->_type, 
-                //                          ((CirAIGGate*)(*it))->_rhs1_invert,((CirAIGGate*)(*it))->_rhs2_invert);
                 CirGate* d = (*it);
                 if(myHash.check((myKey),d)) {
                     #ifdef debug_strash
@@ -61,39 +59,6 @@ CirMgr::strash()
                     (*it)->_mergeVisited = true;
                     //cout << "Strashing: " << d->getID()  << " merging " << (*it)->getID() << "..." << endl;
                     merge(d,(*it),1,0,1);
-              //      for(i = 0; i < (*it)->_fanoutList.size(); ++i) {
-              //          for(j = 0; j < (*it)->_fanoutList[i]->_faninList.size(); ++j) {
-              //              if ((*it)->_fanoutList[i]->_faninList[j] == (*it)) {
-              //              //    for(int k = 0 ; k < (*it)->_faninList[0]->_fanoutList.size(); k++) {
-              //              //       if( (*it)->_faninList[0]->_fanoutList[k] == (*it) ) {
-              //              //            (*it)->_faninList[0]->_fanoutList.erase((*it)->_faninList[0]->_fanoutList.begin()+k);
-              //              //            //(*it)->_faninList[0]->_fanoutList[k] = (*it)->_fanoutList[i];
-              //              //        }
-              //              //    }
-              //              //    for(int k = 0 ; k < (*it)->_faninList[1]->_fanoutList.size(); k++) {
-              //              //       if( (*it)->_faninList[1]->_fanoutList[k] == (*it) ) {
-              //              //            (*it)->_faninList[1]->_fanoutList.erase((*it)->_faninList[1]->_fanoutList.begin()+k);
-              //              //            //(*it)->_faninList[1]->_fanoutList[k] = (*it)->_fanoutList[i];
-              //              //        }
-              //              //    }
-              //              //d->_fanoutList.push_back((*it)->_fanoutList[i]);
-              //                  (*it)->_fanoutList[i]->_faninList[j] = d;    // use d replace similar exist gate(*it)
-              //              }
-              //          }
-              //      //    for(j = 0; j < (*it)->_faninList[i]->_fanoutList.size(); k++) {
-              //      //        if( (*it)->_faninList[i]->_fanoutList[j] == (*it) ) {
-              //      //             (*it)->_faninList[i]->_fanoutList.erase((*it)->_faninList[i]->_fanoutList.begin()+j);
-              //      //         }
-              //      //    }
-              //          d->_fanoutList.push_back((*it)->_fanoutList[i]);
-              //      }
-              //      for(i = 0; i < 2; i++){
-              //          for(j = 0; j < (*it)->_faninList[i]->_fanoutList.size(); j++) {
-              //              if( (*it)->_faninList[i]->_fanoutList[j] == (*it) ) {
-              //                   (*it)->_faninList[i]->_fanoutList.erase((*it)->_faninList[i]->_fanoutList.begin()+j);
-              //               }
-              //          }
-              //      }
                 } else {
                     #ifdef debug_strash
                     cout << "insert gate to hash" << endl;
