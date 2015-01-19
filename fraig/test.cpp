@@ -42,4 +42,35 @@ int main(){
     myFile << "usage" << endl;
     myFile << "q -f" << endl;
     myFile.close();
+    
+    myFile.open("doSimulSim13auto_multi",ios::out);
+    myFile << "cirr -r tests.fraig/sim13.aag" << endl;
+    for(int i = 1; i < gateNum; ++i){
+        if(i%150 == 0 || i%605 == 0)
+            myFile << "cirg " << i << endl;
+    }
+    myFile << "cirp" << endl;
+    myFile << "cirp -fec" << endl;
+    myFile << "cirp -n" << endl;
+    myFile << "cirsim -r -o outSim13_random.log" << endl;
+    myFile << "cirp -fec" << endl;
+    myFile << "ciropt" << endl;
+    myFile << "cirsweep" << endl;
+    myFile << "cirstrash" << endl;
+    myFile << "ciropt" << endl;
+    myFile << "cirsim -r -o outSim13_random.log" << endl;
+    myFile << "cirp -fec" << endl;
+    myFile << "ciropt" << endl;
+    myFile << "cirsweep" << endl;
+    myFile << "cirstrash" << endl;
+    myFile << "ciropt" << endl;
+    myFile << "cirsim -r -o outSim13_random.log" << endl;
+    myFile << "cirp -fec" << endl;
+    for(int i = 1; i < gateNum; ++i){
+        if(i%150 == 0 || i%605 == 0)
+            myFile << "cirg " << i << endl;
+    }
+    myFile << "usage" << endl;
+    myFile << "q -f" << endl;
+    myFile.close();
 }
