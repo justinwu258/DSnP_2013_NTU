@@ -25,7 +25,7 @@ extern CirMgr *cirMgr;
 class CirMgr
 {
 public:
-   CirMgr(): _isStrashed(false){}
+   CirMgr(): _isStrashed(false), _isSimulated(false){}
    ~CirMgr() {cleanGate();}
 
    // Access functions
@@ -98,6 +98,7 @@ private:
    size_t M, I, L, O, A;
    vector<string> _tokenList;
    bool _isStrashed;
+   bool _isSimulated;
    vector<IdList*> _fecGrps;
    //vector<unsigned> FecIdList;
    //vector<CirGate*> _optList;

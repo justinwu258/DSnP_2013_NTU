@@ -70,6 +70,7 @@ CirMgr::randomSim()
         ++failCount;
         ++patternCount;
     }
+    _isSimulated = true;
     cout << "\r" << patternCount*parallelizeBits << "  patterns simulated." << endl;
 }
 
@@ -146,6 +147,7 @@ CirMgr::fileSim(ifstream& patternFile){
     }
     
     //cout << "\r" << "Total #FEC Group = " << _fecGrps.size();
+    _isSimulated = true;
     cout << "\r" << lineCount << "  patterns simulated." << endl;
     for (j = 0; j < parallelizeBits; j++){
         delete simArray[j];

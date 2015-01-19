@@ -152,49 +152,51 @@ CirMgr::mergeSweep()
 }
 void
 CirMgr::optimize() {
-
-    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-        if(*it != 0){
-           if( ((*it)->_type == "AIG")) {
-                if( (*it)->_faninList[0]->_type == "CONST"  ||  (*it)->_faninList[1]->_type == "CONST") { // Type1 , Type2
-                    if( ((*it)->_faninList[0]->_type == "CONST" && !((CirAIGGate*)(*it))->_rhs1_invert) ||   // Type2: use const 0 replace gate
-                        ((*it)->_faninList[1]->_type == "CONST" && !((CirAIGGate*)(*it))->_rhs2_invert)  )
-                    {
-                        merge(_totalList[0], (*it), 2, 0, 0);
-                    } else if(((*it)->_faninList[0]->_type == "CONST" && ((CirAIGGate*)(*it))->_rhs1_invert) ) { //Type1: use rhs2 + phase replace gate
-                        merge((*it)->_faninList[1], (*it), 1, ((CirAIGGate*)(*it))->_rhs2_invert, 0);
-                    } else if(((*it)->_faninList[1]->_type == "CONST" && ((CirAIGGate*)(*it))->_rhs2_invert) ) { //Type1: use rhs1 + phase replace gate
-                        merge((*it)->_faninList[0], (*it), 1, ((CirAIGGate*)(*it))->_rhs1_invert, 0);
-                    }
-                } else if((*it)->_faninList[0] == (*it)->_faninList[1]) {   // Type3, Type4
-                    if( (((CirAIGGate*)(*it))->_rhs1_invert ^ ((CirAIGGate*)(*it))->_rhs2_invert) ) {   //Type4: fanins are same , but phase inverted
-                        merge(_totalList[0], (*it), 4, 0, 0);
-                    } else if ( ((CirAIGGate*)(*it))->_rhs1_invert & ((CirAIGGate*)(*it))->_rhs2_invert ) { //Type3: phase is "inverted"
-                        merge((*it)->_faninList[0], (*it), 3, 1, 0);
-                    } else {                                                                                //Type3: two fanin is same
-                        merge((*it)->_faninList[0], (*it), 3, 0, 0);
-                    }
-                }
-            
-           }
-           else if( ((*it)->_type == "PO") ) { 
-                ((CirPOGate*)(*it))->setFaninID((*it)->_faninList[0]->getID());
-            }  
-        }
-    }
     
-    CirMgr::mergeSweep();
-    for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
-        if(*it != 0){
-            (*it)->_isVisited = false;
-            (*it)->_mergeVisited = false;
+    if(_isSimulated) {
+        cout << "Error: circuit has been simulated!! Do \"CIRFraig\" first!!" << endl;
+    } else { 
+        for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+            if(*it != 0){
+               if( ((*it)->_type == "AIG")) {
+                    if( (*it)->_faninList[0]->_type == "CONST"  ||  (*it)->_faninList[1]->_type == "CONST") { // Type1 , Type2
+                        if( ((*it)->_faninList[0]->_type == "CONST" && !((CirAIGGate*)(*it))->_rhs1_invert) ||   // Type2: use const 0 replace gate
+                            ((*it)->_faninList[1]->_type == "CONST" && !((CirAIGGate*)(*it))->_rhs2_invert)  )
+                        {
+                            merge(_totalList[0], (*it), 2, 0, 0);
+                        } else if(((*it)->_faninList[0]->_type == "CONST" && ((CirAIGGate*)(*it))->_rhs1_invert) ) { //Type1: use rhs2 + phase replace gate
+                            merge((*it)->_faninList[1], (*it), 1, ((CirAIGGate*)(*it))->_rhs2_invert, 0);
+                        } else if(((*it)->_faninList[1]->_type == "CONST" && ((CirAIGGate*)(*it))->_rhs2_invert) ) { //Type1: use rhs1 + phase replace gate
+                            merge((*it)->_faninList[0], (*it), 1, ((CirAIGGate*)(*it))->_rhs1_invert, 0);
+                        }
+                    } else if((*it)->_faninList[0] == (*it)->_faninList[1]) {   // Type3, Type4
+                        if( (((CirAIGGate*)(*it))->_rhs1_invert ^ ((CirAIGGate*)(*it))->_rhs2_invert) ) {   //Type4: fanins are same , but phase inverted
+                            merge(_totalList[0], (*it), 4, 0, 0);
+                        } else if ( ((CirAIGGate*)(*it))->_rhs1_invert & ((CirAIGGate*)(*it))->_rhs2_invert ) { //Type3: phase is "inverted"
+                            merge((*it)->_faninList[0], (*it), 3, 1, 0);
+                        } else {                                                                                //Type3: two fanin is same
+                            merge((*it)->_faninList[0], (*it), 3, 0, 0);
+                        }
+                    }
+               }
+               else if( ((*it)->_type == "PO") ) { 
+                    ((CirPOGate*)(*it))->setFaninID((*it)->_faninList[0]->getID());
+                }  
+            }
         }
+        CirMgr::mergeSweep();
+        for(vector<CirGate*>::iterator it = _dfsList.begin(); it != _dfsList.end(); it++){
+            if(*it != 0){
+                (*it)->_isVisited = false;
+                (*it)->_mergeVisited = false;
+            }
+        }
+        _dfsList.clear(); 
+        for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
+             myDFS(*it);
+        }
+        _isStrashed = false;
     }
-    _dfsList.clear(); 
-    for(vector<CirPOGate*>::const_iterator it = _poList.begin(); it != _poList.end(); it++){
-         myDFS(*it);
-    }
-    _isStrashed = false;
 }
 //void
 //CirMgr::optimize()

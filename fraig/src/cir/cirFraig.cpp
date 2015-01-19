@@ -38,6 +38,8 @@ CirMgr::strash()
     int poInv, aigInv; 
   if(_isStrashed) {
         cout << "Error: circuit has been strashed!!" << endl;
+  } else if(_isSimulated){
+        cout << "Error: circuit has been simulated!! Do \"CIRFraig\" first!!" << endl;
   } else {
     _isStrashed = true;
     #ifdef debug_strash
@@ -86,7 +88,14 @@ CirMgr::strash()
 void
 CirMgr::fraig()
 {
+    if(_isSimulated) {
+        _isStrashed = false;
+        _isSimulated = false;
+    } else {
+        cout << "Error: circuit is not yet simulated!!" << endl;
+    }
 }
+
 
 /********************************************/
 /*   Private member functions about fraig   */
