@@ -2,6 +2,8 @@ cirr tests.fraig/sim13.aag
 cirp -netlist
 #cirp -pi 
 #cirp -po
+cirsim -f tests.fraig/pattern.13
+cirfraig
 cirp -float
 cirp  
 q -f 
