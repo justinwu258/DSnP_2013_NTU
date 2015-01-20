@@ -550,6 +550,8 @@ void CirMgr::merge(CirGate* gateA,CirGate* gateB, int mergeMethod, bool mergeInv
         mergeMsg("Simplifying: ", gateA->getID(), mergeInv, gateB->getID());
     else if(cmdType == 1)
         mergeMsg("Strashing: ", gateA->getID(), mergeInv, gateB->getID());
+    else if(cmdType == 2)
+        mergeMsg("Fraig: ", gateA->getID(), mergeInv, gateB->getID());
     //cout << "Simplifying: " << gateA->getID() << " merging " << gateB->getID() << "..." << endl;
     //check gateB's fanout
     for(i = 0; i < gateB->_fanoutList.size(); ++i) {

@@ -28,7 +28,7 @@ class CirGate
 {
     friend class CirMgr; // that's , CirMgr can access Protected member
 public:
-   CirGate(int l, int I): _lineNo(l), _ID(I), _isVisited(false), _isRecurVisited(false),_mergeVisited(false), _patternValue(0), _fecGrpsIdx(-1){};
+   CirGate(int l, int I): _lineNo(l), _ID(I), _isVisited(false), _isRecurVisited(false),_mergeVisited(false), _patternValue(0), _fecGrpsIdx(-1),_dfsIdx(-1), _fecInv(false){};
    virtual ~CirGate() {}
 
    // Basic access methods
@@ -42,6 +42,8 @@ public:
    void recurFaninDFS(int, const CirGate* , int, bool , vector<CirAIGGate*>&) const; 
    void recurFanoutDFS(int, const CirGate* , int, bool , vector<CirAIGGate*>&) const; 
    void setVisited(bool visited)  {  _isRecurVisited = visited; }
+   Var getVar() const { return _var; }
+   void setVar(const Var& v) { _var = v; }
 
    // Printing functions
    void printGate() const;
@@ -65,6 +67,9 @@ protected:
     bool _mergeVisited;
     unsigned _patternValue;
     int _fecGrpsIdx;
+    Var _var;
+    int _dfsIdx;
+    bool _fecInv;
 };
 
 

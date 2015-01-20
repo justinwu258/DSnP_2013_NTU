@@ -65,7 +65,8 @@ public:
    void strash();
    void printFEC() const;
    void fraig();
-
+   void myGenProofModel(SatSolver& s);
+   void satCheck(SatSolver& , CirGate* ,int& ,bool& , bool&, bool );
    // Member functions about circuit reporting
    void printSummary() const;
    void printNetlist() const;

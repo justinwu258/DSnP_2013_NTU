@@ -306,6 +306,7 @@ CirMgr::initFEC()
                  //cout << " 2. IdList.size() = " << (*tmpIdList).size() << endl; 
              }   
          }
+         (*it)->_dfsIdx = dfs_i;  // record occurence order in DFS list
          ++dfs_i;
     }
     #ifdef debug_FEC
@@ -326,6 +327,7 @@ CirMgr::initFEC()
                     _fecGrps.push_back(fecHash[i][j].second);
                 } else {
                     _totalList[(*fecHash[i][j].second)[0]]->_fecGrpsIdx = -1;
+                    _totalList[(*fecHash[i][j].second)[0]]->_fecInv = false;
                     //cout << "reset grp for gateID = " <<  (*fecHash[i][j].second)[0] << endl;
                     delete fecHash[i][j].second;
                 }
@@ -362,6 +364,7 @@ CirMgr::checkFEC()
                             newGrps.push_back(fecHash[i][j].second);
                         } else {
                             _totalList[(*fecHash[i][j].second)[0]]->_fecGrpsIdx = -1;
+                            _totalList[(*fecHash[i][j].second)[0]]->_fecInv = false;
                             //cout << "reset grp for gateID = " <<  (*fecHash[i][j].second)[0] << endl;
                             delete fecHash[i][j].second;
                         }
@@ -385,6 +388,10 @@ CirMgr::checkFEC()
         sort( (*_fecGrps[i]).begin(),(*_fecGrps[i]).end());
         for(int j = 0; j < _fecGrps[i]->size(); ++j) {
             //cout << (*_fecGrps[i])[j] << ", " ;
+            if(_totalList[(*_fecGrps[i])[0]]->_patternValue == _totalList[(*_fecGrps[i])[j]]->_patternValue)
+                _totalList[(*_fecGrps[i])[j]]->_fecInv = false;
+            else
+                _totalList[(*_fecGrps[i])[j]]->_fecInv = true;
             _totalList[(*_fecGrps[i])[j]]->_fecGrpsIdx = i;
         }
         //cout << endl;

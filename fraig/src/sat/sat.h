@@ -20,7 +20,7 @@ class SatSolver
 {
    public : 
       SatSolver():_solver(0) { }
-      ~SatSolver() { }
+      ~SatSolver() {delete _solver; }
 
       // Solver initialization and reset
       void initialize() {
