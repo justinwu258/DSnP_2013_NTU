@@ -107,9 +107,9 @@ CirMgr::fraig()
      //   } 
         for(vector<CirGate*>::const_iterator it = _dfsList.begin(); it != _dfsList.end(); it++) {
             if((*it)!=0 && !(*it)->_mergeVisited && (*it)->_fecGrpsIdx != -1) {
-                cout << "now (*it) ID = " <<  (*it)->getID() << endl;
+                //cout << "now (*it) ID = " <<  (*it)->getID() << endl;
                 if((*it)->_type == "AIG" ) {
-                    if((*it)->_patternValue == _totalList[0]->_patternValue || (*it)->_patternValue == ~_totalList[0]->_patternValue) { // const 0 case, use zero to merge
+                    if( ((*it)->_patternValue == _totalList[0]->_patternValue || (*it)->_patternValue == ~_totalList[0]->_patternValue)  && (*it)->_fecGrpsIdx == 0 ) { // const 0 case, use zero to merge
               //  cout << "is const error ??  " << endl;
                          isConst = true;
         CirGate* cmpGate = _totalList[0];
@@ -136,8 +136,8 @@ CirMgr::fraig()
                           for(int j = 0; j < _fecGrps[(*it)->_fecGrpsIdx]->size(); ++j){
                               cmpGateID = (*_fecGrps[(*it)->_fecGrpsIdx])[j];
                               CirGate* cmpGate = _totalList[cmpGateID];
-                              cout << "  same group gateID = " <<  cmpGateID << ", group size = " << _fecGrps[(*it)->_fecGrpsIdx]->size() << endl;
-                            if((*it) != cmpGate && !(cmpGate)->_mergeVisited){ 
+                             // cout << "  same group gateID = " <<  cmpGateID << ", group size = " << _fecGrps[(*it)->_fecGrpsIdx]->size() << endl;
+                            if((*it) != cmpGate && !(cmpGate)->_mergeVisited && (*it)->_fecGrpsIdx == (cmpGate)->_fecGrpsIdx){ 
                                  Var newV = solver.newVar();
                                  solver.addXorCNF(newV, (*it)->getVar(), (*it)->_fecInv  , cmpGate->getVar(), cmpGate->_fecInv);
                             if((*it)->_patternValue == cmpGate->_patternValue)  solver.assumeProperty(newV, true);
