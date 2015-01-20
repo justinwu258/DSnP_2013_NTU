@@ -5,5 +5,13 @@ cirp -netlist
 cirsim -f tests.fraig/pattern.13
 cirfraig
 cirp -float
+cirp 
+ciropt
+cirstrash 
+#cirsim -f tests.fraig/pattern.13
+cirsim -r 
+cirfraig
+cirp -n  
 cirp  
+usage
 q -f 

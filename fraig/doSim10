@@ -1,0 +1,19 @@
+cirr tests.fraig/sim10.aag 
+cirp -netlist
+#cirp -pi 
+#cirp -po
+cirsim -f tests.fraig/pattern.10
+cirp -fec
+cirfraig
+cirp -float
+cirp  
+cirp 
+ciropt
+cirstrash 
+#cirsim -f tests.fraig/pattern.10
+cirsim -r  
+cirfraig
+cirp -n  
+cirp  
+usage
+q -f 

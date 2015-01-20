@@ -711,22 +711,22 @@ cirg 85800
 cirg 85910
 cirg 85950
 cirp
-cirp -fec
 cirp -n
 cirsim -f tests.fraig/pattern.13 -o outSim13.log
-cirp -fec
 ciropt
 cirsweep
+cirp -n
 cirstrash
 ciropt
 cirsim -f tests.fraig/pattern.13 -o outSim13.log
-cirp -fec
 ciropt
+cirp -n
 cirsweep
 cirstrash
+cirp -n
 ciropt
 cirsim -f tests.fraig/pattern.13 -o outSim13.log
-cirp -fec
+cirp -n
 cirg 150
 cirg 300
 cirg 450
