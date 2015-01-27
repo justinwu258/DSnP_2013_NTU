@@ -61,7 +61,7 @@ public:
       //cout << "heap t = " << t << endl; 
       //cout << "_data[t] = " << _data[t] << endl;
       while (t > 0) {
-          int p = t/2;
+          int p = (t-1)/2;
           //cout << "t = " << t << endl;
           //cout << "p = " << p << endl;
           if(d.getLoad() >= _data[p].getLoad())
@@ -85,11 +85,11 @@ public:
                     ++t;
                 }
             } 
-            if (_data[n].getLoad() < _data[n].getLoad())
+            if (_data[n].getLoad() < _data[t].getLoad())
                 break;
             _data[p] = _data[t];
             p = t;
-            t = 2*p;
+            t = 2*p+1;
         }
         //cout << "  _data[n] = _data[" << n << "] = " << _data[n] << endl;
         _data[p] = _data[n--];
