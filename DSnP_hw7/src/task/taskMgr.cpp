@@ -62,7 +62,7 @@ TaskMgr::add(size_t nMachines)
         heapIdx = _taskHeap.insert(newNode);
         //cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
         if (!_taskHash.insert(newNode)) {
-            _taskHeap.delData(heapIdx); --n; --i;
+            _taskHeap.delData(heapIdx);  --i;
         } else {
             cout << "New task node: " << newNode << endl;  // ",  i = " << i << endl;
         }
