@@ -58,13 +58,13 @@ TaskMgr::add(size_t nMachines)
 {
    int heapIdx = -1; //, initSize;
    for (size_t i = 0, n = nMachines; i < n; ++i) {
-        TaskNode* newNode = new TaskNode();
-        heapIdx = _taskHeap.insert(*newNode);
+        TaskNode newNode;
+        heapIdx = _taskHeap.insert(newNode);
         //cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
-        if (!_taskHash.insert(*newNode)) {
+        if (!_taskHash.insert(newNode)) {
             _taskHeap.delData(heapIdx); --n; --i;
         } else {
-            cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
+            cout << "New task node: " << newNode << endl;  // ",  i = " << i << endl;
         }
    }
    // TODO...
@@ -77,14 +77,14 @@ TaskMgr::add(const string& s, size_t l)
 {
    // TODO...
    int heapIdx = -1 ;
-   TaskNode* newNode = new TaskNode(s,l);
-   heapIdx = _taskHeap.insert(*newNode);
+   TaskNode newNode(s,l);
+   heapIdx = _taskHeap.insert(newNode);
    //cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
-   if (!_taskHash.insert(*newNode)) {
+   if (!_taskHash.insert(newNode)) {
        _taskHeap.delData(heapIdx); 
       return false;
    } else {
-        cout << "New task node: " << *newNode << endl;  // ",  i = " << i << endl;
+        cout << "New task node: " << newNode << endl;  // ",  i = " << i << endl;
    }
    return true;
 }
@@ -110,19 +110,19 @@ TaskMgr::assign(size_t l)
         cout << "taskMgr is empty" << endl;
         return false;
    } 
-   TaskNode* tmpNode = new TaskNode();
-   *tmpNode  = _taskHeap[0];
+   TaskNode tmpNode;
+   tmpNode  = _taskHeap[0];
    //cout << "tmpNode = " << *tmpNode << endl;  
   
-   (*tmpNode) += -(*tmpNode).getLoad();
-   (*tmpNode) += l;
-   if(!_taskHash.update(*tmpNode)) {
+   (tmpNode) += -(tmpNode).getLoad();
+   (tmpNode) += l;
+   if(!_taskHash.update(tmpNode)) {
    } else {
-        (*tmpNode) = _taskHeap[0];
-        (*tmpNode) += l; 
+        (tmpNode) = _taskHeap[0];
+        (tmpNode) += l; 
         _taskHeap.delMin();
         //cout << "*tmpNode = " << *tmpNode << endl;
-        _taskHeap.insert(*tmpNode);
+        _taskHeap.insert(tmpNode);
    } 
     
     
